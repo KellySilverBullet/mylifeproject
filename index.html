@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>个人基地核心控制系统</title>
+  <style>
+    :root {
+      --bg: #12151c;
+      --card: #1b202b;
+      --card-border: #2a3242;
+      --text-main: #e6ebf5;
+      --text-sub: #8b96ad;
+      --accent-green: #38d39f;
+      --accent-blue: #4ea8de;
+      --accent-amber: #f6bd60;
+      --accent-red: #f28482;
+      --accent-purple: #9d8df1;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; }
+    body { background-color: var(--bg); color: var(--text-main); padding: 16px; max-width: 640px; margin: 0 auto; padding-bottom: 60px; }
+
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--card-border); }
+    header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
+    .status-badge { font-size: 0.75rem; background: rgba(56, 211, 159, 0.15); color: var(--accent-green); padding: 4px 10px; border-radius: 12px; border: 1px solid rgba(56, 211, 159, 0.3); }
+
+    .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 14px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .card-title { font-size: 0.95rem; font-weight: 600; color: var(--text-main); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .card-subtitle { font-size: 0.78rem; color: var(--text-sub); font-weight: normal; }
+
+    /* 主反应堆能量条 */
+    .energy-bar-wrap { background: #10131a; border-radius: 10px; height: 22px; overflow: hidden; border: 1px solid var(--card-border); position: relative; margin-bottom: 10px; }
+    .energy-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-blue), var(--accent-green)); transition: width 0.4s ease; border-radius: 8px; }
+    .energy-stats { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-sub); }
+
+    /* 资源补给打卡网格 */
+    .task-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .task-btn {
+      background: #141822; border: 1px solid var(--card-border); border-radius: 10px; padding: 12px;
+      text-align: left; cursor: pointer; transition: all 0.2s ease; color: var(--text-main);
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .task-btn.active { border-color: var(--accent-green); background: rgba(56, 211, 159, 0.12); }
+    .task-btn .task-name { font-size: 0.88rem; font-weight: 600; display: flex; justify-content: space-between; }
+    .task-btn .task-desc { font-size: 0.75rem; color: var(--text-sub); }
+    .task-btn.active .task-name::after { content: "✓ 已充能"; font-size: 0.72rem; color: var(--accent-green); }
+
+    /* 累计资源库存 */
+    .inventory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
+    .inv-item { background: #141822; padding: 10px 6px; border-radius: 10px; border: 1px solid var(--card-border); }
+    .inv-val { font-size: 1.2rem; font-weight: 700; color: var(--accent-amber); }
+    .inv-label { font-size: 0.72rem; color: var(--text-sub); margin-top: 2px; }
+
+    /* 输入框与列表（科技树 & 围墙日志） */
+    .input-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    input[type="text"] {
+      flex: 1; background: #10131a; border: 1px solid var(--card-border); border-radius: 8px;
+      padding: 8px 12px; color: var(--text-main); font-size: 0.85rem; outline: none;
+    }
+    input[type="text"]:focus { border-color: var(--accent-blue); }
+    button.add-btn {
+      background: var(--accent-blue); color: #0f141c; border: none; border-radius: 8px;
+      padding: 0 14px; font-weight: 600; font-size: 0.85rem; cursor: pointer;
+    }
+    .log-list { list-style: none; display: flex; flex-direction: column; gap: 8px; max-height: 180px; overflow-y: auto; }
+    .log-item {
+      background: #141822; padding: 8px 12px; border-radius: 8px; font-size: 0.82rem;
+      display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--accent-purple);
+    }
+    .log-item.wall { border-left-color: var(--accent-amber); }
+    .log-date { font-size: 0.72rem; color: var(--text-sub); margin-left: 8px; white-space: nowrap; }
+    .del-btn { background: none; border: none; color: #5c677d; cursor: pointer; font-size: 0.85rem; padding-left: 8px; }
+
+    /* 底部数据管理 */
+    .footer-tools { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; }
+    .tool-btn {
+      flex: 1; background: #1b202b; border: 1px solid var(--card-border); color: var(--text-sub);
+      padding: 8px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; text-align: center;
+    }
+    .tool-btn:hover { color: var(--text-main); border-color: var(--text-sub); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🛡️ 个人基地核心</h1>
+    <span class="status-badge" id="todayDate">系统运行正常</span>
+  </header>
+
+  <!-- 1. 主反应堆：今日能量槽 -->
+  <div class="card">
+    <div class="card-title">
+      <span>⚡ 主反应堆充能状态</span>
+      <span class="card-subtitle" id="energyPercent">0%</span>
+    </div>
+    <div class="energy-bar-wrap">
+      <div class="energy-bar-fill" id="energyFill" style="width: 0%;"></div>
+    </div>
+    <div class="energy-stats">
+      <span id="reactorStatus">待启动：点击下方模块开始今日供能</span>
+      <span>基地等级 Lv.<strong id="baseLevel">1</strong></span>
+    </div>
+  </div>
+
+  <!-- 2. 自动化补给线：每日微习惯开关 -->
+  <div class="card">
+    <div class="card-title">
+      <span>🔋 每日自动补给线</span>
+      <span class="card-subtitle">点击点亮今日产出</span>
+    </div>
+    <div class="task-grid" id="taskGrid"></div>
+  </div>
+
+  <!-- 3. 基地累计资源库存 -->
+  <div class="card">
+    <div class="card-title">
+      <span>📦 基地累计资源库</span>
+      <span class="card-subtitle">复利成长记录</span>
+    </div>
+    <div class="inventory-grid">
+      <div class="inv-item">
+        <div class="inv-val" id="statBlood">0</div>
+        <div class="inv-label">气血充能值</div>
+      </div>
+      <div class="inv-item">
+        <div class="inv-val" id="statFocus">0</div>
+        <div class="inv-label">专注产出点</div>
+      </div>
+      <div class="inv-item">
+        <div class="inv-val" id="statShield">0</div>
+        <div class="inv-label">边界拦截数</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 围墙防御日志 -->
+  <div class="card">
+    <div class="card-title">
+      <span>🧱 围墙防御战绩</span>
+      <span class="card-subtitle">记录拒绝消耗/守住边界的瞬间</span>
+    </div>
+    <div class="input-row">
+      <input type="text" id="wallInput" placeholder="例：果断拒绝无意义社交，省下2小时精力" />
+      <button class="add-btn" onclick="addLog('wall')">记录</button>
+    </div>
+    <ul class="log-list" id="wallList"></ul>
+  </div>
+
+  <!-- 5. 研发科技树 / 阶段成就 -->
+  <div class="card">
+    <div class="card-title">
+      <span>🌱 研发科技树（新工具 / 满意作品）</span>
+      <span class="card-subtitle">螺旋上升里程碑</span>
+    </div>
+    <div class="input-row">
+      <input type="text" id="techInput" placeholder="例：手工第二版更换工具后大获成功" />
+      <button class="add-btn" onclick="addLog('tech')">解锁</button>
+    </div>
+    <ul class="log-list" id="techList"></ul>
+  </div>
+
+  <!-- 数据备份与恢复 -->
+  <div class="footer-tools">
+    <button class="tool-btn" onclick="exportData()">📤 导出备份 JSON</button>
+    <button class="tool-btn" onclick="importData()">📥 导入恢复数据</button>
+  </div>
+
+  <script>
+    const TASKS = [
+      { id: 'iron', name: '💊 铁剂补给', desc: '按时补充造血原料', type: 'blood', pts: 25 },
+      { id: 'inhaler', name: '🌬️ 气道维护', desc: '规律使用吸入药', type: 'blood', pts: 20 },
+      { id: 'sleep', name: '🌙 夜间休眠', desc: '不熬夜，及时亮黄灯', type: 'blood', pts: 20 },
+      { id: 'noise', name: '🎧 物理降噪', desc: '戴帽/耳机隔绝喧嚣', type: 'shield', pts: 15 },
+      { id: 'craft', name: '🧶 支线手工', desc: '悦己创作，不赶工期', type: 'focus', pts: 10 },
+      { id: 'study', name: '📚 主线微推进', desc: '文献/教学基本盘完成', type: 'focus', pts: 10 }
+    ];
+
+    const todayKey = new Date().toISOString().slice(0, 10);
+    document.getElementById('todayDate').textContent = todayKey;
+
+    let state = JSON.parse(localStorage.getItem('my_base_v1')) || {
+      daily: {},
+      logs: []
+    };
+
+    if (!state.daily[todayKey]) {
+      state.daily[todayKey] = [];
+    }
+
+    function saveState() {
+      localStorage.setItem('my_base_v1', JSON.stringify(state));
+      render();
+    }
+
+    function toggleTask(taskId) {
+      const list = state.daily[todayKey];
+      const idx = list.indexOf(taskId);
+      if (idx > -1) list.splice(idx, 1);
+      else list.push(taskId);
+      saveState();
+    }
+
+    function addLog(category) {
+      const inputId = category === 'wall' ? 'wallInput' : 'techInput';
+      const input = document.getElementById(inputId);
+      const text = input.value.trim();
+      if (!text) return;
+      state.logs.unshift({
+        id: Date.now(),
+        category,
+        text,
+        date: todayKey.slice(5)
+      });
+      input.value = '';
+      saveState();
+    }
+
+    function deleteLog(id) {
+      state.logs = state.logs.filter(item => item.id !== id);
+      saveState();
+    }
+
+    function render() {
+      const todayDone = state.daily[todayKey] || [];
+      const grid = document.getElementById('taskGrid');
+      grid.innerHTML = '';
+
+      let todayEnergy = 0;
+      TASKS.forEach(t => {
+        const isDone = todayDone.includes(t.id);
+        if (isDone) todayEnergy += t.pts;
+        const btn = document.createElement('button');
+        btn.className = 'task-btn' + (isDone ? ' active' : '');
+        btn.onclick = () => toggleTask(t.id);
+        btn.innerHTML = `<div class="task-name">${t.name}</div><div class="task-desc">${t.desc}</div>`;
+        grid.appendChild(btn);
+      });
+
+      // 更新今日能量条
+      document.getElementById('energyFill').style.width = todayEnergy + '%';
+      document.getElementById('energyPercent').textContent = todayEnergy + '%';
+      const statusEl = document.getElementById('reactorStatus');
+      if (todayEnergy === 0) statusEl.textContent = '待启动：点击模块开启今日供能';
+      else if (todayEnergy < 60) statusEl.textContent = '平稳运行中：持续积累气血';
+      else if (todayEnergy < 100) statusEl.textContent = '高效充能中：核心状态极佳';
+      else statusEl.textContent = '✨ 满载运行：今日基地能量已蓄满！';
+
+      // 计算历史累计资源库
+      let bloodPts = 0, focusPts = 0, shieldPts = 0;
+      Object.values(state.daily).forEach(dayArr => {
+        dayArr.forEach(id => {
+          const task = TASKS.find(x => x.id === id);
+          if (!task) return;
+          if (task.type === 'blood') bloodPts += 1;
+          if (task.type === 'focus') focusPts += 1;
+          if (task.type === 'shield') shieldPts += 1;
+        });
+      });
+      const wallLogsCount = state.logs.filter(l => l.category === 'wall').length;
+      shieldPts += wallLogsCount;
+
+      document.getElementById('statBlood').textContent = bloodPts;
+      document.getElementById('statFocus').textContent = focusPts;
+      document.getElementById('statShield').textContent = shieldPts;
+
+      const totalExp = bloodPts + focusPts + shieldPts;
+      document.getElementById('baseLevel').textContent = Math.floor(totalExp / 10) + 1;
+
+      // 渲染日志列表
+      const wallList = document.getElementById('wallList');
+      const techList = document.getElementById('techList');
+      wallList.innerHTML = '';
+      techList.innerHTML = '';
+
+      state.logs.forEach(log => {
+        const li = document.createElement('li');
+        li.className = 'log-item' + (log.category === 'wall' ? ' wall' : '');
+        li.innerHTML = `<span>${log.text}</span><div><span class="log-date">${log.date}</span><button class="del-btn" onclick="deleteLog(${log.id})">×</button></div>`;
+        if (log.category === 'wall') wallList.appendChild(li);
+        else techList.appendChild(li);
+      });
+    }
+
+    function exportData() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
+      const a = document.createElement('a');
+      a.setAttribute("href", dataStr);
+      a.setAttribute("download", `base_backup_${todayKey}.json`);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    function importData() {
+      const raw = prompt("请粘贴之前备份的 JSON 文本内容：");
+      if (!raw) return;
+      try {
+        const parsed = JSON.parse(raw);
+        if (parsed.daily && parsed.logs) {
+          state = parsed;
+          saveState();
+          alert("基地数据恢复成功！");
+        }
+      } catch (e) {
+        alert("格式有误，请检查粘贴内容。");
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>
