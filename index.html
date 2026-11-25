@@ -13,6 +13,7 @@
     :root {
       --bg: #12151c;
       --card: #1b202b;
+      --card-inner: #141822;
       --card-border: #2a3242;
       --text-main: #e6ebf5;
       --text-sub: #8b96ad;
@@ -21,69 +22,514 @@
       --accent-amber: #f6bd60;
       --accent-red: #f28482;
       --accent-purple: #9d8df1;
+      --accent-pink: #f48fb1;
+      --accent-cyan: #56cfe1;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; }
-    body { background-color: var(--bg); color: var(--text-main); padding: 16px; max-width: 640px; margin: 0 auto; padding-bottom: 60px; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--card-border); }
-    header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
-    .status-badge { font-size: 0.75rem; background: rgba(56, 211, 159, 0.15); color: var(--accent-green); padding: 4px 10px; border-radius: 12px; border: 1px solid rgba(56, 211, 159, 0.3); }
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      padding: 14px 14px 72px;
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.45;
+    }
 
-    .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 14px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-    .card-title { font-size: 0.95rem; font-weight: 600; color: var(--text-main); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-    .card-subtitle { font-size: 0.78rem; color: var(--text-sub); font-weight: normal; }
+    /* 顶部标题栏 */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    header h1 {
+      font-size: 1.18rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-badge {
+      font-size: 0.74rem;
+      background: rgba(56, 211, 159, 0.14);
+      color: var(--accent-green);
+      padding: 4px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(56, 211, 159, 0.3);
+      font-variant-numeric: tabular-nums;
+    }
 
-    /* 主反应堆能量条 */
-    .energy-bar-wrap { background: #10131a; border-radius: 10px; height: 22px; overflow: hidden; border: 1px solid var(--card-border); position: relative; margin-bottom: 10px; }
-    .energy-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-blue), var(--accent-green)); transition: width 0.4s ease; border-radius: 8px; }
-    .energy-stats { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-sub); }
+    /* 置顶温暖标语横幅 */
+    .motto-banner {
+      background: linear-gradient(135deg, rgba(246, 189, 96, 0.14), rgba(78, 168, 222, 0.12));
+      border: 1px solid rgba(246, 189, 96, 0.32);
+      border-radius: 12px;
+      padding: 11px 14px;
+      margin-bottom: 12px;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #fce8c3;
+      letter-spacing: 0.6px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+    }
 
-    /* 资源补给打卡网格 */
-    .task-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    /* 页面切换标签栏 */
+    .nav-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: var(--card-inner);
+      padding: 4px;
+      border-radius: 11px;
+      border: 1px solid var(--card-border);
+      margin-bottom: 14px;
+    }
+    .nav-tab {
+      border: none;
+      background: transparent;
+      color: var(--text-sub);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 7px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .nav-tab.active {
+      background: var(--card);
+      color: var(--accent-blue);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(78, 168, 222, 0.35);
+    }
+
+    /* 通用卡片样式 */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 15px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .level-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(78, 168, 222, 0.16);
+      color: var(--accent-blue);
+      border: 1px solid rgba(78, 168, 222, 0.35);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .level-pill.amber { background: rgba(246, 189, 96, 0.16); color: var(--accent-amber); border-color: rgba(246, 189, 96, 0.35); }
+    .level-pill.purple { background: rgba(157, 141, 241, 0.16); color: var(--accent-purple); border-color: rgba(157, 141, 241, 0.35); }
+    .level-pill.green { background: rgba(56, 211, 159, 0.16); color: var(--accent-green); border-color: rgba(56, 211, 159, 0.35); }
+    .level-pill.red { background: rgba(242, 132, 130, 0.16); color: var(--accent-red); border-color: rgba(242, 132, 130, 0.35); }
+    .level-pill.pink { background: rgba(244, 143, 177, 0.16); color: var(--accent-pink); border-color: rgba(244, 143, 177, 0.35); }
+
+    .card-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* 通用进度条 */
+    .bar-wrap {
+      background: #10131a;
+      border-radius: 999px;
+      height: 12px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      position: relative;
+      margin-bottom: 10px;
+    }
+    .bar-wrap.large {
+      height: 20px;
+      border-radius: 10px;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1), background 0.35s ease, box-shadow 0.35s ease;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+    }
+    .bar-fill.red {
+      background: linear-gradient(90deg, #d9534f, var(--accent-red));
+    }
+    .bar-fill.blue {
+      background: linear-gradient(90deg, #3a86ff, var(--accent-blue));
+    }
+    .bar-fill.blue-max {
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan), var(--accent-green));
+      box-shadow: 0 0 12px rgba(78, 168, 222, 0.55);
+    }
+    .bar-fill.amber {
+      background: linear-gradient(90deg, #e09f3e, var(--accent-amber));
+    }
+    .bar-fill.green {
+      background: linear-gradient(90deg, #2ec4b6, var(--accent-green));
+    }
+    .bar-fill.purple {
+      background: linear-gradient(90deg, #7b68ee, var(--accent-purple));
+    }
+    .bar-fill.pink {
+      background: linear-gradient(90deg, #e56b9f, var(--accent-pink));
+    }
+
+    .bar-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.76rem;
+      color: var(--text-sub);
+      margin-bottom: 10px;
+      gap: 6px;
+    }
+
+    /* 主反应堆总览详情 */
+    .reactor-subbox {
+      background: var(--card-inner);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+    }
+    .reactor-charge-val {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* 分组标签 */
+    .group-label {
+      font-size: 0.72rem;
+      color: var(--text-sub);
+      margin: 8px 0 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+    }
+    .group-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--card-border);
+    }
+
+    /* 任务打卡网格 */
+    .task-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .task-grid.three-col {
+      grid-template-columns: repeat(3, 1fr);
+    }
     .task-btn {
-      background: #141822; border: 1px solid var(--card-border); border-radius: 10px; padding: 12px;
-      text-align: left; cursor: pointer; transition: all 0.2s ease; color: var(--text-main);
-      display: flex; flex-direction: column; gap: 4px;
+      background: var(--card-inner);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 10px 11px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
     }
-    .task-btn.active { border-color: var(--accent-green); background: rgba(56, 211, 159, 0.12); }
-    .task-btn .task-name { font-size: 0.88rem; font-weight: 600; display: flex; justify-content: space-between; }
-    .task-btn .task-desc { font-size: 0.75rem; color: var(--text-sub); }
-    .task-btn.active .task-name::after { content: "✓ 已充能"; font-size: 0.72rem; color: var(--accent-green); }
+    .task-btn:active {
+      transform: scale(0.98);
+    }
+    .task-btn.active {
+      border-color: var(--accent-green);
+      background: rgba(56, 211, 159, 0.11);
+    }
+    .task-btn.active-blue {
+      border-color: var(--accent-blue);
+      background: rgba(78, 168, 222, 0.13);
+    }
+    .task-btn.partial-red {
+      border-color: rgba(242, 132, 130, 0.65);
+      background: rgba(242, 132, 130, 0.1);
+    }
+    .task-name {
+      font-size: 0.84rem;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 4px;
+    }
+    .task-desc {
+      font-size: 0.71rem;
+      color: var(--text-sub);
+    }
+    .task-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-sub);
+      white-space: nowrap;
+    }
+    .task-btn.active .task-tag {
+      background: rgba(56, 211, 159, 0.2);
+      color: var(--accent-green);
+    }
+    .task-btn.active-blue .task-tag {
+      background: rgba(78, 168, 222, 0.22);
+      color: var(--accent-blue);
+    }
+    .task-btn.partial-red .task-tag {
+      background: rgba(242, 132, 130, 0.22);
+      color: var(--accent-red);
+    }
 
-    /* 累计资源库存 */
-    .inventory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
-    .inv-item { background: #141822; padding: 10px 6px; border-radius: 10px; border: 1px solid var(--card-border); }
-    .inv-val { font-size: 1.2rem; font-weight: 700; color: var(--accent-amber); }
-    .inv-label { font-size: 0.72rem; color: var(--text-sub); margin-top: 2px; }
+    /* 铁剂双胶囊指示器 */
+    .dots {
+      display: inline-flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #2f384a;
+      transition: background 0.2s ease;
+    }
+    .dot.filled-red { background: var(--accent-red); }
+    .dot.filled-blue { background: var(--accent-blue); }
 
-    /* 输入框与列表（科技树 & 围墙日志） */
-    .input-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    /* 研发中心脉冲控制栏 */
+    .pulse-box {
+      background: var(--card-inner);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 11px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .pulse-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+    }
+    .pulse-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .primary-pulse-btn {
+      flex: 1;
+      background: linear-gradient(90deg, rgba(157, 141, 241, 0.25), rgba(78, 168, 222, 0.25));
+      border: 1px solid rgba(157, 141, 241, 0.5);
+      color: #e9e4ff;
+      border-radius: 9px;
+      padding: 9px 12px;
+      font-size: 0.83rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .primary-pulse-btn:active { transform: scale(0.98); }
+    .undo-btn {
+      background: #1d2330;
+      border: 1px solid var(--card-border);
+      color: var(--text-sub);
+      border-radius: 9px;
+      padding: 0 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .undo-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* 维护模块带撤回的卡片 */
+    .maint-card-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .maint-undo {
+      background: #141822;
+      border: 1px solid var(--card-border);
+      color: var(--text-sub);
+      border-radius: 7px;
+      font-size: 0.68rem;
+      padding: 3px 0;
+      cursor: pointer;
+      text-align: center;
+    }
+    .maint-undo:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* 输入框与记录列表 */
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
     input[type="text"] {
-      flex: 1; background: #10131a; border: 1px solid var(--card-border); border-radius: 8px;
-      padding: 8px 12px; color: var(--text-main); font-size: 0.85rem; outline: none;
+      flex: 1;
+      min-width: 0;
+      background: #10131a;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 8px 11px;
+      color: var(--text-main);
+      font-size: 0.82rem;
+      outline: none;
     }
-    input[type="text"]:focus { border-color: var(--accent-blue); }
+    input[type="text"]:focus {
+      border-color: var(--accent-blue);
+    }
     button.add-btn {
-      background: var(--accent-blue); color: #0f141c; border: none; border-radius: 8px;
-      padding: 0 14px; font-weight: 600; font-size: 0.85rem; cursor: pointer;
+      background: var(--accent-blue);
+      color: #0d1219;
+      border: none;
+      border-radius: 8px;
+      padding: 0 13px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+      white-space: nowrap;
     }
-    .log-list { list-style: none; display: flex; flex-direction: column; gap: 8px; max-height: 180px; overflow-y: auto; }
+    button.add-btn.amber { background: var(--accent-amber); }
+    button.add-btn.purple { background: var(--accent-purple); }
+    button.add-btn.pink { background: var(--accent-pink); }
+
+    .log-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 150px;
+      overflow-y: auto;
+      margin-top: 9px;
+    }
+    .log-list:empty {
+      display: none;
+    }
     .log-item {
-      background: #141822; padding: 8px 12px; border-radius: 8px; font-size: 0.82rem;
-      display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--accent-purple);
+      background: var(--card-inner);
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      border-left: 3px solid var(--accent-purple);
     }
     .log-item.wall { border-left-color: var(--accent-amber); }
-    .log-date { font-size: 0.72rem; color: var(--text-sub); margin-left: 8px; white-space: nowrap; }
-    .del-btn { background: none; border: none; color: #5c677d; cursor: pointer; font-size: 0.85rem; padding-left: 8px; }
+    .log-item.canteen { border-left-color: var(--accent-green); }
+    .log-item.park { border-left-color: var(--accent-pink); }
+    .log-text {
+      word-break: break-word;
+      flex: 1;
+    }
+    .log-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .log-date {
+      font-size: 0.7rem;
+      color: var(--text-sub);
+      font-variant-numeric: tabular-nums;
+    }
+    .del-btn {
+      background: none;
+      border: none;
+      color: #636f88;
+      cursor: pointer;
+      font-size: 0.95rem;
+      padding: 0 4px;
+      line-height: 1;
+    }
+
+    /* 周期统计占位视图（页面2） */
+    .placeholder-view {
+      display: none;
+      text-align: center;
+      padding: 36px 18px;
+    }
+    .placeholder-view.active {
+      display: block;
+    }
+    .main-view.hidden {
+      display: none;
+    }
 
     /* 底部数据管理 */
-    .footer-tools { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; }
-    .tool-btn {
-      flex: 1; background: #1b202b; border: 1px solid var(--card-border); color: var(--text-sub);
-      padding: 8px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; text-align: center;
+    .footer-tools {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 8px;
     }
-    .tool-btn:hover { color: var(--text-main); border-color: var(--text-sub); }
+    .tool-btn {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      color: var(--text-sub);
+      padding: 9px;
+      border-radius: 9px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+    }
+    .tool-btn:hover {
+      color: var(--text-main);
+      border-color: var(--text-sub);
+    }
   </style>
 </head>
 <body>
@@ -93,112 +539,446 @@
     <span class="status-badge" id="todayDate">系统运行正常</span>
   </header>
 
-  <!-- 1. 主反应堆：今日能量槽 -->
-  <div class="card">
-    <div class="card-title">
-      <span>⚡ 主反应堆充能状态</span>
-      <span class="card-subtitle" id="energyPercent">0%</span>
-    </div>
-    <div class="energy-bar-wrap">
-      <div class="energy-bar-fill" id="energyFill" style="width: 0%;"></div>
-    </div>
-    <div class="energy-stats">
-      <span id="reactorStatus">待启动：点击下方模块开始今日供能</span>
-      <span>基地等级 Lv.<strong id="baseLevel">1</strong></span>
-    </div>
+  <!-- 置顶温暖标语 -->
+  <div class="motto-banner">✨ 在没有办法的日子里也要好好生活</div>
+
+  <!-- 页面切换预留栏 -->
+  <div class="nav-tabs">
+    <button class="nav-tab active" id="tabPage1" onclick="switchPage(1)">🎛️ 基地总控台</button>
+    <button class="nav-tab" id="tabPage2" onclick="switchPage(2)">📊 周期统计（敬请期待）</button>
   </div>
 
-  <!-- 2. 自动化补给线：每日微习惯开关 -->
-  <div class="card">
-    <div class="card-title">
-      <span>🔋 每日自动补给线</span>
-      <span class="card-subtitle">点击点亮今日产出</span>
-    </div>
-    <div class="task-grid" id="taskGrid"></div>
-  </div>
+  <!-- ================= 页面 1：基地总控台 ================= -->
+  <div class="main-view" id="page1View">
 
-  <!-- 3. 基地累计资源库存 -->
-  <div class="card">
-    <div class="card-title">
-      <span>📦 基地累计资源库</span>
-      <span class="card-subtitle">复利成长记录</span>
-    </div>
-    <div class="inventory-grid">
-      <div class="inv-item">
-        <div class="inv-val" id="statBlood">0</div>
-        <div class="inv-label">气血充能值</div>
+    <!-- 1. 主反应堆充能状态 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">⚡ 主反应堆充能状态</span>
+        <span class="level-pill" id="reactorLevelBadge">Lv.1 (0 / 15 EXP)</span>
       </div>
-      <div class="inv-item">
-        <div class="inv-val" id="statFocus">0</div>
-        <div class="inv-label">专注产出点</div>
+      <div class="bar-wrap large">
+        <div class="bar-fill" id="reactorExpFill" style="width: 0%;"></div>
       </div>
-      <div class="inv-item">
-        <div class="inv-val" id="statShield">0</div>
-        <div class="inv-label">边界拦截数</div>
+      <div class="bar-meta">
+        <span id="reactorExpPercent">升级进度 0%</span>
+        <span id="reactorTotalExpText">累计总经验：0 EXP</span>
+      </div>
+      <div class="reactor-subbox">
+        <div>
+          <div style="font-size: 0.72rem; color: var(--text-sub);">今日综合运行状态</div>
+          <div id="reactorStatusText" style="font-weight: 600; margin-top: 2px;">待启动：从最低补给开始今日供能</div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-size: 0.7rem; color: var(--text-sub);">今日充能度</div>
+          <div class="reactor-charge-val" id="todayChargeVal">0%</div>
+        </div>
       </div>
     </div>
+
+    <!-- 2. 每日自动补给线 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">🔋 每日自动补给线</span>
+        <span class="level-pill red" id="supplyStatusBadge">最低补给未满 (0/3)</span>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-fill red" id="supplyBarFill" style="width: 0%;"></div>
+      </div>
+      <div class="bar-meta">
+        <span id="supplyHintText">优先点亮铁片(×2)与气道(×1)稳固底线</span>
+        <span id="supplyCountText">今日 0 / 6 项</span>
+      </div>
+
+      <div class="group-label">最低补给线（3/3 达标转蓝 · 每项 +2 EXP）</div>
+      <div class="task-grid">
+        <button class="task-btn" id="btnIron" onclick="cycleIron()">
+          <div class="task-name">
+            <span>💊 铁片补给</span>
+            <span class="dots" id="ironDots">
+              <i class="dot"></i><i class="dot"></i>
+            </span>
+          </div>
+          <div class="task-desc" id="ironDesc">点击记录：今日 0/2 次</div>
+        </button>
+
+        <button class="task-btn" id="btnInhaler" onclick="toggleDailyTask('inhaler')">
+          <div class="task-name">
+            <span>🌬️ 气道维护</span>
+            <span class="task-tag" id="tagInhaler">0/1</span>
+          </div>
+          <div class="task-desc">每日一次吸入剂</div>
+        </button>
+      </div>
+
+      <div class="group-label">能量加分项（每项 +2 EXP）</div>
+      <div class="task-grid three-col">
+        <button class="task-btn" id="btnSleep" onclick="toggleDailyTask('sleep')">
+          <div class="task-name">
+            <span>🌙 休眠</span>
+            <span class="task-tag" id="tagSleep">0/1</span>
+          </div>
+          <div class="task-desc">早于凌晨1点</div>
+        </button>
+
+        <button class="task-btn" id="btnVitamin" onclick="toggleDailyTask('vitamin')">
+          <div class="task-name">
+            <span>☀️ 维生素</span>
+            <span class="task-tag" id="tagVitamin">0/1</span>
+          </div>
+          <div class="task-desc">VB / VD / 镁</div>
+        </button>
+
+        <button class="task-btn" id="btnFitness" onclick="toggleDailyTask('fitness')">
+          <div class="task-name">
+            <span>🏃 健身</span>
+            <span class="task-tag" id="tagFitness">0/1</span>
+          </div>
+          <div class="task-desc">今日运动打卡</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- 3. 基地研发中心 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">🔬 基地研发中心</span>
+        <span class="level-pill purple" id="researchLevelBadge">研发中心 Lv.1</span>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-fill purple" id="researchBarFill" style="width: 0%;"></div>
+      </div>
+      <div class="bar-meta">
+        <span id="researchStatusHint">零压力推进 · 每 6 EXP 升 1 级</span>
+        <span id="researchExpMeta">0 / 6 EXP</span>
+      </div>
+
+      <div class="pulse-box">
+        <div class="pulse-stats">
+          <span>今日已推进：<strong id="todayResearchUnits" style="color: var(--accent-purple);">0</strong> 次（累计 <strong id="todayResearchHours">0</strong> 小时）</span>
+          <span class="card-subtitle" id="totalResearchHoursText">历史累计 0h</span>
+        </div>
+        <div class="pulse-actions">
+          <button class="primary-pulse-btn" onclick="changeCount('research', 1)">+ 推进 2 小时 (+2 EXP)</button>
+          <button class="undo-btn" id="undoResearchBtn" onclick="changeCount('research', -1)" disabled>-1</button>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <input type="text" id="techInput" placeholder="记录学术里程碑 / 阶段灵感（每条 +2 EXP）" onkeydown="handleEnter(event, 'tech')" />
+        <button class="add-btn purple" onclick="addLog('tech')">记录</button>
+      </div>
+      <ul class="log-list" id="techList"></ul>
+    </div>
+
+    <!-- 4. 基地食堂 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">🍳 基地食堂</span>
+        <span class="level-pill green" id="canteenLevelBadge">基地食堂 Lv.1</span>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-fill green" id="canteenBarFill" style="width: 0%;"></div>
+      </div>
+      <div class="bar-meta">
+        <span id="canteenCountMeta">累计做饭 0 顿 · 今日 0 顿</span>
+        <span id="canteenExpMeta">0 / 5 EXP</span>
+      </div>
+      <div class="input-row" style="margin-top: 2px;">
+        <input type="text" id="canteenInput" placeholder="记录今天做了什么好吃的（留空也可直接打卡）" onkeydown="handleEnter(event, 'canteen')" />
+        <button class="add-btn" style="background: var(--accent-green);" onclick="addLog('canteen')">🍳 做饭打卡</button>
+      </div>
+      <ul class="log-list" id="canteenList"></ul>
+    </div>
+
+    <!-- 5. 围墙防御战绩 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">🧱 围墙防御战绩</span>
+        <span class="level-pill amber" id="wallLevelBadge">围墙防御 Lv.1</span>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-fill amber" id="wallBarFill" style="width: 0%;"></div>
+      </div>
+      <div class="bar-meta">
+        <span>守护注意力与个人边界（每项 +1 EXP）</span>
+        <span id="wallExpMeta">0 / 5 EXP</span>
+      </div>
+      <div class="task-grid" style="grid-template-columns: 1fr;">
+        <button class="task-btn" id="btnSocialGuard" onclick="toggleDailyTask('social_guard')">
+          <div class="task-name">
+            <span>📵 社交防沉迷</span>
+            <span class="task-tag" id="tagSocialGuard">0/1</span>
+          </div>
+          <div class="task-desc">今日社交媒体使用时长未超限额</div>
+        </button>
+      </div>
+      <div class="input-row">
+        <input type="text" id="wallInput" placeholder="🧱 添砖加瓦：记录拒绝消耗/守住边界的瞬间" onkeydown="handleEnter(event, 'wall')" />
+        <button class="add-btn amber" onclick="addLog('wall')">记录</button>
+      </div>
+      <ul class="log-list" id="wallList"></ul>
+    </div>
+
+    <!-- 6. 游乐园 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">🎡 游乐园</span>
+        <span class="level-pill pink" id="parkLevelBadge">娱乐设施 Lv.1</span>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-fill pink" id="parkBarFill" style="width: 0%;"></div>
+      </div>
+      <div class="bar-meta">
+        <span>收集生活中的小确幸（每项 +1 EXP）</span>
+        <span id="parkExpMeta">0 / 5 EXP</span>
+      </div>
+      <div class="task-grid">
+        <button class="task-btn" id="btnCraft" onclick="toggleDailyTask('craft')">
+          <div class="task-name">
+            <span>🧶 乐园手作屋</span>
+            <span class="task-tag" id="tagCraft">0/1</span>
+          </div>
+          <div class="task-desc">当天进行手工制作</div>
+        </button>
+
+        <button class="task-btn" id="btnBoutique" onclick="toggleDailyTask('boutique')">
+          <div class="task-name">
+            <span>🛍️ 乐园精品店</span>
+            <span class="task-tag" id="tagBoutique">0/1</span>
+          </div>
+          <div class="task-desc">买到喜欢的东西</div>
+        </button>
+
+        <button class="task-btn" id="btnFoodie" onclick="toggleDailyTask('foodie')">
+          <div class="task-name">
+            <span>🍜 乐园美味屋</span>
+            <span class="task-tag" id="tagFoodie">0/1</span>
+          </div>
+          <div class="task-desc">外出觅食探索美味</div>
+        </button>
+
+        <button class="task-btn" id="btnJournal" onclick="toggleDailyTask('journal')">
+          <div class="task-name">
+            <span>📔 乐园纪念馆</span>
+            <span class="task-tag" id="tagJournal">0/1</span>
+          </div>
+          <div class="task-desc">做手账记录时光</div>
+        </button>
+      </div>
+      <div class="input-row">
+        <input type="text" id="parkInput" placeholder="🎁 乐园惊喜：写下今天发生的小惊喜或快乐瞬间" onkeydown="handleEnter(event, 'park')" />
+        <button class="add-btn pink" onclick="addLog('park')">记录</button>
+      </div>
+      <ul class="log-list" id="parkList"></ul>
+    </div>
+
+    <!-- 7. 仓库 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">📦 仓库</span>
+        <span class="level-pill" id="warehouseLevelBadge">基地仓库 Lv.1</span>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-fill" id="warehouseBarFill" style="width: 0%;"></div>
+      </div>
+      <div class="bar-meta">
+        <span>物资补货与空间秩序（每项 +1 EXP）</span>
+        <span id="warehouseExpMeta">0 / 5 EXP</span>
+      </div>
+      <div class="task-grid three-col">
+        <button class="task-btn" id="btnShop" onclick="toggleDailyTask('shop')">
+          <div class="task-name">
+            <span>🛒 大丰收</span>
+            <span class="task-tag" id="tagShop">0/1</span>
+          </div>
+          <div class="task-desc">超市/药妆店采购</div>
+        </button>
+
+        <button class="task-btn" id="btnOrganize" onclick="toggleDailyTask('organize')">
+          <div class="task-name">
+            <span>🗂️ 整理</span>
+            <span class="task-tag" id="tagOrganize">0/1</span>
+          </div>
+          <div class="task-desc">完成整理收纳</div>
+        </button>
+
+        <button class="task-btn" id="btnDeclutter" onclick="toggleDailyTask('declutter')">
+          <div class="task-name">
+            <span>🧹 扩容</span>
+            <span class="task-tag" id="tagDeclutter">0/1</span>
+          </div>
+          <div class="task-desc">完成一次断舍离</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- 8. 基地维护 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">🛠️ 基地维护</span>
+        <span class="level-pill red" id="maintStatusBadge">🚨 红警：本周基地尚未维护</span>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-fill red" id="maintBarFill" style="width: 0%;"></div>
+      </div>
+      <div class="bar-meta">
+        <span id="maintWeekMeta">本周累计：0 次（满 4 次环境良好）</span>
+        <span id="maintExpMeta">累计维护：0 EXP</span>
+      </div>
+      <div class="task-grid three-col">
+        <div class="maint-card-wrap">
+          <button class="task-btn" id="btnClean" onclick="changeCount('clean', 1)">
+            <div class="task-name">
+              <span>🧼 清洁</span>
+              <span class="task-tag" id="tagClean">本周 0</span>
+            </div>
+            <div class="task-desc" id="descClean">今日 0 次 · 点+1</div>
+          </button>
+          <button class="maint-undo" id="undoCleanBtn" onclick="changeCount('clean', -1)" disabled>撤回今日</button>
+        </div>
+
+        <div class="maint-card-wrap">
+          <button class="task-btn" id="btnLaundry" onclick="changeCount('laundry', 1)">
+            <div class="task-name">
+              <span>🛏️ 换洗</span>
+              <span class="task-tag" id="tagLaundry">本周 0</span>
+            </div>
+            <div class="task-desc" id="descLaundry">今日 0 次 · 点+1</div>
+          </button>
+          <button class="maint-undo" id="undoLaundryBtn" onclick="changeCount('laundry', -1)" disabled>撤回今日</button>
+        </div>
+
+        <div class="maint-card-wrap">
+          <button class="task-btn" id="btnTrash" onclick="changeCount('trash', 1)">
+            <div class="task-name">
+              <span>🗑️ 扔垃圾</span>
+              <span class="task-tag" id="tagTrash">本周 0</span>
+            </div>
+            <div class="task-desc" id="descTrash">今日 0 次 · 点+1</div>
+          </button>
+          <button class="maint-undo" id="undoTrashBtn" onclick="changeCount('trash', -1)" disabled>撤回今日</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- 4. 围墙防御日志 -->
-  <div class="card">
-    <div class="card-title">
-      <span>🧱 围墙防御战绩</span>
-      <span class="card-subtitle">记录拒绝消耗/守住边界的瞬间</span>
-    </div>
-    <div class="input-row">
-      <input type="text" id="wallInput" placeholder="例：果断拒绝无意义社交，省下2小时精力" />
-      <button class="add-btn" onclick="addLog('wall')">记录</button>
-    </div>
-    <ul class="log-list" id="wallList"></ul>
+  <!-- ================= 页面 2：周期统计占位 ================= -->
+  <div class="card placeholder-view" id="page2View">
+    <div style="font-size: 2rem; margin-bottom: 10px;">📈</div>
+    <h2 style="font-size: 1.05rem; margin-bottom: 8px;">周期成果统计中心（建设中）</h2>
+    <p style="font-size: 0.82rem; color: var(--text-sub); margin-bottom: 16px;">
+      你每天在「基地总控台」点亮的补给、2小时科研脉冲、食堂菜谱与生活记录都已按本地日期完整沉淀在 <code>my_base_v1</code> 中，后续将在这里自动生成每日、每周与每月复盘报告。
+    </p>
+    <button class="add-btn" style="padding: 9px 18px;" onclick="switchPage(1)">返回基地总控台</button>
   </div>
 
-  <!-- 5. 研发科技树 / 阶段成就 -->
-  <div class="card">
-    <div class="card-title">
-      <span>🌱 研发科技树（新工具 / 满意作品）</span>
-      <span class="card-subtitle">螺旋上升里程碑</span>
-    </div>
-    <div class="input-row">
-      <input type="text" id="techInput" placeholder="例：手工第二版更换工具后大获成功" />
-      <button class="add-btn" onclick="addLog('tech')">解锁</button>
-    </div>
-    <ul class="log-list" id="techList"></ul>
-  </div>
-
-  <!-- 数据备份与恢复 -->
+  <!-- 底部数据备份与恢复 -->
   <div class="footer-tools">
     <button class="tool-btn" onclick="exportData()">📤 导出备份 JSON</button>
     <button class="tool-btn" onclick="importData()">📥 导入恢复数据</button>
   </div>
 
   <script>
-    const TASKS = [
-      { id: 'iron', name: '💊 铁剂补给', desc: '按时补充造血原料', type: 'blood', pts: 25 },
-      { id: 'inhaler', name: '🌬️ 气道维护', desc: '规律使用吸入药', type: 'blood', pts: 20 },
-      { id: 'sleep', name: '🌙 夜间休眠', desc: '不熬夜，及时亮黄灯', type: 'blood', pts: 20 },
-      { id: 'noise', name: '🎧 物理降噪', desc: '戴帽/耳机隔绝喧嚣', type: 'shield', pts: 15 },
-      { id: 'craft', name: '🧶 支线手工', desc: '悦己创作，不赶工期', type: 'focus', pts: 10 },
-      { id: 'study', name: '📚 主线微推进', desc: '文献/教学基本盘完成', type: 'focus', pts: 10 }
-    ];
+    const STORAGE_KEY = 'my_base_v1';
 
-    const todayKey = new Date().toISOString().slice(0, 10);
+    // 本地时区日期 YYYY-MM-DD（避免 UTC 跨日偏差）
+    function getLocalDateKey(dateObj = new Date()) {
+      const y = dateObj.getFullYear();
+      const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const d = String(dateObj.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    // 获取当前自然周（周一至周日）的所有 YYYY-MM-DD 键集合
+    function getCurrentWeekKeys(now = new Date()) {
+      const dayOfWeek = now.getDay(); // 0(周日) - 6(周六)
+      const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+      const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diffToMonday);
+      const keys = new Set();
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + i);
+        keys.add(getLocalDateKey(d));
+      }
+      return keys;
+    }
+
+    const todayKey = getLocalDateKey();
     document.getElementById('todayDate').textContent = todayKey;
 
-    let state = JSON.parse(localStorage.getItem('my_base_v1')) || {
-      daily: {},
-      logs: []
-    };
+    // 读取并初始化 my_base_v1（完全兼容旧版结构）
+    function loadState() {
+      let raw = null;
+      try {
+        raw = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      } catch (e) {
+        raw = null;
+      }
+      const base = (raw && typeof raw === 'object') ? raw : {};
+      if (!base.daily || typeof base.daily !== 'object') base.daily = {};
+      if (!base.dailyCounts || typeof base.dailyCounts !== 'object') base.dailyCounts = {};
+      if (!Array.isArray(base.logs)) base.logs = [];
+      if (!Array.isArray(base.daily[todayKey])) base.daily[todayKey] = [];
+      if (!base.dailyCounts[todayKey] || typeof base.dailyCounts[todayKey] !== 'object') {
+        base.dailyCounts[todayKey] = {};
+      }
+      return base;
+    }
 
-    if (!state.daily[todayKey]) {
-      state.daily[todayKey] = [];
+    let state = loadState();
+
+    // 兼容读取某天某计次项目的数值（无缝继承旧版 daily 中的 'iron' 和 'study'）
+    function getDayCount(dateStr, key) {
+      const dayCounts = state.dailyCounts && state.dailyCounts[dateStr];
+      if (dayCounts && typeof dayCounts[key] === 'number') {
+        return Math.max(0, dayCounts[key]);
+      }
+      const dayArr = (state.daily && Array.isArray(state.daily[dateStr])) ? state.daily[dateStr] : [];
+      if (key === 'iron' && dayArr.includes('iron')) return 1;
+      if (key === 'research' && dayArr.includes('study')) return 1;
+      return 0;
     }
 
     function saveState() {
-      localStorage.setItem('my_base_v1', JSON.stringify(state));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       render();
     }
 
-    function toggleTask(taskId) {
+    // 切换页面视图
+    function switchPage(pageNum) {
+      const p1 = document.getElementById('page1View');
+      const p2 = document.getElementById('page2View');
+      const t1 = document.getElementById('tabPage1');
+      const t2 = document.getElementById('tabPage2');
+      if (pageNum === 1) {
+        p1.classList.remove('hidden');
+        p2.classList.remove('active');
+        t1.classList.add('active');
+        t2.classList.remove('active');
+      } else {
+        p1.classList.add('hidden');
+        p2.classList.add('active');
+        t1.classList.remove('active');
+        t2.classList.add('active');
+      }
+    }
+
+    // 铁片补给循环计数：0 -> 1 -> 2 -> 0
+    function cycleIron() {
+      const cur = getDayCount(todayKey, 'iron');
+      const next = (cur + 1) % 3;
+      state.dailyCounts[todayKey].iron = next;
+      // 同步维护 daily 数组中 'iron' 的存在性以保持最大兼容性
+      const list = state.daily[todayKey];
+      const idx = list.indexOf('iron');
+      if (next > 0 && idx === -1) list.push('iron');
+      if (next === 0 && idx > -1) list.splice(idx, 1);
+      saveState();
+    }
+
+    // 单次开关型任务切换
+    function toggleDailyTask(taskId) {
       const list = state.daily[todayKey];
       const idx = list.indexOf(taskId);
       if (idx > -1) list.splice(idx, 1);
@@ -206,16 +986,46 @@
       saveState();
     }
 
+    // 计次型任务增减（科研2h脉冲、基地维护三项）
+    function changeCount(key, delta) {
+      const cur = getDayCount(todayKey, key);
+      const next = Math.max(0, cur + delta);
+      state.dailyCounts[todayKey][key] = next;
+      saveState();
+    }
+
+    // 回车键快捷提交
+    function handleEnter(event, category) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        addLog(category);
+      }
+    }
+
+    // 添加文本日志（食堂做饭 / 研发里程碑 / 围墙添砖加瓦 / 游乐园惊喜）
     function addLog(category) {
-      const inputId = category === 'wall' ? 'wallInput' : 'techInput';
-      const input = document.getElementById(inputId);
-      const text = input.value.trim();
-      if (!text) return;
+      const inputMap = {
+        tech: 'techInput',
+        canteen: 'canteenInput',
+        wall: 'wallInput',
+        park: 'parkInput'
+      };
+      const input = document.getElementById(inputMap[category]);
+      if (!input) return;
+      let text = input.value.trim();
+
+      if (category === 'canteen') {
+        if (!text) text = '自制家常餐';
+      } else {
+        if (!text) return;
+      }
+
       state.logs.unshift({
-        id: Date.now(),
+        id: Date.now() + Math.floor(Math.random() * 1000),
         category,
         text,
-        date: todayKey.slice(5)
+        date: todayKey.slice(5),
+        fullDate: todayKey
       });
       input.value = '';
       saveState();
@@ -226,69 +1036,338 @@
       saveState();
     }
 
+    // 安全转义文本防 XSS
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // 辅助更新单个开关按钮状态
+    function setToggleBtnState(btnId, tagId, isActive, activeClass = 'active') {
+      const btn = document.getElementById(btnId);
+      const tag = document.getElementById(tagId);
+      btn.classList.remove('active', 'active-blue');
+      if (isActive) {
+        btn.classList.add(activeClass);
+        tag.textContent = '1/1 ✓';
+      } else {
+        tag.textContent = '0/1';
+      }
+    }
+
     function render() {
-      const todayDone = state.daily[todayKey] || [];
-      const grid = document.getElementById('taskGrid');
-      grid.innerHTML = '';
+      const todayArr = state.daily[todayKey] || [];
+      const weekKeys = getCurrentWeekKeys();
 
-      let todayEnergy = 0;
-      TASKS.forEach(t => {
-        const isDone = todayDone.includes(t.id);
-        if (isDone) todayEnergy += t.pts;
-        const btn = document.createElement('button');
-        btn.className = 'task-btn' + (isDone ? ' active' : '');
-        btn.onclick = () => toggleTask(t.id);
-        btn.innerHTML = `<div class="task-name">${t.name}</div><div class="task-desc">${t.desc}</div>`;
-        grid.appendChild(btn);
+      // 收集所有出现过的日期键（合并 daily 和 dailyCounts）
+      const allDateKeys = new Set([
+        ...Object.keys(state.daily || {}),
+        ...Object.keys(state.dailyCounts || {})
+      ]);
+
+      // 累计统计各模块经验值
+      let totalSupplyChecks = 0;   // 补给线总打卡次（每项 +2 EXP）
+      let totalResearchUnits = 0;  // 研发 2h 脉冲总次数（每次 +2 EXP）
+      let totalWallChecks = 0;     // 围墙每日开关打卡（每次 +1 EXP）
+      let totalParkChecks = 0;     // 游乐园每日开关打卡（每次 +1 EXP）
+      let totalWarehouseChecks = 0;// 仓库每日开关打卡（每次 +1 EXP）
+      let totalMaintChecks = 0;    // 维护历史总打卡（每次 +1 EXP）
+
+      // 本周维护次数
+      let weekClean = 0, weekLaundry = 0, weekTrash = 0;
+
+      allDateKeys.forEach(dKey => {
+        const arr = Array.isArray(state.daily[dKey]) ? state.daily[dKey] : [];
+
+        // 1. 补给线计数
+        const ironC = getDayCount(dKey, 'iron');
+        totalSupplyChecks += ironC;
+        if (arr.includes('inhaler')) totalSupplyChecks += 1;
+        if (arr.includes('sleep')) totalSupplyChecks += 1;
+        if (arr.includes('vitamin')) totalSupplyChecks += 1;
+        if (arr.includes('fitness')) totalSupplyChecks += 1;
+
+        // 2. 研发 2h 脉冲（含旧版 study 折算）
+        totalResearchUnits += getDayCount(dKey, 'research');
+
+        // 3. 围墙防沉迷（含旧版 noise 物理降噪边界守护折算）
+        if (arr.includes('social_guard')) totalWallChecks += 1;
+        if (arr.includes('noise')) totalWallChecks += 1;
+
+        // 4. 游乐园四项
+        if (arr.includes('craft')) totalParkChecks += 1;
+        if (arr.includes('boutique')) totalParkChecks += 1;
+        if (arr.includes('foodie')) totalParkChecks += 1;
+        if (arr.includes('journal')) totalParkChecks += 1;
+
+        // 5. 仓库三项
+        if (arr.includes('shop')) totalWarehouseChecks += 1;
+        if (arr.includes('organize')) totalWarehouseChecks += 1;
+        if (arr.includes('declutter')) totalWarehouseChecks += 1;
+
+        // 6. 基地维护三项
+        const cClean = getDayCount(dKey, 'clean');
+        const cLaundry = getDayCount(dKey, 'laundry');
+        const cTrash = getDayCount(dKey, 'trash');
+        totalMaintChecks += (cClean + cLaundry + cTrash);
+
+        if (weekKeys.has(dKey)) {
+          weekClean += cClean;
+          weekLaundry += cLaundry;
+          weekTrash += cTrash;
+        }
       });
 
-      // 更新今日能量条
-      document.getElementById('energyFill').style.width = todayEnergy + '%';
-      document.getElementById('energyPercent').textContent = todayEnergy + '%';
-      const statusEl = document.getElementById('reactorStatus');
-      if (todayEnergy === 0) statusEl.textContent = '待启动：点击模块开启今日供能';
-      else if (todayEnergy < 60) statusEl.textContent = '平稳运行中：持续积累气血';
-      else if (todayEnergy < 100) statusEl.textContent = '高效充能中：核心状态极佳';
-      else statusEl.textContent = '✨ 满载运行：今日基地能量已蓄满！';
+      // 统计各类日志条数
+      const techLogs = state.logs.filter(l => l.category === 'tech');
+      const canteenLogs = state.logs.filter(l => l.category === 'canteen');
+      const wallLogs = state.logs.filter(l => l.category === 'wall');
+      const parkLogs = state.logs.filter(l => l.category === 'park');
 
-      // 计算历史累计资源库
-      let bloodPts = 0, focusPts = 0, shieldPts = 0;
-      Object.values(state.daily).forEach(dayArr => {
-        dayArr.forEach(id => {
-          const task = TASKS.find(x => x.id === id);
-          if (!task) return;
-          if (task.type === 'blood') bloodPts += 1;
-          if (task.type === 'focus') focusPts += 1;
-          if (task.type === 'shield') shieldPts += 1;
-        });
+      // 各模块独立原始经验值
+      const supplyExp = totalSupplyChecks * 2;
+      const researchExp = (totalResearchUnits + techLogs.length) * 2;
+      const wallExp = (totalWallChecks + wallLogs.length) * 1;
+      const canteenExp = canteenLogs.length * 1;
+      const maintExp = totalMaintChecks * 1;
+      const warehouseExp = totalWarehouseChecks * 1;
+      const parkExp = (totalParkChecks + parkLogs.length) * 1;
+
+      // 主反应堆加权总经验（1.0 / 0.8 权重）
+      const rawTotalExp =
+        supplyExp * 1.0 +
+        researchExp * 1.0 +
+        wallExp * 1.0 +
+        canteenExp * 0.8 +
+        maintExp * 0.8 +
+        warehouseExp * 0.8 +
+        parkExp * 0.8;
+      const totalExp = Math.round(rawTotalExp * 10) / 10;
+
+      // 1. 渲染主反应堆总览
+      const reactorLv = Math.floor(totalExp / 15) + 1;
+      const reactorCurExp = Math.round((totalExp % 15) * 10) / 10;
+      const reactorPct = Math.min(100, Math.round((reactorCurExp / 15) * 100));
+
+      document.getElementById('reactorLevelBadge').textContent = `Lv.${reactorLv} (${reactorCurExp} / 15 EXP)`;
+      document.getElementById('reactorExpFill').style.width = `${reactorPct}%`;
+      document.getElementById('reactorExpPercent').textContent = `升级进度 ${reactorPct}%`;
+      document.getElementById('reactorTotalExpText').textContent = `累计综合经验：${totalExp} EXP`;
+
+      // 2. 渲染每日自动补给线
+      const todayIron = getDayCount(todayKey, 'iron');
+      const todayInhaler = todayArr.includes('inhaler') ? 1 : 0;
+      const todaySleep = todayArr.includes('sleep') ? 1 : 0;
+      const todayVitamin = todayArr.includes('vitamin') ? 1 : 0;
+      const todayFitness = todayArr.includes('fitness') ? 1 : 0;
+
+      const minSupplyCount = todayIron + todayInhaler; // 0 ~ 3
+      const bonusSupplyCount = todaySleep + todayVitamin + todayFitness; // 0 ~ 3
+      const totalTodaySupply = minSupplyCount + bonusSupplyCount; // 0 ~ 6
+
+      const supplyBar = document.getElementById('supplyBarFill');
+      const supplyBadge = document.getElementById('supplyStatusBadge');
+      const supplyHint = document.getElementById('supplyHintText');
+
+      supplyBar.className = 'bar-fill';
+      supplyBadge.className = 'level-pill';
+
+      if (minSupplyCount < 3) {
+        // 红色警戒阶段（0~2次，按比例占 0% ~ 45%）
+        const redWidth = Math.round((minSupplyCount / 3) * 45);
+        supplyBar.style.width = `${redWidth}%`;
+        supplyBar.classList.add('red');
+        supplyBadge.classList.add('red');
+        supplyBadge.textContent = `最低补给未满 (${minSupplyCount}/3)`;
+        supplyHint.textContent = '优先完成铁片(×2)与气道(×1)，进度条即可转蓝';
+      } else {
+        // 最低补给 3/3 达成 -> 转为蓝色（60% 起步，每项加分 +13.3% 直至 100%）
+        const blueWidth = Math.min(100, Math.round(60 + (bonusSupplyCount / 3) * 40));
+        supplyBar.style.width = `${blueWidth}%`;
+        if (bonusSupplyCount === 3) {
+          supplyBar.classList.add('blue-max');
+          supplyBadge.classList.add('green');
+          supplyBadge.textContent = '✨ 补给线全满 (6/6)';
+          supplyHint.textContent = '今日生存底线与加分补给已全部蓄满！';
+        } else {
+          supplyBar.classList.add('blue');
+          supplyBadge.classList.add('blue');
+          supplyBadge.textContent = `最低补给已达成 (3/3)`;
+          supplyHint.textContent = `基本盘已稳！完成加分项可继续推进充能 (${bonusSupplyCount}/3)`;
+        }
+      }
+      document.getElementById('supplyCountText').textContent = `今日 ${totalTodaySupply} / 6 项`;
+
+      // 铁片按钮UI
+      const btnIron = document.getElementById('btnIron');
+      const ironDots = document.getElementById('ironDots').querySelectorAll('.dot');
+      btnIron.classList.remove('active', 'active-blue', 'partial-red');
+      ironDots.forEach((dot, idx) => {
+        dot.className = 'dot';
+        if (idx < todayIron) {
+          dot.classList.add(todayIron === 2 ? 'filled-blue' : 'filled-red');
+        }
       });
-      const wallLogsCount = state.logs.filter(l => l.category === 'wall').length;
-      shieldPts += wallLogsCount;
+      if (todayIron === 2) btnIron.classList.add('active-blue');
+      else if (todayIron === 1) btnIron.classList.add('partial-red');
+      document.getElementById('ironDesc').textContent = `点击循环计数：今日 ${todayIron}/2 次`;
 
-      document.getElementById('statBlood').textContent = bloodPts;
-      document.getElementById('statFocus').textContent = focusPts;
-      document.getElementById('statShield').textContent = shieldPts;
+      setToggleBtnState('btnInhaler', 'tagInhaler', todayInhaler === 1, 'active-blue');
+      setToggleBtnState('btnSleep', 'tagSleep', todaySleep === 1, 'active');
+      setToggleBtnState('btnVitamin', 'tagVitamin', todayVitamin === 1, 'active');
+      setToggleBtnState('btnFitness', 'tagFitness', todayFitness === 1, 'active');
 
-      const totalExp = bloodPts + focusPts + shieldPts;
-      document.getElementById('baseLevel').textContent = Math.floor(totalExp / 10) + 1;
+      // 计算并更新反应堆「今日综合充能度 %」
+      const todayResearch = getDayCount(todayKey, 'research');
+      const todayCanteen = canteenLogs.filter(l => l.fullDate === todayKey || l.date === todayKey.slice(5)).length;
+      const todayExtraAct =
+        (todayResearch > 0 ? 1 : 0) +
+        (todayCanteen > 0 ? 1 : 0) +
+        (todayArr.includes('social_guard') ? 1 : 0) +
+        ((todayArr.includes('craft') || todayArr.includes('boutique') || todayArr.includes('foodie') || todayArr.includes('journal')) ? 1 : 0) +
+        ((todayArr.includes('shop') || todayArr.includes('organize') || todayArr.includes('declutter')) ? 1 : 0);
 
-      // 渲染日志列表
-      const wallList = document.getElementById('wallList');
-      const techList = document.getElementById('techList');
-      wallList.innerHTML = '';
-      techList.innerHTML = '';
+      // 最低补给占 45%，补给加分占 25%，其余模块日常行动占 30%
+      const todayChargePct = Math.min(
+        100,
+        Math.round((minSupplyCount / 3) * 45 + (bonusSupplyCount / 3) * 25 + Math.min(3, todayExtraAct) * 10)
+      );
+      document.getElementById('todayChargeVal').textContent = `${todayChargePct}%`;
 
-      state.logs.forEach(log => {
+      const statusTextEl = document.getElementById('reactorStatusText');
+      if (todayChargePct === 0) {
+        statusTextEl.textContent = '待启动：从最低补给开始今日供能';
+      } else if (minSupplyCount < 3) {
+        statusTextEl.textContent = `供能预热中：最低补给还差 ${3 - minSupplyCount} 项`;
+      } else if (todayChargePct < 85) {
+        statusTextEl.textContent = '蓝光稳固：最低补给已达成，按自己节奏推进';
+      } else {
+        statusTextEl.textContent = '✨ 满载运行：今天也把生活照顾得很好！';
+      }
+
+      // 3. 渲染基地研发中心（每 6 EXP 升 1 级）
+      const resLv = Math.floor(researchExp / 6) + 1;
+      const resRem = researchExp % 6;
+      document.getElementById('researchLevelBadge').textContent = `研发中心 Lv.${resLv}`;
+      document.getElementById('researchBarFill').style.width = `${Math.round((resRem / 6) * 100)}%`;
+      document.getElementById('researchExpMeta').textContent = `${resRem} / 6 EXP (总 ${researchExp})`;
+      document.getElementById('todayResearchUnits').textContent = todayResearch;
+      document.getElementById('todayResearchHours').textContent = todayResearch * 2;
+      document.getElementById('totalResearchHoursText').textContent = `历史累计 ${totalResearchUnits * 2}h`;
+      document.getElementById('undoResearchBtn').disabled = todayResearch <= 0;
+
+      // 4. 渲染基地食堂（每 5 EXP 升 1 级）
+      const canLv = Math.floor(canteenExp / 5) + 1;
+      const canRem = canteenExp % 5;
+      document.getElementById('canteenLevelBadge').textContent = `基地食堂 Lv.${canLv}`;
+      document.getElementById('canteenBarFill').style.width = `${Math.round((canRem / 5) * 100)}%`;
+      document.getElementById('canteenCountMeta').textContent = `累计做饭 ${canteenLogs.length} 顿 · 今日 ${todayCanteen} 顿`;
+      document.getElementById('canteenExpMeta').textContent = `${canRem} / 5 EXP`;
+
+      // 5. 渲染围墙防御战绩（每 5 EXP 升 1 级）
+      const wallLv = Math.floor(wallExp / 5) + 1;
+      const wallRem = wallExp % 5;
+      document.getElementById('wallLevelBadge').textContent = `围墙防御 Lv.${wallLv}`;
+      document.getElementById('wallBarFill').style.width = `${Math.round((wallRem / 5) * 100)}%`;
+      document.getElementById('wallExpMeta').textContent = `${wallRem} / 5 EXP (总 ${wallExp})`;
+      setToggleBtnState('btnSocialGuard', 'tagSocialGuard', todayArr.includes('social_guard'), 'active');
+
+      // 6. 渲染游乐园（每 5 EXP 升 1 级）
+      const parkLv = Math.floor(parkExp / 5) + 1;
+      const parkRem = parkExp % 5;
+      document.getElementById('parkLevelBadge').textContent = `娱乐设施 Lv.${parkLv}`;
+      document.getElementById('parkBarFill').style.width = `${Math.round((parkRem / 5) * 100)}%`;
+      document.getElementById('parkExpMeta').textContent = `${parkRem} / 5 EXP (总 ${parkExp})`;
+      setToggleBtnState('btnCraft', 'tagCraft', todayArr.includes('craft'), 'active');
+      setToggleBtnState('btnBoutique', 'tagBoutique', todayArr.includes('boutique'), 'active');
+      setToggleBtnState('btnFoodie', 'tagFoodie', todayArr.includes('foodie'), 'active');
+      setToggleBtnState('btnJournal', 'tagJournal', todayArr.includes('journal'), 'active');
+
+      // 7. 渲染仓库（每 5 EXP 升 1 级）
+      const whLv = Math.floor(warehouseExp / 5) + 1;
+      const whRem = warehouseExp % 5;
+      document.getElementById('warehouseLevelBadge').textContent = `基地仓库 Lv.${whLv}`;
+      document.getElementById('warehouseBarFill').style.width = `${Math.round((whRem / 5) * 100)}%`;
+      document.getElementById('warehouseExpMeta').textContent = `${whRem} / 5 EXP (总 ${warehouseExp})`;
+      setToggleBtnState('btnShop', 'tagShop', todayArr.includes('shop'), 'active');
+      setToggleBtnState('btnOrganize', 'tagOrganize', todayArr.includes('organize'), 'active');
+      setToggleBtnState('btnDeclutter', 'tagDeclutter', todayArr.includes('declutter'), 'active');
+
+      // 8. 渲染基地维护（自然周统计 + 三态环境预警）
+      const weekMaintTotal = weekClean + weekLaundry + weekTrash;
+      const maintBar = document.getElementById('maintBarFill');
+      const maintBadge = document.getElementById('maintStatusBadge');
+
+      maintBar.className = 'bar-fill';
+      maintBadge.className = 'level-pill';
+
+      const maintPct = Math.min(100, Math.round((weekMaintTotal / 5) * 100));
+      maintBar.style.width = `${maintPct}%`;
+
+      if (weekMaintTotal === 0) {
+        maintBar.classList.add('red');
+        maintBadge.classList.add('red');
+        maintBadge.textContent = '🚨 红警：本周基地尚未维护';
+      } else if (weekMaintTotal <= 3) {
+        maintBar.classList.add('amber');
+        maintBadge.classList.add('amber');
+        maintBadge.textContent = `⚠️ 需注意：已维护 ${weekMaintTotal} 次（满 4 次良好）`;
+      } else {
+        maintBar.classList.add('green');
+        maintBadge.classList.add('green');
+        maintBadge.textContent = '✅ 基地环境良好';
+      }
+
+      document.getElementById('maintWeekMeta').textContent = `本周累计：${weekMaintTotal} 次（满 4 次环境良好）`;
+      document.getElementById('maintExpMeta').textContent = `历史维护：${maintExp} EXP`;
+
+      const todayClean = getDayCount(todayKey, 'clean');
+      const todayLaundry = getDayCount(todayKey, 'laundry');
+      const todayTrash = getDayCount(todayKey, 'trash');
+
+      updateMaintCard('btnClean', 'tagClean', 'descClean', 'undoCleanBtn', weekClean, todayClean);
+      updateMaintCard('btnLaundry', 'tagLaundry', 'descLaundry', 'undoLaundryBtn', weekLaundry, todayLaundry);
+      updateMaintCard('btnTrash', 'tagTrash', 'descTrash', 'undoTrashBtn', weekTrash, todayTrash);
+
+      // 渲染四条文本记录列表
+      renderLogList('techList', techLogs, '');
+      renderLogList('canteenList', canteenLogs, 'canteen');
+      renderLogList('wallList', wallLogs, 'wall');
+      renderLogList('parkList', parkLogs, 'park');
+    }
+
+    function updateMaintCard(btnId, tagId, descId, undoId, weekCount, todayCount) {
+      const btn = document.getElementById(btnId);
+      btn.classList.toggle('active', todayCount > 0);
+      document.getElementById(tagId).textContent = `本周 ${weekCount}`;
+      document.getElementById(descId).textContent = `今日 ${todayCount} 次 · 点+1`;
+      document.getElementById(undoId).disabled = todayCount <= 0;
+    }
+
+    function renderLogList(ulId, items, extraClass) {
+      const ul = document.getElementById(ulId);
+      ul.innerHTML = '';
+      items.forEach(log => {
         const li = document.createElement('li');
-        li.className = 'log-item' + (log.category === 'wall' ? ' wall' : '');
-        li.innerHTML = `<span>${log.text}</span><div><span class="log-date">${log.date}</span><button class="del-btn" onclick="deleteLog(${log.id})">×</button></div>`;
-        if (log.category === 'wall') wallList.appendChild(li);
-        else techList.appendChild(li);
+        li.className = 'log-item' + (extraClass ? ` ${extraClass}` : '');
+        li.innerHTML = `
+          <span class="log-text">${escapeHtml(log.text)}</span>
+          <div class="log-right">
+            <span class="log-date">${escapeHtml(log.date || '')}</span>
+            <button class="del-btn" title="删除记录" onclick="deleteLog(${log.id})">×</button>
+          </div>
+        `;
+        ul.appendChild(li);
       });
     }
 
     function exportData() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
+      const jsonStr = JSON.stringify(state, null, 2);
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(jsonStr);
       const a = document.createElement('a');
       a.setAttribute("href", dataStr);
       a.setAttribute("download", `base_backup_${todayKey}.json`);
@@ -298,17 +1377,24 @@
     }
 
     function importData() {
-      const raw = prompt("请粘贴之前备份的 JSON 文本内容：");
+      const raw = prompt("请粘贴之前备份的 JSON 文本内容（兼容旧版与新版备份）：");
       if (!raw) return;
       try {
         const parsed = JSON.parse(raw);
-        if (parsed.daily && parsed.logs) {
+        if (parsed && typeof parsed === 'object' && (parsed.daily || parsed.logs)) {
+          if (!parsed.daily) parsed.daily = {};
+          if (!parsed.dailyCounts) parsed.dailyCounts = {};
+          if (!Array.isArray(parsed.logs)) parsed.logs = [];
+          if (!Array.isArray(parsed.daily[todayKey])) parsed.daily[todayKey] = [];
+          if (!parsed.dailyCounts[todayKey]) parsed.dailyCounts[todayKey] = {};
           state = parsed;
           saveState();
-          alert("基地数据恢复成功！");
+          alert("基地数据恢复成功！所有历史记录与等级已完整保留。");
+        } else {
+          alert("数据结构不完整，请确认粘贴的是基地备份 JSON。");
         }
       } catch (e) {
-        alert("格式有误，请检查粘贴内容。");
+        alert("JSON 格式有误，请检查粘贴内容是否完整。");
       }
     }
 
