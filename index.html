@@ -130,6 +130,15 @@
       margin-bottom: 10px;
       gap: 8px;
     }
+    .card-header.clickable {
+      cursor: pointer;
+      padding: 2px 0;
+      border-radius: 8px;
+      transition: opacity 0.18s ease;
+    }
+    .card-header.clickable:active {
+      opacity: 0.72;
+    }
     .card-title {
       font-size: 0.95rem;
       font-weight: 700;
@@ -138,6 +147,22 @@
       align-items: center;
       gap: 6px;
     }
+    .header-right-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .enter-hint {
+      font-size: 0.72rem;
+      color: var(--accent-pink);
+      background: rgba(244, 143, 177, 0.12);
+      border: 1px solid rgba(244, 143, 177, 0.28);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
     .level-pill {
       font-size: 0.72rem;
       font-weight: 700;
@@ -182,31 +207,17 @@
       transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1), background 0.35s ease, box-shadow 0.35s ease;
       background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
     }
-    .bar-fill.red {
-      background: linear-gradient(90deg, #d9534f, var(--accent-red));
-    }
-    .bar-fill.blue {
-      background: linear-gradient(90deg, #3a86ff, var(--accent-blue));
-    }
+    .bar-fill.red { background: linear-gradient(90deg, #d9534f, var(--accent-red)); }
+    .bar-fill.blue { background: linear-gradient(90deg, #3a86ff, var(--accent-blue)); }
     .bar-fill.blue-max {
       background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan), var(--accent-green));
       box-shadow: 0 0 12px rgba(78, 168, 222, 0.55);
     }
-    .bar-fill.amber {
-      background: linear-gradient(90deg, #e09f3e, var(--accent-amber));
-    }
-    .bar-fill.green {
-      background: linear-gradient(90deg, #2ec4b6, var(--accent-green));
-    }
-    .bar-fill.purple {
-      background: linear-gradient(90deg, #7b68ee, var(--accent-purple));
-    }
-    .bar-fill.pink {
-      background: linear-gradient(90deg, #e56b9f, var(--accent-pink));
-    }
-    .bar-fill.cyan {
-      background: linear-gradient(90deg, #38b6ff, var(--accent-cyan));
-    }
+    .bar-fill.amber { background: linear-gradient(90deg, #e09f3e, var(--accent-amber)); }
+    .bar-fill.green { background: linear-gradient(90deg, #2ec4b6, var(--accent-green)); }
+    .bar-fill.purple { background: linear-gradient(90deg, #7b68ee, var(--accent-purple)); }
+    .bar-fill.pink { background: linear-gradient(90deg, #e56b9f, var(--accent-pink)); }
+    .bar-fill.cyan { background: linear-gradient(90deg, #38b6ff, var(--accent-cyan)); }
 
     .bar-meta {
       display: flex;
@@ -279,25 +290,11 @@
       position: relative;
       min-width: 0;
     }
-    .task-btn:active {
-      transform: scale(0.98);
-    }
-    .task-btn.active {
-      border-color: var(--accent-green);
-      background: rgba(56, 211, 159, 0.11);
-    }
-    .task-btn.active-blue {
-      border-color: var(--accent-blue);
-      background: rgba(78, 168, 222, 0.13);
-    }
-    .task-btn.active-cyan {
-      border-color: var(--accent-cyan);
-      background: rgba(86, 207, 225, 0.12);
-    }
-    .task-btn.partial-red {
-      border-color: rgba(242, 132, 130, 0.65);
-      background: rgba(242, 132, 130, 0.1);
-    }
+    .task-btn:active { transform: scale(0.98); }
+    .task-btn.active { border-color: var(--accent-green); background: rgba(56, 211, 159, 0.11); }
+    .task-btn.active-blue { border-color: var(--accent-blue); background: rgba(78, 168, 222, 0.13); }
+    .task-btn.active-cyan { border-color: var(--accent-cyan); background: rgba(86, 207, 225, 0.12); }
+    .task-btn.partial-red { border-color: rgba(242, 132, 130, 0.65); background: rgba(242, 132, 130, 0.1); }
     .task-name {
       font-size: 0.84rem;
       font-weight: 600;
@@ -321,37 +318,20 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
-    .task-btn.active .task-tag {
-      background: rgba(56, 211, 159, 0.2);
-      color: var(--accent-green);
-    }
-    .task-btn.active-blue .task-tag {
-      background: rgba(78, 168, 222, 0.22);
-      color: var(--accent-blue);
-    }
-    .task-btn.active-cyan .task-tag {
-      background: rgba(86, 207, 225, 0.22);
-      color: var(--accent-cyan);
-    }
-    .task-btn.partial-red .task-tag {
-      background: rgba(242, 132, 130, 0.22);
-      color: var(--accent-red);
-    }
+    .task-btn.active .task-tag { background: rgba(56, 211, 159, 0.2); color: var(--accent-green); }
+    .task-btn.active-blue .task-tag { background: rgba(78, 168, 222, 0.22); color: var(--accent-blue); }
+    .task-btn.active-cyan .task-tag { background: rgba(86, 207, 225, 0.22); color: var(--accent-cyan); }
+    .task-btn.partial-red .task-tag { background: rgba(242, 132, 130, 0.22); color: var(--accent-red); }
 
     /* 三列网格专属单行防折行优化（适配 iPhone 竖屏） */
-    .three-col .task-btn {
-      padding: 9px 7px;
-    }
+    .three-col .task-btn { padding: 9px 7px; }
     .three-col .task-name {
       font-size: 0.74rem;
       white-space: nowrap;
       letter-spacing: -0.2px;
       gap: 2px;
     }
-    .three-col .task-tag {
-      font-size: 0.62rem;
-      padding: 1px 4px;
-    }
+    .three-col .task-tag { font-size: 0.62rem; padding: 1px 4px; }
     .three-col .task-desc {
       font-size: 0.68rem;
       white-space: nowrap;
@@ -360,11 +340,7 @@
     }
 
     /* 铁剂双胶囊指示器 */
-    .dots {
-      display: inline-flex;
-      gap: 4px;
-      align-items: center;
-    }
+    .dots { display: inline-flex; gap: 4px; align-items: center; }
     .dot {
       width: 7px;
       height: 7px;
@@ -392,10 +368,7 @@
       align-items: center;
       font-size: 0.8rem;
     }
-    .pulse-actions {
-      display: flex;
-      gap: 8px;
-    }
+    .pulse-actions { display: flex; gap: 8px; }
     .primary-pulse-btn {
       flex: 1;
       background: linear-gradient(90deg, rgba(157, 141, 241, 0.25), rgba(78, 168, 222, 0.25));
@@ -419,12 +392,9 @@
       font-weight: 600;
       cursor: pointer;
     }
-    .undo-btn:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-    }
+    .undo-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
-    /* 带撤回按钮的计次卡片（维护 & 洗浴） */
+    /* 带撤回按钮的计次卡片 */
     .maint-card-wrap {
       display: flex;
       flex-direction: column;
@@ -441,10 +411,7 @@
       cursor: pointer;
       text-align: center;
     }
-    .maint-undo:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
+    .maint-undo:disabled { opacity: 0.3; cursor: not-allowed; }
 
     /* 输入框与记录列表 */
     .input-row {
@@ -452,8 +419,8 @@
       gap: 8px;
       margin-top: 8px;
     }
-    input[type="text"] {
-      flex: 1;
+    input[type="text"], textarea {
+      width: 100%;
       min-width: 0;
       background: #10131a;
       border: 1px solid var(--card-border);
@@ -463,8 +430,13 @@
       font-size: 0.82rem;
       outline: none;
     }
-    input[type="text"]:focus {
+    input[type="text"]:focus, textarea:focus {
       border-color: var(--accent-blue);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 66px;
+      line-height: 1.5;
     }
     button.add-btn {
       background: var(--accent-blue);
@@ -490,9 +462,7 @@
       overflow-y: auto;
       margin-top: 9px;
     }
-    .log-list:empty {
-      display: none;
-    }
+    .log-list:empty { display: none; }
     .log-item {
       background: var(--card-inner);
       padding: 7px 10px;
@@ -507,21 +477,9 @@
     .log-item.wall { border-left-color: var(--accent-amber); }
     .log-item.canteen { border-left-color: var(--accent-green); }
     .log-item.park { border-left-color: var(--accent-pink); }
-    .log-text {
-      word-break: break-word;
-      flex: 1;
-    }
-    .log-right {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-    .log-date {
-      font-size: 0.7rem;
-      color: var(--text-sub);
-      font-variant-numeric: tabular-nums;
-    }
+    .log-text { word-break: break-word; flex: 1; }
+    .log-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .log-date { font-size: 0.7rem; color: var(--text-sub); font-variant-numeric: tabular-nums; }
     .del-btn {
       background: none;
       border: none;
@@ -532,17 +490,309 @@
       line-height: 1;
     }
 
+    /* 视图显隐控制 */
+    .view-section { display: none; }
+    .view-section.active { display: block; }
+
     /* 周期统计占位视图（页面2） */
     .placeholder-view {
-      display: none;
       text-align: center;
       padding: 36px 18px;
     }
-    .placeholder-view.active {
+
+    /* ================= 游乐园专属详情子页面样式 ================= */
+    .subpage-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      gap: 8px;
+    }
+    .back-btn {
+      background: rgba(244, 143, 177, 0.14);
+      border: 1px solid rgba(244, 143, 177, 0.38);
+      color: var(--accent-pink);
+      border-radius: 8px;
+      padding: 6px 11px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .back-btn:active { transform: scale(0.97); }
+    .subpage-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* 16:9 场景橱窗 */
+    .stage-showcase {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 12px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #251d2e, #1a2234);
+      border: 1px solid rgba(244, 143, 177, 0.3);
+      margin-bottom: 12px;
+    }
+    .stage-showcase img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       display: block;
     }
-    .main-view.hidden {
+    .stage-fallback {
+      position: absolute;
+      inset: 0;
       display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 16px;
+      background: radial-gradient(circle at top right, rgba(244, 143, 177, 0.22), rgba(20, 24, 34, 0.95));
+      color: var(--text-main);
+    }
+    .stage-fallback.visible {
+      display: flex;
+    }
+    .stage-overlay-badge {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+      background: rgba(18, 21, 28, 0.82);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(244, 143, 177, 0.4);
+      color: #ffd6e5;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    /* 周/月数据统计网格 */
+    .park-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .park-stat-cell {
+      background: var(--card-inner);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 8px 4px;
+      text-align: center;
+    }
+    .park-stat-icon { font-size: 1rem; margin-bottom: 2px; }
+    .park-stat-name { font-size: 0.68rem; color: var(--text-sub); margin-bottom: 4px; }
+    .park-stat-nums {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-main);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.35;
+    }
+    .park-stat-nums span {
+      display: block;
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: var(--accent-pink);
+    }
+
+    /* 手账发布区 */
+    .type-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .type-chip {
+      background: var(--card-inner);
+      border: 1px solid var(--card-border);
+      color: var(--text-sub);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+    .type-chip.active {
+      background: rgba(244, 143, 177, 0.18);
+      border-color: var(--accent-pink);
+      color: #ffd6e5;
+    }
+    .journal-form-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: var(--card-inner);
+      border: 1px solid var(--card-border);
+      border-radius: 11px;
+      padding: 11px;
+      margin-bottom: 12px;
+    }
+    .photo-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .photo-pick-btn {
+      background: #1e2433;
+      border: 1px dashed rgba(244, 143, 177, 0.5);
+      color: #ffd6e5;
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .preview-box {
+      position: relative;
+      display: none;
+      width: 96px;
+      height: 72px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--accent-pink);
+    }
+    .preview-box.active { display: block; }
+    .preview-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .preview-clear {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      font-size: 0.75rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    /* 图文手账卡片流 */
+    .journal-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .journal-card {
+      background: var(--card-inner);
+      border: 1px solid var(--card-border);
+      border-left: 3px solid var(--accent-pink);
+      border-radius: 11px;
+      padding: 11px 12px;
+    }
+    .journal-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .journal-type-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(244, 143, 177, 0.16);
+      color: var(--accent-pink);
+    }
+    .journal-card-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+    .journal-card-desc {
+      font-size: 0.8rem;
+      color: #c5cde0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    .journal-card-img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 9px;
+      border: 1px solid var(--card-border);
+      margin-bottom: 8px;
+      cursor: zoom-in;
+      display: block;
+    }
+    .journal-card-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      border-top: 1px solid rgba(42, 50, 66, 0.65);
+      padding-top: 7px;
+    }
+    .mini-action-btn {
+      background: #1b202b;
+      border: 1px solid var(--card-border);
+      color: var(--text-sub);
+      border-radius: 6px;
+      padding: 3px 9px;
+      font-size: 0.72rem;
+      cursor: pointer;
+    }
+    .mini-action-btn:hover { color: var(--text-main); }
+    .mini-action-btn.danger:hover { color: var(--accent-red); border-color: rgba(242, 132, 130, 0.4); }
+
+    /* 弹窗（编辑手账 & 大图灯箱） */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 10, 14, 0.82);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      z-index: 999;
+    }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .modal-box {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 16px;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+    }
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 82vh;
+      border-radius: 10px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
     }
 
     /* 底部数据管理 */
@@ -568,6 +818,11 @@
       color: var(--text-main);
       border-color: var(--text-sub);
     }
+    .tool-btn.pink-export {
+      background: rgba(244, 143, 177, 0.14);
+      border-color: rgba(244, 143, 177, 0.38);
+      color: #ffd6e5;
+    }
   </style>
 </head>
 <body>
@@ -580,14 +835,14 @@
   <!-- 置顶温暖标语 -->
   <div class="motto-banner">✨ 在没有办法的日子里也要好好生活</div>
 
-  <!-- 页面切换预留栏 -->
-  <div class="nav-tabs">
+  <!-- 主导航切换标签栏（子页面激活时隐藏） -->
+  <div class="nav-tabs" id="mainNavTabs">
     <button class="nav-tab active" id="tabPage1" onclick="switchPage(1)">🎛️ 基地总控台</button>
     <button class="nav-tab" id="tabPage2" onclick="switchPage(2)">📊 周期统计（敬请期待）</button>
   </div>
 
   <!-- ================= 页面 1：基地总控台 ================= -->
-  <div class="main-view" id="page1View">
+  <div class="view-section active" id="page1View">
 
     <!-- 1. 主反应堆充能状态 -->
     <div class="card">
@@ -818,21 +1073,24 @@
       <ul class="log-list" id="wallList"></ul>
     </div>
 
-    <!-- 7. 游乐园 -->
+    <!-- 7. 游乐园（点击标题区域进入专属详情页） -->
     <div class="card">
-      <div class="card-header">
+      <div class="card-header clickable" onclick="openParkDetail()" title="点击进入游乐园建设档案">
         <span class="card-title">🎡 游乐园</span>
-        <span class="level-pill pink" id="parkLevelBadge">娱乐设施 Lv.1</span>
+        <div class="header-right-group">
+          <span class="level-pill pink" id="parkLevelBadge">娱乐设施 Lv.1</span>
+          <span class="enter-hint">进入乐园 ›</span>
+        </div>
       </div>
       <div class="bar-wrap">
         <div class="bar-fill pink" id="parkBarFill" style="width: 0%;"></div>
       </div>
       <div class="bar-meta">
-        <span>收集生活中的小确幸（每项 +1 EXP）</span>
+        <span>收集生活中的小确幸（点击标题看图与手账）</span>
         <span id="parkExpMeta">0 / 5 EXP</span>
       </div>
       <div class="task-grid">
-        <button class="task-btn" id="btnCraft" onclick="toggleDailyTask('craft')">
+        <button class="task-btn" id="btnCraft" onclick="toggleParkDailyTask('craft')">
           <div class="task-name">
             <span>🧶 乐园手作屋</span>
             <span class="task-tag" id="tagCraft">0/1</span>
@@ -840,7 +1098,7 @@
           <div class="task-desc">当天进行手工制作</div>
         </button>
 
-        <button class="task-btn" id="btnBoutique" onclick="toggleDailyTask('boutique')">
+        <button class="task-btn" id="btnBoutique" onclick="toggleParkDailyTask('boutique')">
           <div class="task-name">
             <span>🛍️ 乐园精品店</span>
             <span class="task-tag" id="tagBoutique">0/1</span>
@@ -848,7 +1106,7 @@
           <div class="task-desc">买到喜欢的东西</div>
         </button>
 
-        <button class="task-btn" id="btnFoodie" onclick="toggleDailyTask('foodie')">
+        <button class="task-btn" id="btnFoodie" onclick="toggleParkDailyTask('foodie')">
           <div class="task-name">
             <span>🍜 乐园美味屋</span>
             <span class="task-tag" id="tagFoodie">0/1</span>
@@ -856,7 +1114,7 @@
           <div class="task-desc">外出觅食探索美味</div>
         </button>
 
-        <button class="task-btn" id="btnJournal" onclick="toggleDailyTask('journal')">
+        <button class="task-btn" id="btnJournal" onclick="toggleParkDailyTask('journal')">
           <div class="task-name">
             <span>📔 乐园纪念馆</span>
             <span class="task-tag" id="tagJournal">0/1</span>
@@ -963,7 +1221,7 @@
   </div>
 
   <!-- ================= 页面 2：周期统计占位 ================= -->
-  <div class="card placeholder-view" id="page2View">
+  <div class="card view-section placeholder-view" id="page2View">
     <div style="font-size: 2rem; margin-bottom: 10px;">📈</div>
     <h2 style="font-size: 1.05rem; margin-bottom: 8px;">周期成果统计中心（建设中）</h2>
     <p style="font-size: 0.82rem; color: var(--text-sub); margin-bottom: 16px;">
@@ -972,14 +1230,153 @@
     <button class="add-btn" style="padding: 9px 18px;" onclick="switchPage(1)">返回基地总控台</button>
   </div>
 
-  <!-- 底部数据备份与恢复 -->
-  <div class="footer-tools">
+  <!-- ================= 子页面：游乐园建设档案 ================= -->
+  <div class="view-section" id="parkDetailView">
+
+    <!-- 顶部返回导航栏 -->
+    <div class="subpage-topbar">
+      <button class="back-btn" onclick="closeParkDetail()">← 返回基地总控</button>
+      <span class="subpage-title">🎡 游乐园 · 建设档案</span>
+    </div>
+
+    <!-- 1. 顶部：随等级进化的 16:9 场景橱窗 -->
+    <div class="card">
+      <div class="stage-showcase">
+        <img id="parkStageImg" src="park_s1.jpeg" alt="游乐园场景" onload="handleStageImgLoad()" onerror="handleStageImgError()" />
+        <div class="stage-fallback" id="parkStageFallback">
+          <div style="font-size: 2rem; margin-bottom: 6px;">🎡</div>
+          <div id="parkFallbackTitle" style="font-weight: 700; font-size: 0.92rem;">Lv.1 荒地初开</div>
+          <div style="font-size: 0.72rem; color: var(--text-sub); margin-top: 4px;">将对应阶段插画上传至仓库根目录即可自动展示</div>
+        </div>
+        <div class="stage-overlay-badge" id="parkStageOverlayBadge">Lv.1 · 荒地初开</div>
+      </div>
+
+      <div class="card-header" style="margin-bottom: 6px;">
+        <span class="level-pill pink" id="detailParkLvBadge">娱乐设施 Lv.1</span>
+        <span class="card-subtitle" id="detailParkNextHint">距离下一级还需 5 EXP</span>
+      </div>
+      <div class="bar-wrap" style="margin-bottom: 4px;">
+        <div class="bar-fill pink" id="detailParkBarFill" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- 2. 中部：本周 & 本月数据总结看板 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">📊 快乐足迹汇总</span>
+        <span class="level-pill pink" id="parkPeriodTotalBadge">本周 0 次 · 本月 0 次</span>
+      </div>
+      <div class="park-stats-grid" id="parkStatsGrid">
+        <!-- 由 JS 动态填充 5 项 -->
+      </div>
+    </div>
+
+    <!-- 3. 下部：图文手账档案流（新增 + 历史追加图文） -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">📸 乐园图文手账档案</span>
+        <span class="card-subtitle" id="parkJournalCount">共 0 条记录</span>
+      </div>
+
+      <!-- 新建图文记录表单 -->
+      <div class="journal-form-stack">
+        <div class="type-selector" id="newParkTypeSelector">
+          <button type="button" class="type-chip active" data-type="surprise" onclick="selectNewParkType('surprise')">🎁 惊喜</button>
+          <button type="button" class="type-chip" data-type="craft" onclick="selectNewParkType('craft')">🧶 手作</button>
+          <button type="button" class="type-chip" data-type="boutique" onclick="selectNewParkType('boutique')">🛍️ 精品</button>
+          <button type="button" class="type-chip" data-type="foodie" onclick="selectNewParkType('foodie')">🍜 美味</button>
+          <button type="button" class="type-chip" data-type="journal" onclick="selectNewParkType('journal')">📔 纪念</button>
+        </div>
+
+        <input type="text" id="newParkTitle" placeholder="记录标题（如：织完了一条围巾 / 吃到超棒的拉面）" />
+        <textarea id="newParkDesc" placeholder="写下详细描述、心情或过程记录（选填）..."></textarea>
+
+        <div class="photo-toolbar">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <input type="file" id="newParkPhotoInput" accept="image/*" style="display: none;" onchange="handlePhotoSelected(event, 'new')" />
+            <button type="button" class="photo-pick-btn" onclick="document.getElementById('newParkPhotoInput').click()">📷 添加照片</button>
+            <div class="preview-box" id="newPhotoPreviewBox">
+              <img id="newPhotoPreviewImg" src="" alt="预览" />
+              <button type="button" class="preview-clear" onclick="clearSelectedPhoto('new')">×</button>
+            </div>
+          </div>
+          <button type="button" class="add-btn pink" style="padding: 8px 14px;" onclick="submitNewParkJournal()">✨ 保存手账</button>
+        </div>
+      </div>
+
+      <!-- 档案时间轴列表 -->
+      <div class="journal-feed" id="parkJournalFeed"></div>
+    </div>
+
+    <!-- 4. 底部：一键导出乐园手账 -->
+    <div class="footer-tools" style="margin-bottom: 10px;">
+      <button class="tool-btn pink-export" onclick="exportParkJournalHtml()">📤 一键导出乐园图文手账 (.html)</button>
+      <button class="tool-btn" onclick="copyParkSummaryText()">📋 复制纯文本总结</button>
+    </div>
+
+  </div>
+
+  <!-- 底部全局数据备份与恢复 -->
+  <div class="footer-tools" id="globalFooterTools">
     <button class="tool-btn" onclick="exportData()">📤 导出备份 JSON</button>
     <button class="tool-btn" onclick="importData()">📥 导入恢复数据</button>
   </div>
 
+  <!-- 编辑/补充图文弹窗 -->
+  <div class="modal-backdrop" id="parkEditModal" onclick="closeEditModalOnBackdrop(event)">
+    <div class="modal-box">
+      <div class="card-header">
+        <span class="card-title">✏️ 编辑 / 追加图文记录</span>
+        <button class="del-btn" style="font-size: 1.2rem;" onclick="closeParkEditModal()">×</button>
+      </div>
+      <div class="journal-form-stack" style="margin-bottom: 0;">
+        <div class="type-selector" id="editParkTypeSelector">
+          <button type="button" class="type-chip" data-type="surprise" onclick="selectEditParkType('surprise')">🎁 惊喜</button>
+          <button type="button" class="type-chip" data-type="craft" onclick="selectEditParkType('craft')">🧶 手作</button>
+          <button type="button" class="type-chip" data-type="boutique" onclick="selectEditParkType('boutique')">🛍️ 精品</button>
+          <button type="button" class="type-chip" data-type="foodie" onclick="selectEditParkType('foodie')">🍜 美味</button>
+          <button type="button" class="type-chip" data-type="journal" onclick="selectEditParkType('journal')">📔 纪念</button>
+        </div>
+        <input type="text" id="editParkTitle" placeholder="记录标题" />
+        <textarea id="editParkDesc" placeholder="补充详细描述或心情心得..."></textarea>
+        <div class="photo-toolbar">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <input type="file" id="editParkPhotoInput" accept="image/*" style="display: none;" onchange="handlePhotoSelected(event, 'edit')" />
+            <button type="button" class="photo-pick-btn" onclick="document.getElementById('editParkPhotoInput').click()">📷 上传/更换照片</button>
+            <div class="preview-box" id="editPhotoPreviewBox">
+              <img id="editPhotoPreviewImg" src="" alt="预览" />
+              <button type="button" class="preview-clear" onclick="clearSelectedPhoto('edit')">×</button>
+            </div>
+          </div>
+          <button type="button" class="add-btn pink" style="padding: 8px 14px;" onclick="saveEditedParkJournal()">保存修改</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 图片全屏预览灯箱 -->
+  <div class="modal-backdrop" id="imageLightboxModal" onclick="closeImageLightbox()">
+    <img id="lightboxPreviewImg" class="lightbox-img" src="" alt="查看大图" />
+  </div>
+
   <script>
     const STORAGE_KEY = 'my_base_v1';
+
+    const PARK_SUBTYPES = {
+      craft:    { label: '手作屋', icon: '🧶', defaultTitle: '🧶 乐园手作屋打卡' },
+      boutique: { label: '精品店', icon: '🛍️', defaultTitle: '🛍️ 乐园精品店打卡' },
+      foodie:   { label: '美味屋', icon: '🍜', defaultTitle: '🍜 乐园美味屋打卡' },
+      journal:  { label: '纪念馆', icon: '📔', defaultTitle: '📔 乐园纪念馆打卡' },
+      surprise: { label: '乐园惊喜', icon: '🎁', defaultTitle: '🎁 乐园惊喜' }
+    };
+
+    const PARK_STAGE_NAMES = {
+      1: '荒地初开',
+      2: '手作角落成',
+      3: '美味小推车',
+      4: '温暖手账亭',
+      5: '梦幻旋转木马'
+    };
 
     // 本地时区日期 YYYY-MM-DD（避免 UTC 跨日偏差）
     function getLocalDateKey(dateObj = new Date()) {
@@ -1000,6 +1397,22 @@
         keys.add(getLocalDateKey(d));
       }
       return keys;
+    }
+
+    // 获取当前自然月前缀 YYYY-MM
+    function getCurrentMonthPrefix(now = new Date()) {
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, '0');
+      return `${y}-${m}`;
+    }
+
+    // 推断任意 log 的完整 YYYY-MM-DD（兼容旧版只有 MM-DD 的记录）
+    function resolveLogFullDate(log) {
+      if (log.fullDate && /^\d{4}-\d{2}-\d{2}$/.test(log.fullDate)) return log.fullDate;
+      if (log.date && /^\d{2}-\d{2}$/.test(log.date)) {
+        return `${new Date().getFullYear()}-${log.date}`;
+      }
+      return todayKey;
     }
 
     const todayKey = getLocalDateKey();
@@ -1025,6 +1438,12 @@
     }
 
     let state = loadState();
+    let activeView = 'page1'; // 'page1' | 'page2' | 'parkDetail'
+    let newParkType = 'surprise';
+    let newParkImageData = '';
+    let editingParkLogId = null;
+    let editParkType = 'surprise';
+    let editParkImageData = '';
 
     // 兼容读取某天某计次项目的数值（无缝继承旧版 daily 中的 'iron' 和 'study'）
     function getDayCount(dateStr, key) {
@@ -1039,27 +1458,69 @@
     }
 
     function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {
+        if (e && (e.name === 'QuotaExceededError' || e.code === 22)) {
+          alert('⚠️ 浏览器本地存储空间已满！建议先点击底部「导出备份 JSON」或「导出乐园图文手账」，再清理部分旧照片释放空间。');
+        } else {
+          alert('保存数据时出现异常，请先导出备份。');
+        }
+        return false;
+      }
       render();
+      if (activeView === 'parkDetail') {
+        renderParkDetail();
+      }
+      return true;
     }
 
-    // 切换页面视图
+    // 主导航页切换（页面1 / 页面2）
     function switchPage(pageNum) {
       const p1 = document.getElementById('page1View');
       const p2 = document.getElementById('page2View');
+      const parkView = document.getElementById('parkDetailView');
       const t1 = document.getElementById('tabPage1');
       const t2 = document.getElementById('tabPage2');
+      const navTabs = document.getElementById('mainNavTabs');
+      const footerTools = document.getElementById('globalFooterTools');
+
+      navTabs.style.display = 'grid';
+      footerTools.style.display = 'flex';
+      parkView.classList.remove('active');
+
       if (pageNum === 1) {
-        p1.classList.remove('hidden');
+        activeView = 'page1';
+        p1.classList.add('active');
         p2.classList.remove('active');
         t1.classList.add('active');
         t2.classList.remove('active');
+        render();
       } else {
-        p1.classList.add('hidden');
+        activeView = 'page2';
+        p1.classList.remove('active');
         p2.classList.add('active');
         t1.classList.remove('active');
         t2.classList.add('active');
       }
+    }
+
+    // 打开游乐园专属详情子页面
+    function openParkDetail() {
+      activeView = 'parkDetail';
+      document.getElementById('page1View').classList.remove('active');
+      document.getElementById('page2View').classList.remove('active');
+      document.getElementById('mainNavTabs').style.display = 'none';
+      document.getElementById('globalFooterTools').style.display = 'none';
+      document.getElementById('parkDetailView').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      renderParkDetail();
+    }
+
+    // 返回基地总控台
+    function closeParkDetail() {
+      switchPage(1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // 铁片补给循环计数：0 -> 1 -> 2 -> 0
@@ -1080,6 +1541,56 @@
       const idx = list.indexOf(taskId);
       if (idx > -1) list.splice(idx, 1);
       else list.push(taskId);
+      saveState();
+    }
+
+    // 游乐园 4 项打卡切换（自动同步到乐园手账流）
+    function toggleParkDailyTask(subType) {
+      const list = state.daily[todayKey];
+      const idx = list.indexOf(subType);
+      const isTurningOn = idx === -1;
+
+      if (isTurningOn) {
+        list.push(subType);
+        // 检查今天是否已有对应的自动同步手账记录
+        const existing = state.logs.find(l =>
+          l.category === 'park' &&
+          l.subType === subType &&
+          resolveLogFullDate(l) === todayKey &&
+          l.autoSynced
+        );
+        if (!existing) {
+          const meta = PARK_SUBTYPES[subType] || PARK_SUBTYPES.surprise;
+          state.logs.unshift({
+            id: Date.now() + Math.floor(Math.random() * 1000),
+            category: 'park',
+            subType,
+            text: meta.defaultTitle,
+            desc: '',
+            image: '',
+            autoSynced: true,
+            date: todayKey.slice(5),
+            fullDate: todayKey
+          });
+        }
+      } else {
+        list.splice(idx, 1);
+        // 若取消勾选，检查对应的自动同步记录：无补充图文则移除，有图文则保留并解除 autoSynced 标记
+        const syncIdx = state.logs.findIndex(l =>
+          l.category === 'park' &&
+          l.subType === subType &&
+          resolveLogFullDate(l) === todayKey &&
+          l.autoSynced
+        );
+        if (syncIdx > -1) {
+          const target = state.logs[syncIdx];
+          if (!target.desc && !target.image) {
+            state.logs.splice(syncIdx, 1);
+          } else {
+            target.autoSynced = false;
+          }
+        }
+      }
       saveState();
     }
 
@@ -1117,25 +1628,40 @@
         if (!text) return;
       }
 
-      state.logs.unshift({
+      const logEntry = {
         id: Date.now() + Math.floor(Math.random() * 1000),
         category,
         text,
         date: todayKey.slice(5),
         fullDate: todayKey
-      });
+      };
+      if (category === 'park') {
+        logEntry.subType = 'surprise';
+        logEntry.desc = '';
+        logEntry.image = '';
+      }
+
+      state.logs.unshift(logEntry);
       input.value = '';
       saveState();
     }
 
     function deleteLog(id) {
+      const target = state.logs.find(item => item.id === id);
+      if (target && target.category === 'park' && target.autoSynced && target.subType) {
+        const dKey = resolveLogFullDate(target);
+        if (Array.isArray(state.daily[dKey])) {
+          const tIdx = state.daily[dKey].indexOf(target.subType);
+          if (tIdx > -1) state.daily[dKey].splice(tIdx, 1);
+        }
+      }
       state.logs = state.logs.filter(item => item.id !== id);
       saveState();
     }
 
     // 安全转义文本防 XSS
     function escapeHtml(str) {
-      return String(str)
+      return String(str || '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
@@ -1156,6 +1682,25 @@
       }
     }
 
+    // 统一计算游乐园经验与等级（避免主控台自动同步的手账重复计分）
+    function computeParkMetrics() {
+      let totalParkChecks = 0;
+      const allDateKeys = Object.keys(state.daily || {});
+      allDateKeys.forEach(dKey => {
+        const arr = Array.isArray(state.daily[dKey]) ? state.daily[dKey] : [];
+        if (arr.includes('craft')) totalParkChecks += 1;
+        if (arr.includes('boutique')) totalParkChecks += 1;
+        if (arr.includes('foodie')) totalParkChecks += 1;
+        if (arr.includes('journal')) totalParkChecks += 1;
+      });
+      const parkLogs = state.logs.filter(l => l.category === 'park');
+      const manualParkLogs = parkLogs.filter(l => !l.autoSynced);
+      const parkExp = (totalParkChecks + manualParkLogs.length) * 1;
+      const parkLv = Math.floor(parkExp / 5) + 1;
+      const parkRem = parkExp % 5;
+      return { parkExp, parkLv, parkRem, parkLogs };
+    }
+
     function render() {
       const todayArr = state.daily[todayKey] || [];
       const weekKeys = getCurrentWeekKeys();
@@ -1171,7 +1716,6 @@
       let totalSpaChecks = 0;      // 洗浴中心总打卡次（每项 +1 EXP）
       let totalResearchUnits = 0;  // 研发 2h 脉冲总次数（每次 +2 EXP）
       let totalWallChecks = 0;     // 围墙每日开关打卡（每次 +1 EXP）
-      let totalParkChecks = 0;     // 游乐园每日开关打卡（每次 +1 EXP）
       let totalWarehouseChecks = 0;// 仓库每日开关打卡（每次 +1 EXP）
       let totalMaintChecks = 0;    // 维护历史总打卡（每次 +1 EXP）
 
@@ -1190,7 +1734,7 @@
         if (arr.includes('vitamin')) totalSupplyChecks += 1;
         if (arr.includes('fitness')) totalSupplyChecks += 1;
 
-        // 2. 洗浴中心（洗澡日开关 + 泡澡/面膜/美容仪计次）
+        // 2. 洗浴中心
         const cBath = getDayCount(dKey, 'bath');
         const cMask = getDayCount(dKey, 'mask');
         const cBeauty = getDayCount(dKey, 'beauty_device');
@@ -1206,22 +1750,16 @@
         // 3. 研发 2h 脉冲（含旧版 study 折算）
         totalResearchUnits += getDayCount(dKey, 'research');
 
-        // 4. 围墙防沉迷（含旧版 noise 物理降噪边界守护折算）
+        // 4. 围墙防沉迷（含旧版 noise 物理降噪折算）
         if (arr.includes('social_guard')) totalWallChecks += 1;
         if (arr.includes('noise')) totalWallChecks += 1;
 
-        // 5. 游乐园四项
-        if (arr.includes('craft')) totalParkChecks += 1;
-        if (arr.includes('boutique')) totalParkChecks += 1;
-        if (arr.includes('foodie')) totalParkChecks += 1;
-        if (arr.includes('journal')) totalParkChecks += 1;
-
-        // 6. 仓库三项
+        // 5. 仓库三项
         if (arr.includes('shop')) totalWarehouseChecks += 1;
         if (arr.includes('organize')) totalWarehouseChecks += 1;
         if (arr.includes('declutter')) totalWarehouseChecks += 1;
 
-        // 7. 基地维护三项
+        // 6. 基地维护三项
         const cClean = getDayCount(dKey, 'clean');
         const cLaundry = getDayCount(dKey, 'laundry');
         const cTrash = getDayCount(dKey, 'trash');
@@ -1238,7 +1776,7 @@
       const techLogs = state.logs.filter(l => l.category === 'tech');
       const canteenLogs = state.logs.filter(l => l.category === 'canteen');
       const wallLogs = state.logs.filter(l => l.category === 'wall');
-      const parkLogs = state.logs.filter(l => l.category === 'park');
+      const { parkExp, parkLv, parkRem, parkLogs } = computeParkMetrics();
 
       // 各模块独立原始经验值
       const supplyExp = totalSupplyChecks * 2;
@@ -1248,7 +1786,6 @@
       const canteenExp = canteenLogs.length * 1;
       const maintExp = totalMaintChecks * 1;
       const warehouseExp = totalWarehouseChecks * 1;
-      const parkExp = (totalParkChecks + parkLogs.length) * 1;
 
       // 主反应堆加权总经验（1.0 / 0.8 权重）
       const rawTotalExp =
@@ -1279,9 +1816,9 @@
       const todayVitamin = todayArr.includes('vitamin') ? 1 : 0;
       const todayFitness = todayArr.includes('fitness') ? 1 : 0;
 
-      const minSupplyCount = todayIron + todayInhaler; // 0 ~ 3
-      const bonusSupplyCount = todaySleep + todayVitamin + todayFitness; // 0 ~ 3
-      const totalTodaySupply = minSupplyCount + bonusSupplyCount; // 0 ~ 6
+      const minSupplyCount = todayIron + todayInhaler;
+      const bonusSupplyCount = todaySleep + todayVitamin + todayFitness;
+      const totalTodaySupply = minSupplyCount + bonusSupplyCount;
 
       const supplyBar = document.getElementById('supplyBarFill');
       const supplyBadge = document.getElementById('supplyStatusBadge');
@@ -1352,7 +1889,7 @@
 
       // 计算并更新反应堆「今日综合充能度 %」
       const todayResearch = getDayCount(todayKey, 'research');
-      const todayCanteen = canteenLogs.filter(l => l.fullDate === todayKey || l.date === todayKey.slice(5)).length;
+      const todayCanteen = canteenLogs.filter(l => resolveLogFullDate(l) === todayKey).length;
       const todaySpaDone = (todayShower || todayBath > 0 || todayMask > 0 || todayBeauty > 0) ? 1 : 0;
       const todayExtraAct =
         (todayResearch > 0 ? 1 : 0) +
@@ -1362,7 +1899,6 @@
         ((todayArr.includes('craft') || todayArr.includes('boutique') || todayArr.includes('foodie') || todayArr.includes('journal')) ? 1 : 0) +
         ((todayArr.includes('shop') || todayArr.includes('organize') || todayArr.includes('declutter')) ? 1 : 0);
 
-      // 最低补给占 45%，补给加分占 25%，其余模块日常行动占 30%
       const todayChargePct = Math.min(
         100,
         Math.round((minSupplyCount / 3) * 45 + (bonusSupplyCount / 3) * 25 + Math.min(3, todayExtraAct) * 10)
@@ -1408,8 +1944,6 @@
       setToggleBtnState('btnSocialGuard', 'tagSocialGuard', todayArr.includes('social_guard'), 'active');
 
       // 7. 渲染游乐园（每 5 EXP 升 1 级）
-      const parkLv = Math.floor(parkExp / 5) + 1;
-      const parkRem = parkExp % 5;
       document.getElementById('parkLevelBadge').textContent = `娱乐设施 Lv.${parkLv}`;
       document.getElementById('parkBarFill').style.width = `${Math.round((parkRem / 5) * 100)}%`;
       document.getElementById('parkExpMeta').textContent = `${parkRem} / 5 EXP (总 ${parkExp})`;
@@ -1464,7 +1998,7 @@
       updateMaintCard('btnLaundry', 'tagLaundry', 'descLaundry', 'undoLaundryBtn', weekLaundry, todayLaundry);
       updateMaintCard('btnTrash', 'tagTrash', 'descTrash', 'undoTrashBtn', weekTrash, todayTrash);
 
-      // 渲染四条文本记录列表
+      // 渲染四条文本记录列表（主页面只展示非空文本记录，若带图片加小相机角标）
       renderLogList('techList', techLogs, '');
       renderLogList('canteenList', canteenLogs, 'canteen');
       renderLogList('wallList', wallLogs, 'wall');
@@ -1486,8 +2020,9 @@
       items.forEach(log => {
         const li = document.createElement('li');
         li.className = 'log-item' + (extraClass ? ` ${extraClass}` : '');
+        const photoTag = log.image ? ' 📷' : '';
         li.innerHTML = `
-          <span class="log-text">${escapeHtml(log.text)}</span>
+          <span class="log-text">${escapeHtml(log.text)}${photoTag}</span>
           <div class="log-right">
             <span class="log-date">${escapeHtml(log.date || '')}</span>
             <button class="del-btn" title="删除记录" onclick="deleteLog(${log.id})">×</button>
@@ -1496,6 +2031,443 @@
         ul.appendChild(li);
       });
     }
+
+    // ================= 游乐园专属详情子页面逻辑 =================
+
+    function handleStageImgLoad() {
+      document.getElementById('parkStageFallback').classList.remove('visible');
+    }
+
+    function handleStageImgError() {
+      document.getElementById('parkStageFallback').classList.add('visible');
+    }
+
+    // 计算游乐园本周与本月各项目统计
+    function computeParkPeriodStats() {
+      const weekKeys = getCurrentWeekKeys();
+      const monthPrefix = getCurrentMonthPrefix();
+      const stats = {
+        craft:    { week: 0, month: 0 },
+        boutique: { week: 0, month: 0 },
+        foodie:   { week: 0, month: 0 },
+        journal:  { week: 0, month: 0 },
+        surprise: { week: 0, month: 0 }
+      };
+
+      // 1. 统计 daily 中的 4 项每日开关打卡
+      Object.keys(state.daily || {}).forEach(dKey => {
+        const arr = Array.isArray(state.daily[dKey]) ? state.daily[dKey] : [];
+        const inWeek = weekKeys.has(dKey);
+        const inMonth = dKey.startsWith(monthPrefix);
+        if (!inWeek && !inMonth) return;
+
+        ['craft', 'boutique', 'foodie', 'journal'].forEach(k => {
+          if (arr.includes(k)) {
+            if (inWeek) stats[k].week += 1;
+            if (inMonth) stats[k].month += 1;
+          }
+        });
+      });
+
+      // 2. 统计手动新增的手账记录（排除 autoSynced，避免重复计数）
+      state.logs.filter(l => l.category === 'park' && !l.autoSynced).forEach(log => {
+        const dKey = resolveLogFullDate(log);
+        const inWeek = weekKeys.has(dKey);
+        const inMonth = dKey.startsWith(monthPrefix);
+        if (!inWeek && !inMonth) return;
+
+        const key = PARK_SUBTYPES[log.subType] ? log.subType : 'surprise';
+        if (inWeek) stats[key].week += 1;
+        if (inMonth) stats[key].month += 1;
+      });
+
+      const weekTotal = Object.values(stats).reduce((sum, item) => sum + item.week, 0);
+      const monthTotal = Object.values(stats).reduce((sum, item) => sum + item.month, 0);
+      return { stats, weekTotal, monthTotal };
+    }
+
+    function renderParkDetail() {
+      const { parkLv, parkRem, parkLogs } = computeParkMetrics();
+      const stage = Math.min(5, Math.max(1, parkLv));
+      const stageName = PARK_STAGE_NAMES[stage] || '梦幻旋转木马';
+
+      // 1. 场景橱窗与进度条
+      const imgEl = document.getElementById('parkStageImg');
+      const expectedSrc = `park_s${stage}.jpeg`;
+      if (imgEl.getAttribute('src') !== expectedSrc) {
+        document.getElementById('parkStageFallback').classList.remove('visible');
+        imgEl.setAttribute('src', expectedSrc);
+      }
+      document.getElementById('parkFallbackTitle').textContent = `Lv.${parkLv} · ${stageName}`;
+      document.getElementById('parkStageOverlayBadge').textContent = `Lv.${parkLv} · ${stageName}`;
+      document.getElementById('detailParkLvBadge').textContent = `娱乐设施 Lv.${parkLv}`;
+      document.getElementById('detailParkNextHint').textContent = `升级进度 ${parkRem} / 5 EXP（还差 ${5 - parkRem} EXP）`;
+      document.getElementById('detailParkBarFill').style.width = `${Math.round((parkRem / 5) * 100)}%`;
+
+      // 2. 周/月数据看板
+      const { stats, weekTotal, monthTotal } = computeParkPeriodStats();
+      document.getElementById('parkPeriodTotalBadge').textContent = `本周 ${weekTotal} 次 · 本月 ${monthTotal} 次`;
+
+      const statsGrid = document.getElementById('parkStatsGrid');
+      statsGrid.innerHTML = '';
+      ['craft', 'boutique', 'foodie', 'journal', 'surprise'].forEach(key => {
+        const meta = PARK_SUBTYPES[key];
+        const s = stats[key];
+        const cell = document.createElement('div');
+        cell.className = 'park-stat-cell';
+        cell.innerHTML = `
+          <div class="park-stat-icon">${meta.icon}</div>
+          <div class="park-stat-name">${meta.label}</div>
+          <div class="park-stat-nums">
+            本周 ${s.week}
+            <span>本月 ${s.month}</span>
+          </div>
+        `;
+        statsGrid.appendChild(cell);
+      });
+
+      // 3. 图文手账流
+      document.getElementById('parkJournalCount').textContent = `共 ${parkLogs.length} 条记录`;
+      const feed = document.getElementById('parkJournalFeed');
+      feed.innerHTML = '';
+
+      if (parkLogs.length === 0) {
+        feed.innerHTML = `<div style="text-align: center; color: var(--text-sub); font-size: 0.8rem; padding: 18px 8px;">还没有乐园手账记录，在上方写下第一份快乐或上传照片吧 ✨</div>`;
+        return;
+      }
+
+      parkLogs.forEach(log => {
+        const meta = PARK_SUBTYPES[log.subType] || PARK_SUBTYPES.surprise;
+        const fullDate = resolveLogFullDate(log);
+        const card = document.createElement('div');
+        card.className = 'journal-card';
+
+        const descHtml = log.desc ? `<div class="journal-card-desc">${escapeHtml(log.desc)}</div>` : '';
+        const imgHtml = log.image ? `<img class="journal-card-img" src="${log.image}" alt="手账配图" onclick="openImageLightbox(${log.id})" />` : '';
+
+        card.innerHTML = `
+          <div class="journal-card-top">
+            <span class="journal-type-tag">${meta.icon} ${meta.label}</span>
+            <span class="log-date">${escapeHtml(fullDate)}</span>
+          </div>
+          <div class="journal-card-title">${escapeHtml(log.text)}</div>
+          ${descHtml}
+          ${imgHtml}
+          <div class="journal-card-actions">
+            <button type="button" class="mini-action-btn" onclick="openParkEditModal(${log.id})">✏️ 编辑/配图</button>
+            <button type="button" class="mini-action-btn danger" onclick="deleteLog(${log.id})">删除</button>
+          </div>
+        `;
+        feed.appendChild(card);
+      });
+    }
+
+    // 选择新增手账类型
+    function selectNewParkType(type) {
+      newParkType = type;
+      document.querySelectorAll('#newParkTypeSelector .type-chip').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.type === type);
+      });
+    }
+
+    // 前端 Canvas 自动压缩图片（最大宽 640px，JPEG 质量 0.65，防止撑爆 localStorage）
+    function compressImageFile(file, maxWidth = 640, quality = 0.65) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = new Image();
+          img.onload = () => {
+            let w = img.width;
+            let h = img.height;
+            if (w > maxWidth) {
+              h = Math.round((h * maxWidth) / w);
+              w = maxWidth;
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            try {
+              const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+              resolve(compressedDataUrl);
+            } catch (err) {
+              reject(err);
+            }
+          };
+          img.onerror = reject;
+          img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handlePhotoSelected(event, mode) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      try {
+        const compressed = await compressImageFile(file, 640, 0.65);
+        if (mode === 'new') {
+          newParkImageData = compressed;
+          document.getElementById('newPhotoPreviewImg').src = compressed;
+          document.getElementById('newPhotoPreviewBox').classList.add('active');
+        } else {
+          editParkImageData = compressed;
+          document.getElementById('editPhotoPreviewImg').src = compressed;
+          document.getElementById('editPhotoPreviewBox').classList.add('active');
+        }
+      } catch (e) {
+        alert('图片处理失败，请重试或换一张图片。');
+      } finally {
+        event.target.value = '';
+      }
+    }
+
+    function clearSelectedPhoto(mode) {
+      if (mode === 'new') {
+        newParkImageData = '';
+        document.getElementById('newPhotoPreviewImg').src = '';
+        document.getElementById('newPhotoPreviewBox').classList.remove('active');
+      } else {
+        editParkImageData = '';
+        document.getElementById('editPhotoPreviewImg').src = '';
+        document.getElementById('editPhotoPreviewBox').classList.remove('active');
+      }
+    }
+
+    // 提交新增乐园图文手账
+    function submitNewParkJournal() {
+      const titleInput = document.getElementById('newParkTitle');
+      const descInput = document.getElementById('newParkDesc');
+      const meta = PARK_SUBTYPES[newParkType] || PARK_SUBTYPES.surprise;
+
+      const title = titleInput.value.trim() || meta.defaultTitle;
+      const desc = descInput.value.trim();
+
+      if (!titleInput.value.trim() && !desc && !newParkImageData) {
+        alert('请至少填写标题、描述或添加一张照片哦 ✨');
+        return;
+      }
+
+      state.logs.unshift({
+        id: Date.now() + Math.floor(Math.random() * 1000),
+        category: 'park',
+        subType: newParkType,
+        text: title,
+        desc,
+        image: newParkImageData || '',
+        autoSynced: false,
+        date: todayKey.slice(5),
+        fullDate: todayKey
+      });
+
+      if (saveState()) {
+        titleInput.value = '';
+        descInput.value = '';
+        clearSelectedPhoto('new');
+      }
+    }
+
+    // 打开编辑/配图弹窗
+    function openParkEditModal(logId) {
+      const log = state.logs.find(l => l.id === logId);
+      if (!log) return;
+      editingParkLogId = logId;
+      editParkType = PARK_SUBTYPES[log.subType] ? log.subType : 'surprise';
+      editParkImageData = log.image || '';
+
+      selectEditParkType(editParkType);
+      document.getElementById('editParkTitle').value = log.text || '';
+      document.getElementById('editParkDesc').value = log.desc || '';
+
+      if (editParkImageData) {
+        document.getElementById('editPhotoPreviewImg').src = editParkImageData;
+        document.getElementById('editPhotoPreviewBox').classList.add('active');
+      } else {
+        clearSelectedPhoto('edit');
+      }
+
+      document.getElementById('parkEditModal').classList.add('active');
+    }
+
+    function selectEditParkType(type) {
+      editParkType = type;
+      document.querySelectorAll('#editParkTypeSelector .type-chip').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.type === type);
+      });
+    }
+
+    function closeParkEditModal() {
+      editingParkLogId = null;
+      document.getElementById('parkEditModal').classList.remove('active');
+    }
+
+    function closeEditModalOnBackdrop(event) {
+      if (event.target.id === 'parkEditModal') {
+        closeParkEditModal();
+      }
+    }
+
+    function saveEditedParkJournal() {
+      if (editingParkLogId === null) return;
+      const log = state.logs.find(l => l.id === editingParkLogId);
+      if (!log) return;
+
+      const newTitle = document.getElementById('editParkTitle').value.trim();
+      const newDesc = document.getElementById('editParkDesc').value.trim();
+      const meta = PARK_SUBTYPES[editParkType] || PARK_SUBTYPES.surprise;
+
+      log.subType = editParkType;
+      log.text = newTitle || meta.defaultTitle;
+      log.desc = newDesc;
+      log.image = editParkImageData || '';
+
+      if (saveState()) {
+        closeParkEditModal();
+      }
+    }
+
+    // 全屏图片预览灯箱
+    function openImageLightbox(logId) {
+      const log = state.logs.find(l => l.id === logId);
+      if (!log || !log.image) return;
+      document.getElementById('lightboxPreviewImg').src = log.image;
+      document.getElementById('imageLightboxModal').classList.add('active');
+    }
+
+    function closeImageLightbox() {
+      document.getElementById('imageLightboxModal').classList.remove('active');
+      document.getElementById('lightboxPreviewImg').src = '';
+    }
+
+    // 一键导出乐园图文手账 (.html 独立单文件纪念册)
+    function exportParkJournalHtml() {
+      const { parkExp, parkLv, parkLogs } = computeParkMetrics();
+      const stage = Math.min(5, Math.max(1, parkLv));
+      const stageName = PARK_STAGE_NAMES[stage] || '梦幻旋转木马';
+      const { stats, weekTotal, monthTotal } = computeParkPeriodStats();
+
+      const statsRowsHtml = ['craft', 'boutique', 'foodie', 'journal', 'surprise'].map(k => {
+        const m = PARK_SUBTYPES[k];
+        return `<tr><td>${m.icon} ${m.label}</td><td>${stats[k].week} 次</td><td>${stats[k].month} 次</td></tr>`;
+      }).join('');
+
+      const cardsHtml = parkLogs.length === 0
+        ? '<p style="text-align:center;color:#8b96ad;">暂无游乐园手账记录</p>'
+        : parkLogs.map(log => {
+            const m = PARK_SUBTYPES[log.subType] || PARK_SUBTYPES.surprise;
+            const d = escapeHtml(resolveLogFullDate(log));
+            const desc = log.desc ? `<p class="desc">${escapeHtml(log.desc)}</p>` : '';
+            const img = log.image ? `<img src="${log.image}" alt="手账照片" />` : '';
+            return `
+              <article class="entry">
+                <div class="entry-head">
+                  <span class="tag">${m.icon} ${m.label}</span>
+                  <span class="date">${d}</span>
+                </div>
+                <h3>${escapeHtml(log.text)}</h3>
+                ${desc}
+                ${img}
+              </article>
+            `;
+          }).join('');
+
+      const standaloneHtml = `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🎡 游乐园图文手账档案 (${todayKey})</title>
+<style>
+  body { background:#12151c; color:#e6ebf5; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif; max-width:680px; margin:0 auto; padding:24px 16px 60px; line-height:1.6; }
+  .banner { text-align:center; background:rgba(244,143,177,0.12); border:1px solid rgba(244,143,177,0.35); border-radius:14px; padding:18px; margin-bottom:20px; }
+  .banner h1 { font-size:1.3rem; color:#ffd6e5; margin-bottom:6px; }
+  .banner p { font-size:0.85rem; color:#8b96ad; }
+  .card { background:#1b202b; border:1px solid #2a3242; border-radius:14px; padding:16px; margin-bottom:18px; }
+  table { width:100%; border-collapse:collapse; font-size:0.88rem; }
+  th, td { padding:9px 8px; border-bottom:1px solid #2a3242; text-align:left; }
+  th { color:#8b96ad; font-weight:600; }
+  .entry { background:#141822; border:1px solid #2a3242; border-left:4px solid #f48fb1; border-radius:12px; padding:14px; margin-bottom:14px; }
+  .entry-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; font-size:0.78rem; }
+  .tag { background:rgba(244,143,177,0.16); color:#f48fb1; padding:2px 8px; border-radius:6px; font-weight:700; }
+  .date { color:#8b96ad; }
+  .entry h3 { font-size:1rem; margin-bottom:6px; }
+  .entry .desc { font-size:0.88rem; color:#c5cde0; white-space:pre-wrap; margin-bottom:10px; }
+  .entry img { width:100%; border-radius:10px; display:block; margin-top:8px; }
+</style>
+</head>
+<body>
+  <div class="banner">
+    <h1>🎡 个人基地 · 游乐园建设手账</h1>
+    <p>当前等级：娱乐设施 Lv.${parkLv}（${stageName} · 累计 ${parkExp} EXP） · 导出日期：${todayKey}</p>
+    <p style="margin-top:4px;color:#fce8c3;">✨ 在没有办法的日子里也要好好生活</p>
+  </div>
+  <div class="card">
+    <h2 style="font-size:1rem;margin-bottom:10px;">📊 周期快乐统计（本周 ${weekTotal} 次 · 本月 ${monthTotal} 次）</h2>
+    <table>
+      <thead><tr><th>乐园项目</th><th>本周累计</th><th>本月累计</th></tr></thead>
+      <tbody>${statsRowsHtml}</tbody>
+    </table>
+  </div>
+  <div class="card">
+    <h2 style="font-size:1rem;margin-bottom:12px;">📸 乐园足迹档案（共 ${parkLogs.length} 条）</h2>
+    ${cardsHtml}
+  </div>
+</body>
+</html>`;
+
+      const blob = new Blob([standaloneHtml], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `park_journal_${todayKey}.html`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1500);
+    }
+
+    // 复制纯文本总结
+    function copyParkSummaryText() {
+      const { parkExp, parkLv, parkLogs } = computeParkMetrics();
+      const stage = Math.min(5, Math.max(1, parkLv));
+      const stageName = PARK_STAGE_NAMES[stage] || '梦幻旋转木马';
+      const { stats, weekTotal, monthTotal } = computeParkPeriodStats();
+
+      const lines = [
+        `🎡 个人基地 · 游乐园建设总结 (${todayKey})`,
+        `当前等级：Lv.${parkLv} · ${stageName}（累计 ${parkExp} EXP）`,
+        `周期汇总：本周共 ${weekTotal} 次 | 本月共 ${monthTotal} 次`,
+        `--------------------------------`,
+        `🧶 手作屋：本周 ${stats.craft.week} 次 / 本月 ${stats.craft.month} 次`,
+        `🛍️ 精品店：本周 ${stats.boutique.week} 次 / 本月 ${stats.boutique.month} 次`,
+        `🍜 美味屋：本周 ${stats.foodie.week} 次 / 本月 ${stats.foodie.month} 次`,
+        `📔 纪念馆：本周 ${stats.journal.week} 次 / 本月 ${stats.journal.month} 次`,
+        `🎁 乐园惊喜：本周 ${stats.surprise.week} 次 / 本月 ${stats.surprise.month} 次`,
+        `--------------------------------`,
+        `📸 近期手账记录（共 ${parkLogs.length} 条）：`
+      ];
+
+      parkLogs.slice(0, 15).forEach(log => {
+        const m = PARK_SUBTYPES[log.subType] || PARK_SUBTYPES.surprise;
+        const d = resolveLogFullDate(log);
+        const descPart = log.desc ? ` — ${log.desc}` : '';
+        const imgPart = log.image ? ' [含照片]' : '';
+        lines.push(`• [${d}] ${m.icon} ${log.text}${descPart}${imgPart}`);
+      });
+
+      const textToCopy = lines.join('\n');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textToCopy)
+          .then(() => alert('📋 游乐园周期总结已复制到剪贴板！'))
+          .catch(() => prompt('请手动全选复制以下总结文本：', textToCopy));
+      } else {
+        prompt('请手动全选复制以下总结文本：', textToCopy);
+      }
+    }
+
+    // ================= 全局 JSON 备份与恢复 =================
 
     function exportData() {
       const jsonStr = JSON.stringify(state, null, 2);
