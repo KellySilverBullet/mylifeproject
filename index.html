@@ -119,7 +119,7 @@
       background: var(--card);
       border: 1px solid var(--card-border);
       border-radius: 14px;
-      padding: 15px;
+      padding: 14px;
       margin-bottom: 14px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
     }
@@ -154,6 +154,7 @@
     .level-pill.green { background: rgba(56, 211, 159, 0.16); color: var(--accent-green); border-color: rgba(56, 211, 159, 0.35); }
     .level-pill.red { background: rgba(242, 132, 130, 0.16); color: var(--accent-red); border-color: rgba(242, 132, 130, 0.35); }
     .level-pill.pink { background: rgba(244, 143, 177, 0.16); color: var(--accent-pink); border-color: rgba(244, 143, 177, 0.35); }
+    .level-pill.cyan { background: rgba(86, 207, 225, 0.16); color: var(--accent-cyan); border-color: rgba(86, 207, 225, 0.35); }
 
     .card-subtitle {
       font-size: 0.75rem;
@@ -202,6 +203,9 @@
     }
     .bar-fill.pink {
       background: linear-gradient(90deg, #e56b9f, var(--accent-pink));
+    }
+    .bar-fill.cyan {
+      background: linear-gradient(90deg, #38b6ff, var(--accent-cyan));
     }
 
     .bar-meta {
@@ -258,6 +262,7 @@
     }
     .task-grid.three-col {
       grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
     }
     .task-btn {
       background: var(--card-inner);
@@ -272,6 +277,7 @@
       flex-direction: column;
       gap: 4px;
       position: relative;
+      min-width: 0;
     }
     .task-btn:active {
       transform: scale(0.98);
@@ -284,6 +290,10 @@
       border-color: var(--accent-blue);
       background: rgba(78, 168, 222, 0.13);
     }
+    .task-btn.active-cyan {
+      border-color: var(--accent-cyan);
+      background: rgba(86, 207, 225, 0.12);
+    }
     .task-btn.partial-red {
       border-color: rgba(242, 132, 130, 0.65);
       background: rgba(242, 132, 130, 0.1);
@@ -295,6 +305,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 4px;
+      white-space: nowrap;
     }
     .task-desc {
       font-size: 0.71rem;
@@ -308,6 +319,7 @@
       background: rgba(255, 255, 255, 0.06);
       color: var(--text-sub);
       white-space: nowrap;
+      flex-shrink: 0;
     }
     .task-btn.active .task-tag {
       background: rgba(56, 211, 159, 0.2);
@@ -317,9 +329,34 @@
       background: rgba(78, 168, 222, 0.22);
       color: var(--accent-blue);
     }
+    .task-btn.active-cyan .task-tag {
+      background: rgba(86, 207, 225, 0.22);
+      color: var(--accent-cyan);
+    }
     .task-btn.partial-red .task-tag {
       background: rgba(242, 132, 130, 0.22);
       color: var(--accent-red);
+    }
+
+    /* 三列网格专属单行防折行优化（适配 iPhone 竖屏） */
+    .three-col .task-btn {
+      padding: 9px 7px;
+    }
+    .three-col .task-name {
+      font-size: 0.74rem;
+      white-space: nowrap;
+      letter-spacing: -0.2px;
+      gap: 2px;
+    }
+    .three-col .task-tag {
+      font-size: 0.62rem;
+      padding: 1px 4px;
+    }
+    .three-col .task-desc {
+      font-size: 0.68rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     /* 铁剂双胶囊指示器 */
@@ -387,11 +424,12 @@
       cursor: not-allowed;
     }
 
-    /* 维护模块带撤回的卡片 */
+    /* 带撤回按钮的计次卡片（维护 & 洗浴） */
     .maint-card-wrap {
       display: flex;
       flex-direction: column;
       gap: 5px;
+      min-width: 0;
     }
     .maint-undo {
       background: #141822;
@@ -639,7 +677,67 @@
       </div>
     </div>
 
-    <!-- 3. 基地研发中心 -->
+    <!-- 3. 基地洗浴中心 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">🛁 基地洗浴中心</span>
+        <span class="level-pill cyan" id="spaLevelBadge">洗浴中心 Lv.1</span>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-fill cyan" id="spaBarFill" style="width: 0%;"></div>
+      </div>
+      <div class="bar-meta">
+        <span>水汽氤氲与身心养护（每项 +1 EXP）</span>
+        <span id="spaExpMeta">0 / 5 EXP (总 0)</span>
+      </div>
+
+      <div class="task-grid" style="grid-template-columns: 1fr; margin-bottom: 8px;">
+        <button class="task-btn" id="btnShower" onclick="toggleDailyTask('shower')">
+          <div class="task-name">
+            <span>🚿 洗澡</span>
+            <span class="task-tag" id="tagShower">0/1</span>
+          </div>
+          <div class="task-desc">每日基础清洁冲澡 · 次日自动重置</div>
+        </button>
+      </div>
+
+      <div class="task-grid three-col">
+        <div class="maint-card-wrap">
+          <button class="task-btn" id="btnBath" onclick="changeCount('bath', 1)">
+            <div class="task-name">
+              <span>🛁 泡澡</span>
+              <span class="task-tag" id="tagBath">本周 0</span>
+            </div>
+            <div class="task-desc" id="descBath">今日 0 次 · 点+1</div>
+          </button>
+          <button class="maint-undo" id="undoBathBtn" onclick="changeCount('bath', -1)" disabled>撤回今日</button>
+        </div>
+
+        <div class="maint-card-wrap">
+          <button class="task-btn" id="btnMask" onclick="changeCount('mask', 1)">
+            <div class="task-name">
+              <span>🧖‍♀️ 面膜</span>
+              <span class="task-tag" id="tagMask">本周 0</span>
+            </div>
+            <div class="task-desc" id="descMask">今日 0 次 · 点+1</div>
+          </button>
+          <button class="maint-undo" id="undoMaskBtn" onclick="changeCount('mask', -1)" disabled>撤回今日</button>
+        </div>
+
+        <div class="maint-card-wrap">
+          <button class="task-btn" id="btnBeauty" onclick="changeCount('beauty_device', 1)">
+            <div class="task-name">
+              <span>✨ 美容仪</span>
+              <span class="task-tag" id="tagBeauty">本周 0</span>
+            </div>
+            <div class="task-desc" id="descBeauty">今日 0 次 · 点+1</div>
+          </button>
+          <button class="maint-undo" id="undoBeautyBtn" onclick="changeCount('beauty_device', -1)" disabled>撤回今日</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 基地研发中心 -->
     <div class="card">
       <div class="card-header">
         <span class="card-title">🔬 基地研发中心</span>
@@ -671,7 +769,7 @@
       <ul class="log-list" id="techList"></ul>
     </div>
 
-    <!-- 4. 基地食堂 -->
+    <!-- 5. 基地食堂 -->
     <div class="card">
       <div class="card-header">
         <span class="card-title">🍳 基地食堂</span>
@@ -691,7 +789,7 @@
       <ul class="log-list" id="canteenList"></ul>
     </div>
 
-    <!-- 5. 围墙防御战绩 -->
+    <!-- 6. 围墙防御战绩 -->
     <div class="card">
       <div class="card-header">
         <span class="card-title">🧱 围墙防御战绩</span>
@@ -720,7 +818,7 @@
       <ul class="log-list" id="wallList"></ul>
     </div>
 
-    <!-- 6. 游乐园 -->
+    <!-- 7. 游乐园 -->
     <div class="card">
       <div class="card-header">
         <span class="card-title">🎡 游乐园</span>
@@ -773,7 +871,7 @@
       <ul class="log-list" id="parkList"></ul>
     </div>
 
-    <!-- 7. 仓库 -->
+    <!-- 8. 仓库 -->
     <div class="card">
       <div class="card-header">
         <span class="card-title">📦 仓库</span>
@@ -789,7 +887,7 @@
       <div class="task-grid three-col">
         <button class="task-btn" id="btnShop" onclick="toggleDailyTask('shop')">
           <div class="task-name">
-            <span>🛒 大丰收</span>
+            <span>🛒 入库</span>
             <span class="task-tag" id="tagShop">0/1</span>
           </div>
           <div class="task-desc">超市/药妆店采购</div>
@@ -813,7 +911,7 @@
       </div>
     </div>
 
-    <!-- 8. 基地维护 -->
+    <!-- 9. 基地维护 -->
     <div class="card">
       <div class="card-header">
         <span class="card-title">🛠️ 基地维护</span>
@@ -830,7 +928,7 @@
         <div class="maint-card-wrap">
           <button class="task-btn" id="btnClean" onclick="changeCount('clean', 1)">
             <div class="task-name">
-              <span>🧼 清洁</span>
+              <span>🧹 打扫</span>
               <span class="task-tag" id="tagClean">本周 0</span>
             </div>
             <div class="task-desc" id="descClean">今日 0 次 · 点+1</div>
@@ -841,7 +939,7 @@
         <div class="maint-card-wrap">
           <button class="task-btn" id="btnLaundry" onclick="changeCount('laundry', 1)">
             <div class="task-name">
-              <span>🛏️ 换洗</span>
+              <span>👕 换洗</span>
               <span class="task-tag" id="tagLaundry">本周 0</span>
             </div>
             <div class="task-desc" id="descLaundry">今日 0 次 · 点+1</div>
@@ -869,7 +967,7 @@
     <div style="font-size: 2rem; margin-bottom: 10px;">📈</div>
     <h2 style="font-size: 1.05rem; margin-bottom: 8px;">周期成果统计中心（建设中）</h2>
     <p style="font-size: 0.82rem; color: var(--text-sub); margin-bottom: 16px;">
-      你每天在「基地总控台」点亮的补给、2小时科研脉冲、食堂菜谱与生活记录都已按本地日期完整沉淀在 <code>my_base_v1</code> 中，后续将在这里自动生成每日、每周与每月复盘报告。
+      你每天在「基地总控台」点亮的补给、洗浴养护、2小时科研脉冲、食堂菜谱与生活记录都已按本地日期完整沉淀在 <code>my_base_v1</code> 中，后续将在这里自动生成每日、每周与每月复盘报告。
     </p>
     <button class="add-btn" style="padding: 9px 18px;" onclick="switchPage(1)">返回基地总控台</button>
   </div>
@@ -969,7 +1067,6 @@
       const cur = getDayCount(todayKey, 'iron');
       const next = (cur + 1) % 3;
       state.dailyCounts[todayKey].iron = next;
-      // 同步维护 daily 数组中 'iron' 的存在性以保持最大兼容性
       const list = state.daily[todayKey];
       const idx = list.indexOf('iron');
       if (next > 0 && idx === -1) list.push('iron');
@@ -986,7 +1083,7 @@
       saveState();
     }
 
-    // 计次型任务增减（科研2h脉冲、基地维护三项）
+    // 计次型任务增减（科研2h脉冲、基地维护三项、洗浴三项）
     function changeCount(key, delta) {
       const cur = getDayCount(todayKey, key);
       const next = Math.max(0, cur + delta);
@@ -1050,7 +1147,7 @@
     function setToggleBtnState(btnId, tagId, isActive, activeClass = 'active') {
       const btn = document.getElementById(btnId);
       const tag = document.getElementById(tagId);
-      btn.classList.remove('active', 'active-blue');
+      btn.classList.remove('active', 'active-blue', 'active-cyan');
       if (isActive) {
         btn.classList.add(activeClass);
         tag.textContent = '1/1 ✓';
@@ -1071,14 +1168,16 @@
 
       // 累计统计各模块经验值
       let totalSupplyChecks = 0;   // 补给线总打卡次（每项 +2 EXP）
+      let totalSpaChecks = 0;      // 洗浴中心总打卡次（每项 +1 EXP）
       let totalResearchUnits = 0;  // 研发 2h 脉冲总次数（每次 +2 EXP）
       let totalWallChecks = 0;     // 围墙每日开关打卡（每次 +1 EXP）
       let totalParkChecks = 0;     // 游乐园每日开关打卡（每次 +1 EXP）
       let totalWarehouseChecks = 0;// 仓库每日开关打卡（每次 +1 EXP）
       let totalMaintChecks = 0;    // 维护历史总打卡（每次 +1 EXP）
 
-      // 本周维护次数
+      // 本周维护次数 & 本周洗浴护理次数
       let weekClean = 0, weekLaundry = 0, weekTrash = 0;
+      let weekBath = 0, weekMask = 0, weekBeauty = 0;
 
       allDateKeys.forEach(dKey => {
         const arr = Array.isArray(state.daily[dKey]) ? state.daily[dKey] : [];
@@ -1091,25 +1190,38 @@
         if (arr.includes('vitamin')) totalSupplyChecks += 1;
         if (arr.includes('fitness')) totalSupplyChecks += 1;
 
-        // 2. 研发 2h 脉冲（含旧版 study 折算）
+        // 2. 洗浴中心（洗澡日开关 + 泡澡/面膜/美容仪计次）
+        const cBath = getDayCount(dKey, 'bath');
+        const cMask = getDayCount(dKey, 'mask');
+        const cBeauty = getDayCount(dKey, 'beauty_device');
+        if (arr.includes('shower')) totalSpaChecks += 1;
+        totalSpaChecks += (cBath + cMask + cBeauty);
+
+        if (weekKeys.has(dKey)) {
+          weekBath += cBath;
+          weekMask += cMask;
+          weekBeauty += cBeauty;
+        }
+
+        // 3. 研发 2h 脉冲（含旧版 study 折算）
         totalResearchUnits += getDayCount(dKey, 'research');
 
-        // 3. 围墙防沉迷（含旧版 noise 物理降噪边界守护折算）
+        // 4. 围墙防沉迷（含旧版 noise 物理降噪边界守护折算）
         if (arr.includes('social_guard')) totalWallChecks += 1;
         if (arr.includes('noise')) totalWallChecks += 1;
 
-        // 4. 游乐园四项
+        // 5. 游乐园四项
         if (arr.includes('craft')) totalParkChecks += 1;
         if (arr.includes('boutique')) totalParkChecks += 1;
         if (arr.includes('foodie')) totalParkChecks += 1;
         if (arr.includes('journal')) totalParkChecks += 1;
 
-        // 5. 仓库三项
+        // 6. 仓库三项
         if (arr.includes('shop')) totalWarehouseChecks += 1;
         if (arr.includes('organize')) totalWarehouseChecks += 1;
         if (arr.includes('declutter')) totalWarehouseChecks += 1;
 
-        // 6. 基地维护三项
+        // 7. 基地维护三项
         const cClean = getDayCount(dKey, 'clean');
         const cLaundry = getDayCount(dKey, 'laundry');
         const cTrash = getDayCount(dKey, 'trash');
@@ -1130,6 +1242,7 @@
 
       // 各模块独立原始经验值
       const supplyExp = totalSupplyChecks * 2;
+      const spaExp = totalSpaChecks * 1;
       const researchExp = (totalResearchUnits + techLogs.length) * 2;
       const wallExp = (totalWallChecks + wallLogs.length) * 1;
       const canteenExp = canteenLogs.length * 1;
@@ -1142,6 +1255,7 @@
         supplyExp * 1.0 +
         researchExp * 1.0 +
         wallExp * 1.0 +
+        spaExp * 0.8 +
         canteenExp * 0.8 +
         maintExp * 0.8 +
         warehouseExp * 0.8 +
@@ -1177,7 +1291,6 @@
       supplyBadge.className = 'level-pill';
 
       if (minSupplyCount < 3) {
-        // 红色警戒阶段（0~2次，按比例占 0% ~ 45%）
         const redWidth = Math.round((minSupplyCount / 3) * 45);
         supplyBar.style.width = `${redWidth}%`;
         supplyBar.classList.add('red');
@@ -1185,7 +1298,6 @@
         supplyBadge.textContent = `最低补给未满 (${minSupplyCount}/3)`;
         supplyHint.textContent = '优先完成铁片(×2)与气道(×1)，进度条即可转蓝';
       } else {
-        // 最低补给 3/3 达成 -> 转为蓝色（60% 起步，每项加分 +13.3% 直至 100%）
         const blueWidth = Math.min(100, Math.round(60 + (bonusSupplyCount / 3) * 40));
         supplyBar.style.width = `${blueWidth}%`;
         if (bonusSupplyCount === 3) {
@@ -1221,12 +1333,31 @@
       setToggleBtnState('btnVitamin', 'tagVitamin', todayVitamin === 1, 'active');
       setToggleBtnState('btnFitness', 'tagFitness', todayFitness === 1, 'active');
 
+      // 3. 渲染基地洗浴中心（每 5 EXP 升 1 级）
+      const spaLv = Math.floor(spaExp / 5) + 1;
+      const spaRem = spaExp % 5;
+      document.getElementById('spaLevelBadge').textContent = `洗浴中心 Lv.${spaLv}`;
+      document.getElementById('spaBarFill').style.width = `${Math.round((spaRem / 5) * 100)}%`;
+      document.getElementById('spaExpMeta').textContent = `${spaRem} / 5 EXP (总 ${spaExp})`;
+
+      const todayShower = todayArr.includes('shower');
+      const todayBath = getDayCount(todayKey, 'bath');
+      const todayMask = getDayCount(todayKey, 'mask');
+      const todayBeauty = getDayCount(todayKey, 'beauty_device');
+
+      setToggleBtnState('btnShower', 'tagShower', todayShower, 'active-cyan');
+      updateMaintCard('btnBath', 'tagBath', 'descBath', 'undoBathBtn', weekBath, todayBath, 'active-cyan');
+      updateMaintCard('btnMask', 'tagMask', 'descMask', 'undoMaskBtn', weekMask, todayMask, 'active-cyan');
+      updateMaintCard('btnBeauty', 'tagBeauty', 'descBeauty', 'undoBeautyBtn', weekBeauty, todayBeauty, 'active-cyan');
+
       // 计算并更新反应堆「今日综合充能度 %」
       const todayResearch = getDayCount(todayKey, 'research');
       const todayCanteen = canteenLogs.filter(l => l.fullDate === todayKey || l.date === todayKey.slice(5)).length;
+      const todaySpaDone = (todayShower || todayBath > 0 || todayMask > 0 || todayBeauty > 0) ? 1 : 0;
       const todayExtraAct =
         (todayResearch > 0 ? 1 : 0) +
         (todayCanteen > 0 ? 1 : 0) +
+        todaySpaDone +
         (todayArr.includes('social_guard') ? 1 : 0) +
         ((todayArr.includes('craft') || todayArr.includes('boutique') || todayArr.includes('foodie') || todayArr.includes('journal')) ? 1 : 0) +
         ((todayArr.includes('shop') || todayArr.includes('organize') || todayArr.includes('declutter')) ? 1 : 0);
@@ -1249,7 +1380,7 @@
         statusTextEl.textContent = '✨ 满载运行：今天也把生活照顾得很好！';
       }
 
-      // 3. 渲染基地研发中心（每 6 EXP 升 1 级）
+      // 4. 渲染基地研发中心（每 6 EXP 升 1 级）
       const resLv = Math.floor(researchExp / 6) + 1;
       const resRem = researchExp % 6;
       document.getElementById('researchLevelBadge').textContent = `研发中心 Lv.${resLv}`;
@@ -1260,7 +1391,7 @@
       document.getElementById('totalResearchHoursText').textContent = `历史累计 ${totalResearchUnits * 2}h`;
       document.getElementById('undoResearchBtn').disabled = todayResearch <= 0;
 
-      // 4. 渲染基地食堂（每 5 EXP 升 1 级）
+      // 5. 渲染基地食堂（每 5 EXP 升 1 级）
       const canLv = Math.floor(canteenExp / 5) + 1;
       const canRem = canteenExp % 5;
       document.getElementById('canteenLevelBadge').textContent = `基地食堂 Lv.${canLv}`;
@@ -1268,7 +1399,7 @@
       document.getElementById('canteenCountMeta').textContent = `累计做饭 ${canteenLogs.length} 顿 · 今日 ${todayCanteen} 顿`;
       document.getElementById('canteenExpMeta').textContent = `${canRem} / 5 EXP`;
 
-      // 5. 渲染围墙防御战绩（每 5 EXP 升 1 级）
+      // 6. 渲染围墙防御战绩（每 5 EXP 升 1 级）
       const wallLv = Math.floor(wallExp / 5) + 1;
       const wallRem = wallExp % 5;
       document.getElementById('wallLevelBadge').textContent = `围墙防御 Lv.${wallLv}`;
@@ -1276,7 +1407,7 @@
       document.getElementById('wallExpMeta').textContent = `${wallRem} / 5 EXP (总 ${wallExp})`;
       setToggleBtnState('btnSocialGuard', 'tagSocialGuard', todayArr.includes('social_guard'), 'active');
 
-      // 6. 渲染游乐园（每 5 EXP 升 1 级）
+      // 7. 渲染游乐园（每 5 EXP 升 1 级）
       const parkLv = Math.floor(parkExp / 5) + 1;
       const parkRem = parkExp % 5;
       document.getElementById('parkLevelBadge').textContent = `娱乐设施 Lv.${parkLv}`;
@@ -1287,7 +1418,7 @@
       setToggleBtnState('btnFoodie', 'tagFoodie', todayArr.includes('foodie'), 'active');
       setToggleBtnState('btnJournal', 'tagJournal', todayArr.includes('journal'), 'active');
 
-      // 7. 渲染仓库（每 5 EXP 升 1 级）
+      // 8. 渲染仓库（每 5 EXP 升 1 级）
       const whLv = Math.floor(warehouseExp / 5) + 1;
       const whRem = warehouseExp % 5;
       document.getElementById('warehouseLevelBadge').textContent = `基地仓库 Lv.${whLv}`;
@@ -1297,7 +1428,7 @@
       setToggleBtnState('btnOrganize', 'tagOrganize', todayArr.includes('organize'), 'active');
       setToggleBtnState('btnDeclutter', 'tagDeclutter', todayArr.includes('declutter'), 'active');
 
-      // 8. 渲染基地维护（自然周统计 + 三态环境预警）
+      // 9. 渲染基地维护（自然周统计 + 三态环境预警）
       const weekMaintTotal = weekClean + weekLaundry + weekTrash;
       const maintBar = document.getElementById('maintBarFill');
       const maintBadge = document.getElementById('maintStatusBadge');
@@ -1340,9 +1471,10 @@
       renderLogList('parkList', parkLogs, 'park');
     }
 
-    function updateMaintCard(btnId, tagId, descId, undoId, weekCount, todayCount) {
+    function updateMaintCard(btnId, tagId, descId, undoId, weekCount, todayCount, activeClass = 'active') {
       const btn = document.getElementById(btnId);
-      btn.classList.toggle('active', todayCount > 0);
+      btn.classList.remove('active', 'active-blue', 'active-cyan');
+      if (todayCount > 0) btn.classList.add(activeClass);
       document.getElementById(tagId).textContent = `本周 ${weekCount}`;
       document.getElementById(descId).textContent = `今日 ${todayCount} 次 · 点+1`;
       document.getElementById(undoId).disabled = todayCount <= 0;
