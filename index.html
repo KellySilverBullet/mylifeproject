@@ -732,7 +732,7 @@
     .footer-tools {
       display: flex;
       justify-content: space-between;
-      gap: 10px;
+      gap: 8px;
       margin-top: 8px;
     }
     .tool-btn {
@@ -740,12 +740,13 @@
       background: var(--card);
       border: 1px solid var(--card-border);
       color: var(--text-sub);
-      padding: 9px;
+      padding: 9px 6px;
       border-radius: 9px;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 600;
       cursor: pointer;
       text-align: center;
+      white-space: nowrap;
     }
     .tool-btn:hover {
       color: var(--text-main);
@@ -1258,9 +1259,7 @@
         <span class="card-title">📊 本周 & 本月统计汇总</span>
         <span class="level-pill" id="detailPeriodTotalBadge">本周 0 次 · 本月 0 次</span>
       </div>
-      <div class="detail-stats-grid" id="detailStatsGrid">
-        <!--由 JS 动态生成该模块所有子项目周/月统计-->
-      </div>
+      <div class="detail-stats-grid" id="detailStatsGrid"></div>
     </div>
 
     <!-- 3. 下部：具体文字/图文记录与管理 -->
@@ -1302,10 +1301,11 @@
 
   </div>
 
-  <!-- 底部全局数据备份与恢复 -->
+  <!-- 底部全局数据备份与恢复（支持系统分享导出 + 一键复制剪贴板双保险） -->
   <div class="footer-tools" id="globalFooterTools">
-    <button class="tool-btn" onclick="exportData()">📤 导出备份 JSON</button>
-    <button class="tool-btn" onclick="importData()">📥 导入恢复数据</button>
+    <button class="tool-btn accent-export" onclick="exportData()">📤 导出备份</button>
+    <button class="tool-btn" onclick="copyBackupJson()">📋 复制备份码</button>
+    <button class="tool-btn" onclick="importData()">📥 导入恢复</button>
   </div>
 
   <!-- 编辑/补充图文弹窗 -->
@@ -1342,7 +1342,7 @@
   <script>
     const STORAGE_KEY = 'my_base_v1';
 
-    // 八大板块配置中心（统一驱动详情页统计、记录分类与导出）
+    // 八大板块配置中心
     const MODULE_CONFIGS = {
       supply: {
         title: '🔋 每日自动补给线',
@@ -1380,7 +1380,7 @@
         shortName: '研发中心',
         colorClass: 'purple',
         expPerLv: 6,
-        logCategory: 'tech', // 兼容旧版 tech 日志
+        logCategory: 'tech',
         desc: '深度学术与论文推进（每 2h 单元 +2 EXP）',
         titlePlaceholder: '记录学术里程碑 / 论文进展（如：完成文献综述第三节）',
         subTypes: [
@@ -1461,7 +1461,7 @@
       }
     };
 
-    // 本地时区日期 YYYY-MM-DD（避免 UTC 跨日偏差）
+    // 本地时区日期 YYYY-MM-DD
     function getLocalDateKey(dateObj = new Date()) {
       const y = dateObj.getFullYear();
       const m = String(dateObj.getMonth() + 1).padStart(2, '0');
@@ -1469,9 +1469,9 @@
       return `${y}-${m}-${d}`;
     }
 
-    // 获取当前自然周（周一至周日）的所有 YYYY-MM-DD 键集合
+    // 获取当前自然周（周一至周日）
     function getCurrentWeekKeys(now = new Date()) {
-      const dayOfWeek = now.getDay(); // 0(周日) - 6(周六)
+      const dayOfWeek = now.getDay();
       const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
       const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diffToMonday);
       const keys = new Set();
@@ -1489,7 +1489,7 @@
       return `${y}-${m}`;
     }
 
-    // 推断任意 log 的完整 YYYY-MM-DD（兼容旧版只有 MM-DD 的记录）
+    // 推断 log 完整日期
     function resolveLogFullDate(log) {
       if (log.fullDate && /^\d{4}-\d{2}-\d{2}$/.test(log.fullDate)) return log.fullDate;
       if (log.date && /^\d{2}-\d{2}$/.test(log.date)) {
@@ -1521,7 +1521,7 @@
     }
 
     let state = loadState();
-    let activeView = 'page1'; // 'page1' | 'page2' | 'moduleDetail'
+    let activeView = 'page1';
     let activeDetailModuleKey = 'park';
     let newDetailSubType = '';
     let newDetailImageData = '';
@@ -1529,7 +1529,6 @@
     let editDetailSubType = '';
     let editDetailImageData = '';
 
-    // 兼容读取某天某计次项目的数值（无缝继承旧版 daily 中的单次打卡）
     const LEGACY_DAILY_TO_COUNT_KEYS = new Set([
       'craft', 'boutique', 'foodie', 'journal',
       'shop', 'organize', 'declutter'
@@ -1552,7 +1551,7 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       } catch (e) {
         if (e && (e.name === 'QuotaExceededError' || e.code === 22)) {
-          alert('⚠️ 浏览器本地存储空间已满！建议先导出备份 JSON 或导出图文档案，再清理部分旧照片释放空间。');
+          alert('⚠️ 浏览器本地存储空间已满！建议先导出备份，再清理部分旧照片释放空间。');
         } else {
           alert('保存数据时出现异常，请先导出备份。');
         }
@@ -1565,7 +1564,6 @@
       return true;
     }
 
-    // 主导航页切换（页面1 / 页面2）
     function switchPage(pageNum) {
       const p1 = document.getElementById('page1View');
       const p2 = document.getElementById('page2View');
@@ -1595,7 +1593,6 @@
       }
     }
 
-    // 打开任意板块详情页
     function openModuleDetail(moduleKey) {
       if (!MODULE_CONFIGS[moduleKey]) return;
       activeDetailModuleKey = moduleKey;
@@ -1617,13 +1614,11 @@
       renderModuleDetail();
     }
 
-    // 返回基地总控台
     function closeModuleDetail() {
       switchPage(1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 铁片补给循环计数：0 -> 1 -> 2 -> 0
     function cycleIron() {
       const cur = getDayCount(todayKey, 'iron');
       const next = (cur + 1) % 3;
@@ -1635,7 +1630,6 @@
       saveState();
     }
 
-    // 单次开关型任务切换
     function toggleDailyTask(taskId) {
       const list = state.daily[todayKey];
       const idx = list.indexOf(taskId);
@@ -1644,7 +1638,6 @@
       saveState();
     }
 
-    // 计次型任务增减
     function changeCount(key, delta) {
       const cur = getDayCount(todayKey, key);
       const next = Math.max(0, cur + delta);
@@ -1657,7 +1650,6 @@
       saveState();
     }
 
-    // 安全转义文本防 XSS
     function escapeHtml(str) {
       return String(str || '')
         .replace(/&/g, '&amp;')
@@ -1667,7 +1659,6 @@
         .replace(/'/g, '&#39;');
     }
 
-    // 辅助更新单个开关按钮状态
     function setToggleBtnState(btnId, tagId, isActive, activeClass = 'active') {
       const btn = document.getElementById(btnId);
       const tag = document.getElementById(tagId);
@@ -1680,7 +1671,6 @@
       }
     }
 
-    // 统一更新计次卡片 UI
     function updateCounterCard(btnId, tagId, descId, undoId, weekCount, todayCount, activeClass = 'active', extraHint = '') {
       const btn = document.getElementById(btnId);
       btn.classList.remove('active', 'active-blue', 'active-cyan', 'active-amber', 'active-pink');
@@ -1690,7 +1680,6 @@
       document.getElementById(undoId).disabled = todayCount <= 0;
     }
 
-    // 统一计算所有模块经验与周期统计（兼容旧版 logs 与 daily）
     function computeAllMetrics() {
       const weekKeys = getCurrentWeekKeys();
       const monthPrefix = getCurrentMonthPrefix();
@@ -1699,7 +1688,6 @@
         ...Object.keys(state.dailyCounts || {})
       ]);
 
-      // 累计总次数
       const totalCounts = {
         supplyChecks: 0,
         spaChecks: 0,
@@ -1711,7 +1699,6 @@
         maintChecks: 0
       };
 
-      // 本周与本月各单项次数
       const periodStats = {};
       Object.values(MODULE_CONFIGS).forEach(cfg => {
         cfg.subTypes.forEach(st => {
@@ -1731,7 +1718,6 @@
           if (inMonth) periodStats[k].month += val;
         };
 
-        // 1. 补给线
         const ironC = getDayCount(dKey, 'iron');
         const inhalerC = arr.includes('inhaler') ? 1 : 0;
         const sleepC = arr.includes('sleep') ? 1 : 0;
@@ -1744,7 +1730,6 @@
         addStat('vitamin', vitaminC);
         addStat('fitness', fitnessC);
 
-        // 2. 洗浴中心
         const showerC = arr.includes('shower') ? 1 : 0;
         const bathC = getDayCount(dKey, 'bath');
         const maskC = getDayCount(dKey, 'mask');
@@ -1755,17 +1740,14 @@
         addStat('mask', maskC);
         addStat('beauty_device', beautyC);
 
-        // 3. 研发中心
         const resC = getDayCount(dKey, 'research');
         totalCounts.researchUnits += resC;
         addStat('research', resC);
 
-        // 4. 食堂出餐
         const mealC = getDayCount(dKey, 'canteen_meal');
         totalCounts.canteenMeals += mealC;
         addStat('canteen_meal', mealC);
 
-        // 5. 围墙防御（含旧版 noise 物理降噪折算）
         const socialC = arr.includes('social_guard') ? 1 : 0;
         const noiseC = arr.includes('noise') ? 1 : 0;
         const brickC = getDayCount(dKey, 'wall_brick');
@@ -1773,21 +1755,18 @@
         addStat('social_guard', socialC);
         addStat('wall_brick', brickC + noiseC);
 
-        // 6. 游乐园 5 项
         ['craft', 'boutique', 'foodie', 'journal', 'park_surprise'].forEach(k => {
           const c = getDayCount(dKey, k);
           totalCounts.parkChecks += c;
           addStat(k, c);
         });
 
-        // 7. 仓库 3 项
         ['shop', 'organize', 'declutter'].forEach(k => {
           const c = getDayCount(dKey, k);
           totalCounts.warehouseChecks += c;
           addStat(k, c);
         });
 
-        // 8. 基地维护 4 项（含新增洗碗）
         ['clean', 'laundry', 'trash', 'dishwash'].forEach(k => {
           const c = getDayCount(dKey, k);
           totalCounts.maintChecks += c;
@@ -1795,14 +1774,12 @@
         });
       });
 
-      // 兼容旧版非纯笔记型 logs（!l.isNoteOnly && !l.autoSynced）的经验与周/月次数折算
       state.logs.forEach(log => {
         const dKey = resolveLogFullDate(log);
         const inWeek = weekKeys.has(dKey);
         const inMonth = dKey.startsWith(monthPrefix);
 
         if (log.isNoteOnly) {
-          // 详情页补充的纯图文记录，统计进 logOnly 子项（如 milestone / recipe_note）
           if (log.subType && periodStats[log.subType]) {
             periodStats[log.subType].total += 1;
             if (inWeek) periodStats[log.subType].week += 1;
@@ -1811,7 +1788,6 @@
           return;
         }
 
-        // 以下是旧版主控台输入框时代留下的历史经验 logs，完整保留折算！
         if (log.category === 'tech') {
           totalCounts.researchUnits += 1;
           periodStats.milestone.total += 1;
@@ -1899,7 +1875,7 @@
         supplyBar.classList.add('red');
         supplyBadge.classList.add('red');
         supplyBadge.textContent = `最低补给未满 (${minSupplyCount}/3)`;
-        supplyHint.textContent = '优先完成铁片(×2)与气道(×1)，进度条即可转蓝';
+        supplyHint.textContent = '优先点亮铁片(×2)与气道(×1)稳固底线';
       } else {
         const blueWidth = Math.min(100, Math.round(60 + (bonusSupplyCount / 3) * 40));
         supplyBar.style.width = `${blueWidth}%`;
@@ -1964,7 +1940,7 @@
       document.getElementById('totalResearchHoursText').textContent = `历史累计 ${totalCounts.researchUnits * 2}h`;
       document.getElementById('undoResearchBtn').disabled = todayResearch <= 0;
 
-      // 5. 渲染基地食堂（自然周统计本周出餐）
+      // 5. 渲染基地食堂
       const todayCanteen = getDayCount(todayKey, 'canteen_meal');
       const weekCanteen = periodStats.canteen_meal.week;
       const canLv = Math.floor(moduleExp.canteen / 5) + 1;
@@ -1987,7 +1963,7 @@
       setToggleBtnState('btnSocialGuard', 'tagSocialGuard', todayArr.includes('social_guard'), 'active-amber');
       updateCounterCard('btnWallBrick', 'tagWallBrick', 'descWallBrick', 'undoWallBrickBtn', periodStats.wall_brick.week, todayWallBrick, 'active-amber');
 
-      // 7. 渲染游乐园（全计次 +1）
+      // 7. 渲染游乐园
       const parkLv = Math.floor(moduleExp.park / 5) + 1;
       const parkRem = moduleExp.park % 5;
       document.getElementById('parkLevelBadge').textContent = `娱乐设施 Lv.${parkLv}`;
@@ -2006,7 +1982,7 @@
       updateCounterCard('btnJournal', 'tagJournal', 'descJournal', 'undoJournalBtn', periodStats.journal.week, todayJournal, 'active-pink');
       updateCounterCard('btnSurprise', 'tagSurprise', 'descSurprise', 'undoSurpriseBtn', periodStats.park_surprise.week, todaySurprise, 'active-pink', '（进详情可写小惊喜）');
 
-      // 8. 渲染仓库（全计次 +1）
+      // 8. 渲染仓库
       const whLv = Math.floor(moduleExp.warehouse / 5) + 1;
       const whRem = moduleExp.warehouse % 5;
       document.getElementById('warehouseLevelBadge').textContent = `基地仓库 Lv.${whLv}`;
@@ -2021,7 +1997,7 @@
       updateCounterCard('btnOrganize', 'tagOrganize', 'descOrganize', 'undoOrganizeBtn', periodStats.organize.week, todayOrganize, 'active');
       updateCounterCard('btnDeclutter', 'tagDeclutter', 'descDeclutter', 'undoDeclutterBtn', periodStats.declutter.week, todayDeclutter, 'active');
 
-      // 9. 渲染基地维护（自然周统计，含新增洗碗）
+      // 9. 渲染基地维护
       const weekMaintTotal =
         periodStats.clean.week +
         periodStats.laundry.week +
@@ -2115,7 +2091,6 @@
       const rem = exp % cfg.expPerLv;
       const pct = Math.min(100, Math.round((rem / cfg.expPerLv) * 100));
 
-      // 1. 顶部标题与等级进度条
       document.getElementById('detailTopTitle').textContent = `${cfg.title} · 档案与统计`;
       const lvBadge = document.getElementById('detailLvBadge');
       lvBadge.className = `level-pill ${cfg.colorClass}`;
@@ -2129,7 +2104,6 @@
       document.getElementById('detailSubDesc').textContent = cfg.desc;
       document.getElementById('detailTotalExpText').textContent = `累计 ${exp} EXP`;
 
-      // 2. 周/月统计看板
       let weekTotal = 0;
       let monthTotal = 0;
       const statsGrid = document.getElementById('detailStatsGrid');
@@ -2153,7 +2127,6 @@
       });
       document.getElementById('detailPeriodTotalBadge').textContent = `本周 ${weekTotal} 次 · 本月 ${monthTotal} 次`;
 
-      // 3. 类型选择胶囊 & 输入框占位符
       const typeSelector = document.getElementById('newDetailTypeSelector');
       typeSelector.innerHTML = '';
       cfg.subTypes.forEach(st => {
@@ -2169,7 +2142,6 @@
       });
       document.getElementById('newDetailTitle').placeholder = cfg.titlePlaceholder;
 
-      // 4. 图文手账档案流
       const logs = getModuleLogs(activeDetailModuleKey);
       document.getElementById('detailJournalCount').textContent = `共 ${logs.length} 条记录`;
       const feed = document.getElementById('detailJournalFeed');
@@ -2206,7 +2178,6 @@
       });
     }
 
-    // 前端 Canvas 自动压缩图片（最大宽 640px，JPEG 质量 0.65，防止撑爆 localStorage）
     function compressImageFile(file, maxWidth = 640, quality = 0.65) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -2272,7 +2243,6 @@
       }
     }
 
-    // 提交新增详情页记录
     function submitNewDetailJournal() {
       const cfg = MODULE_CONFIGS[activeDetailModuleKey];
       if (!cfg) return;
@@ -2310,7 +2280,6 @@
       }
     }
 
-    // 打开编辑/配图弹窗
     function openDetailEditModal(logId) {
       const cfg = MODULE_CONFIGS[activeDetailModuleKey];
       const log = state.logs.find(l => l.id === logId);
@@ -2383,7 +2352,6 @@
       }
     }
 
-    // 全屏图片预览灯箱
     function openImageLightbox(logId) {
       const log = state.logs.find(l => l.id === logId);
       if (!log || !log.image) return;
@@ -2394,6 +2362,35 @@
     function closeImageLightbox() {
       document.getElementById('imageLightboxModal').classList.remove('active');
       document.getElementById('lightboxPreviewImg').src = '';
+    }
+
+    // 通用文件导出助手（兼容 iOS 主屏幕 PWA 原生分享面板与标准浏览器下载）
+    async function triggerFileExport(contentStr, fileName, mimeType, shareTitle) {
+      const blob = new Blob([contentStr], { type: mimeType });
+
+      if (navigator.canShare && navigator.share) {
+        try {
+          const file = new File([blob], fileName, { type: mimeType.split(';')[0] });
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              files: [file],
+              title: shareTitle
+            });
+            return;
+          }
+        } catch (err) {
+          if (err && err.name === 'AbortError') return;
+        }
+      }
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
     }
 
     // 一键导出当前板块图文档案 (.html)
@@ -2479,18 +2476,14 @@
 </body>
 </html>`;
 
-      const blob = new Blob([standaloneHtml], { type: 'text/html;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `base_${activeDetailModuleKey}_${todayKey}.html`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1500);
+      triggerFileExport(
+        standaloneHtml,
+        `base_${activeDetailModuleKey}_${todayKey}.html`,
+        'text/html;charset=utf-8',
+        `${cfg.shortName}图文档案`
+      );
     }
 
-    // 复制当前板块纯文本总结
     function copyModuleSummaryText() {
       const cfg = MODULE_CONFIGS[activeDetailModuleKey];
       if (!cfg) return;
@@ -2541,13 +2534,23 @@
 
     function exportData() {
       const jsonStr = JSON.stringify(state, null, 2);
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(jsonStr);
-      const a = document.createElement('a');
-      a.setAttribute("href", dataStr);
-      a.setAttribute("download", `base_backup_${todayKey}.json`);
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+      triggerFileExport(
+        jsonStr,
+        `base_backup_${todayKey}.json`,
+        'application/json;charset=utf-8',
+        '个人基地数据备份'
+      );
+    }
+
+    function copyBackupJson() {
+      const jsonStr = JSON.stringify(state);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(jsonStr)
+          .then(() => alert('📋 基地完整备份码已复制到剪贴板！可直接粘贴到备忘录或微信收藏保存。'))
+          .catch(() => prompt('请全选复制以下 JSON 备份码：', jsonStr));
+      } else {
+        prompt('请全选复制以下 JSON 备份码：', jsonStr);
+      }
     }
 
     function importData() {
