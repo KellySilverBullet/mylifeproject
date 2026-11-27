@@ -128,7 +128,7 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
-      gap: 8px;
+      gap: 6px;
     }
     .card-header.clickable {
       cursor: pointer;
@@ -140,35 +140,42 @@
       opacity: 0.72;
     }
     .card-title {
-      font-size: 0.95rem;
+      font-size: 0.94rem;
       font-weight: 700;
       color: var(--text-main);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       white-space: nowrap;
     }
     .header-right-group {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       flex-shrink: 0;
     }
+
+    /* 各板块专属入口胶囊（匹配各自主题色） */
     .enter-hint {
-      font-size: 0.71rem;
-      color: var(--text-main);
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid var(--card-border);
+      font-size: 0.7rem;
       padding: 2px 8px;
       border-radius: 999px;
       font-weight: 600;
       white-space: nowrap;
+      color: var(--accent-blue);
+      background: rgba(78, 168, 222, 0.12);
+      border: 1px solid rgba(78, 168, 222, 0.28);
     }
+    .enter-hint.cyan { color: var(--accent-cyan); background: rgba(86, 207, 225, 0.12); border-color: rgba(86, 207, 225, 0.28); }
+    .enter-hint.purple { color: var(--accent-purple); background: rgba(157, 141, 241, 0.12); border-color: rgba(157, 141, 241, 0.28); }
+    .enter-hint.green { color: var(--accent-green); background: rgba(56, 211, 159, 0.12); border-color: rgba(56, 211, 159, 0.28); }
+    .enter-hint.amber { color: var(--accent-amber); background: rgba(246, 189, 96, 0.12); border-color: rgba(246, 189, 96, 0.28); }
+    .enter-hint.pink { color: var(--accent-pink); background: rgba(244, 143, 177, 0.12); border-color: rgba(244, 143, 177, 0.28); }
 
     .level-pill {
-      font-size: 0.72rem;
+      font-size: 0.71rem;
       font-weight: 700;
-      padding: 2px 8px;
+      padding: 2px 7px;
       border-radius: 999px;
       background: rgba(78, 168, 222, 0.16);
       color: var(--accent-blue);
@@ -277,6 +284,10 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 6px;
     }
+    .task-grid.four-col {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+    }
     .span-two {
       grid-column: span 2;
     }
@@ -349,6 +360,34 @@
       text-overflow: ellipsis;
     }
 
+    /* 四列单行紧凑网格专属样式（基地维护 4 项一行，适配 375px 窄屏） */
+    .four-col .task-btn {
+      padding: 7px 4px;
+      border-radius: 9px;
+      gap: 3px;
+    }
+    .four-col .task-name {
+      font-size: 0.63rem;
+      white-space: nowrap;
+      letter-spacing: -0.5px;
+      gap: 1px;
+    }
+    .four-col .task-tag {
+      font-size: 0.54rem;
+      padding: 1px 3px;
+      border-radius: 4px;
+    }
+    .four-col .task-desc {
+      font-size: 0.58rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .four-col .maint-undo {
+      font-size: 0.6rem;
+      padding: 2px 0;
+    }
+
     /* 铁剂双胶囊指示器 */
     .dots { display: inline-flex; gap: 4px; align-items: center; }
     .dot {
@@ -414,7 +453,7 @@
     .maint-card-wrap {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 4px;
       min-width: 0;
     }
     .maint-undo {
@@ -803,14 +842,11 @@
       </div>
     </div>
 
-    <!-- 2. 每日自动补给线 -->
+    <!-- 2. 每日自动补给线（无详情页入口） -->
     <div class="card">
-      <div class="card-header clickable" onclick="openModuleDetail('supply')">
+      <div class="card-header">
         <span class="card-title">🔋 每日自动补给线</span>
-        <div class="header-right-group">
-          <span class="level-pill red" id="supplyStatusBadge">最低补给未满 (0/3)</span>
-          <span class="enter-hint">详情 ›</span>
-        </div>
+        <span class="level-pill red" id="supplyStatusBadge">最低补给未满 (0/3)</span>
       </div>
       <div class="bar-wrap">
         <div class="bar-fill red" id="supplyBarFill" style="width: 0%;"></div>
@@ -875,7 +911,7 @@
         <span class="card-title">🛁 基地洗浴中心</span>
         <div class="header-right-group">
           <span class="level-pill cyan" id="spaLevelBadge">洗浴中心 Lv.1</span>
-          <span class="enter-hint">详情 ›</span>
+          <span class="enter-hint cyan">进入浴场 ›</span>
         </div>
       </div>
       <div class="bar-wrap">
@@ -938,7 +974,7 @@
         <span class="card-title">🔬 基地研发中心</span>
         <div class="header-right-group">
           <span class="level-pill purple" id="researchLevelBadge">研发中心 Lv.1</span>
-          <span class="enter-hint">详情 ›</span>
+          <span class="enter-hint purple">研发档案 ›</span>
         </div>
       </div>
       <div class="bar-wrap">
@@ -967,7 +1003,7 @@
         <span class="card-title">🍳 基地食堂</span>
         <div class="header-right-group">
           <span class="level-pill green" id="canteenLevelBadge">基地食堂 Lv.1</span>
-          <span class="enter-hint">详情 ›</span>
+          <span class="enter-hint green">食堂菜谱 ›</span>
         </div>
       </div>
       <div class="bar-wrap">
@@ -996,7 +1032,7 @@
         <span class="card-title">🧱 围墙防御战绩</span>
         <div class="header-right-group">
           <span class="level-pill amber" id="wallLevelBadge">围墙防御 Lv.1</span>
-          <span class="enter-hint">详情 ›</span>
+          <span class="enter-hint amber">防御日志 ›</span>
         </div>
       </div>
       <div class="bar-wrap">
@@ -1034,7 +1070,7 @@
         <span class="card-title">🎡 游乐园</span>
         <div class="header-right-group">
           <span class="level-pill pink" id="parkLevelBadge">娱乐设施 Lv.1</span>
-          <span class="enter-hint">详情 ›</span>
+          <span class="enter-hint pink">进入乐园 ›</span>
         </div>
       </div>
       <div class="bar-wrap">
@@ -1095,7 +1131,7 @@
               <span>🎁 乐园惊喜屋</span>
               <span class="task-tag" id="tagSurprise">本周 0</span>
             </div>
-            <div class="task-desc" id="descSurprise">今日 0 次 · 点+1（具体小惊喜可进详情记录）</div>
+            <div class="task-desc" id="descSurprise">今日 0 次 · 点+1（具体小惊喜可进乐园记录）</div>
           </button>
           <button class="maint-undo" id="undoSurpriseBtn" onclick="changeCount('park_surprise', -1)" disabled>撤回今日</button>
         </div>
@@ -1108,7 +1144,7 @@
         <span class="card-title">📦 仓库</span>
         <div class="header-right-group">
           <span class="level-pill" id="warehouseLevelBadge">基地仓库 Lv.1</span>
-          <span class="enter-hint">详情 ›</span>
+          <span class="enter-hint">清点仓库 ›</span>
         </div>
       </div>
       <div class="bar-wrap">
@@ -1154,13 +1190,13 @@
       </div>
     </div>
 
-    <!-- 9. 基地维护（按自然周统计，新增洗碗） -->
+    <!-- 9. 基地维护（4项紧凑排在一行，按自然周统计） -->
     <div class="card">
       <div class="card-header clickable" onclick="openModuleDetail('maint')">
         <span class="card-title">🛠️ 基地维护</span>
         <div class="header-right-group">
-          <span class="level-pill red" id="maintStatusBadge">🚨 红警：本周未维护</span>
-          <span class="enter-hint">详情 ›</span>
+          <span class="level-pill red" id="maintStatusBadge">🚨 红警：未维护</span>
+          <span class="enter-hint green">维护记录 ›</span>
         </div>
       </div>
       <div class="bar-wrap">
@@ -1168,51 +1204,51 @@
       </div>
       <div class="bar-meta">
         <span id="maintWeekMeta">本周累计：0 次（满 4 次环境良好）</span>
-        <span id="maintExpMeta">累计维护：0 EXP</span>
+        <span id="maintExpMeta">累计：0 EXP</span>
       </div>
-      <div class="task-grid">
+      <div class="task-grid four-col">
         <div class="maint-card-wrap">
           <button class="task-btn" id="btnClean" onclick="changeCount('clean', 1)">
             <div class="task-name">
               <span>🧹 打扫</span>
-              <span class="task-tag" id="tagClean">本周 0</span>
+              <span class="task-tag" id="tagClean">周0</span>
             </div>
-            <div class="task-desc" id="descClean">今日 0 次 · 点+1</div>
+            <div class="task-desc" id="descClean">今0 · +1</div>
           </button>
-          <button class="maint-undo" id="undoCleanBtn" onclick="changeCount('clean', -1)" disabled>撤回今日</button>
+          <button class="maint-undo" id="undoCleanBtn" onclick="changeCount('clean', -1)" disabled>撤回</button>
         </div>
 
         <div class="maint-card-wrap">
           <button class="task-btn" id="btnLaundry" onclick="changeCount('laundry', 1)">
             <div class="task-name">
               <span>👕 换洗</span>
-              <span class="task-tag" id="tagLaundry">本周 0</span>
+              <span class="task-tag" id="tagLaundry">周0</span>
             </div>
-            <div class="task-desc" id="descLaundry">今日 0 次 · 点+1</div>
+            <div class="task-desc" id="descLaundry">今0 · +1</div>
           </button>
-          <button class="maint-undo" id="undoLaundryBtn" onclick="changeCount('laundry', -1)" disabled>撤回今日</button>
+          <button class="maint-undo" id="undoLaundryBtn" onclick="changeCount('laundry', -1)" disabled>撤回</button>
         </div>
 
         <div class="maint-card-wrap">
           <button class="task-btn" id="btnTrash" onclick="changeCount('trash', 1)">
             <div class="task-name">
               <span>🗑️ 扔垃圾</span>
-              <span class="task-tag" id="tagTrash">本周 0</span>
+              <span class="task-tag" id="tagTrash">周0</span>
             </div>
-            <div class="task-desc" id="descTrash">今日 0 次 · 点+1</div>
+            <div class="task-desc" id="descTrash">今0 · +1</div>
           </button>
-          <button class="maint-undo" id="undoTrashBtn" onclick="changeCount('trash', -1)" disabled>撤回今日</button>
+          <button class="maint-undo" id="undoTrashBtn" onclick="changeCount('trash', -1)" disabled>撤回</button>
         </div>
 
         <div class="maint-card-wrap">
           <button class="task-btn" id="btnDish" onclick="changeCount('dishwash', 1)">
             <div class="task-name">
               <span>🥣 洗碗</span>
-              <span class="task-tag" id="tagDish">本周 0</span>
+              <span class="task-tag" id="tagDish">周0</span>
             </div>
-            <div class="task-desc" id="descDish">今日 0 次 · 点+1</div>
+            <div class="task-desc" id="descDish">今0 · +1</div>
           </button>
-          <button class="maint-undo" id="undoDishBtn" onclick="changeCount('dishwash', -1)" disabled>撤回今日</button>
+          <button class="maint-undo" id="undoDishBtn" onclick="changeCount('dishwash', -1)" disabled>撤回</button>
         </div>
       </div>
     </div>
@@ -1224,7 +1260,7 @@
     <div style="font-size: 2rem; margin-bottom: 10px;">📈</div>
     <h2 style="font-size: 1.05rem; margin-bottom: 8px;">全局周期统计中心（建设中）</h2>
     <p style="font-size: 0.82rem; color: var(--text-sub); margin-bottom: 16px;">
-      目前你已可以直接点击首页任意板块右上角的 <strong>「详情 ›」</strong> 查看该板块的本周/本月统计与图文手账；全局跨板块复盘看板将在后续版本上线。
+      目前你已可以直接点击首页各板块右上角的专属入口（如 <strong>进入乐园 ›</strong>、<strong>食堂菜谱 ›</strong>）查看该板块的本周/本月统计与图文手账；全局跨板块复盘看板将在后续版本上线。
     </p>
     <button class="add-btn" style="padding: 9px 18px;" onclick="switchPage(1)">返回基地总控台</button>
   </div>
@@ -1235,7 +1271,7 @@
     <!-- 顶部返回导航栏 -->
     <div class="subpage-topbar">
       <button class="back-btn" onclick="closeModuleDetail()">← 返回基地总控</button>
-      <span class="subpage-title" id="detailTopTitle">板块详情</span>
+      <span class="subpage-title" id="detailTopTitle">板块档案</span>
     </div>
 
     <!-- 1. 顶部：板块等级与经验进度条（无场景图） -->
@@ -1301,7 +1337,7 @@
 
   </div>
 
-  <!-- 底部全局数据备份与恢复（支持系统分享导出 + 一键复制剪贴板双保险） -->
+  <!-- 底部全局数据备份与恢复（支持 iPhone 原生分享面板 + 一键复制剪贴板双保险） -->
   <div class="footer-tools" id="globalFooterTools">
     <button class="tool-btn accent-export" onclick="exportData()">📤 导出备份</button>
     <button class="tool-btn" onclick="copyBackupJson()">📋 复制备份码</button>
@@ -1342,27 +1378,12 @@
   <script>
     const STORAGE_KEY = 'my_base_v1';
 
-    // 八大板块配置中心
+    // 7 大可进入详情页的板块配置中心（每日自动补给线不设详情页）
     const MODULE_CONFIGS = {
-      supply: {
-        title: '🔋 每日自动补给线',
-        shortName: '补给线',
-        colorClass: 'blue',
-        expPerLv: 10,
-        logCategory: 'supply',
-        desc: '基础生理与营养补给（每项 +2 EXP）',
-        titlePlaceholder: '记录补给感受或运动内容（如：完成30分钟核心训练）',
-        subTypes: [
-          { key: 'iron', label: '铁片补给', icon: '💊', source: 'count', countKey: 'iron' },
-          { key: 'inhaler', label: '气道维护', icon: '🌬️', source: 'daily', dailyKey: 'inhaler' },
-          { key: 'sleep', label: '夜间休眠', icon: '🌙', source: 'daily', dailyKey: 'sleep' },
-          { key: 'vitamin', label: '维生素', icon: '☀️', source: 'daily', dailyKey: 'vitamin' },
-          { key: 'fitness', label: '健身', icon: '🏃', source: 'daily', dailyKey: 'fitness' }
-        ]
-      },
       spa: {
         title: '🛁 基地洗浴中心',
         shortName: '洗浴中心',
+        entryLabel: '进入浴场',
         colorClass: 'cyan',
         expPerLv: 5,
         logCategory: 'spa',
@@ -1378,6 +1399,7 @@
       research: {
         title: '🔬 基地研发中心',
         shortName: '研发中心',
+        entryLabel: '研发档案',
         colorClass: 'purple',
         expPerLv: 6,
         logCategory: 'tech',
@@ -1391,6 +1413,7 @@
       canteen: {
         title: '🍳 基地食堂',
         shortName: '基地食堂',
+        entryLabel: '食堂菜谱',
         colorClass: 'green',
         expPerLv: 5,
         logCategory: 'canteen',
@@ -1404,6 +1427,7 @@
       wall: {
         title: '🧱 围墙防御战绩',
         shortName: '围墙防御',
+        entryLabel: '防御日志',
         colorClass: 'amber',
         expPerLv: 5,
         logCategory: 'wall',
@@ -1417,6 +1441,7 @@
       park: {
         title: '🎡 游乐园',
         shortName: '娱乐设施',
+        entryLabel: '进入乐园',
         colorClass: 'pink',
         expPerLv: 5,
         logCategory: 'park',
@@ -1433,6 +1458,7 @@
       warehouse: {
         title: '📦 仓库',
         shortName: '基地仓库',
+        entryLabel: '清点仓库',
         colorClass: 'blue',
         expPerLv: 5,
         logCategory: 'warehouse',
@@ -1447,6 +1473,7 @@
       maint: {
         title: '🛠️ 基地维护',
         shortName: '基地维护',
+        entryLabel: '维护记录',
         colorClass: 'green',
         expPerLv: 5,
         logCategory: 'maint',
@@ -1671,12 +1698,19 @@
       }
     }
 
-    function updateCounterCard(btnId, tagId, descId, undoId, weekCount, todayCount, activeClass = 'active', extraHint = '') {
+    function updateCounterCard(btnId, tagId, descId, undoId, weekCount, todayCount, activeClass = 'active', options = {}) {
       const btn = document.getElementById(btnId);
       btn.classList.remove('active', 'active-blue', 'active-cyan', 'active-amber', 'active-pink');
       if (todayCount > 0) btn.classList.add(activeClass);
-      document.getElementById(tagId).textContent = `本周 ${weekCount}`;
-      document.getElementById(descId).textContent = `今日 ${todayCount} 次 · 点+1${extraHint}`;
+
+      if (options.compact) {
+        document.getElementById(tagId).textContent = `周${weekCount}`;
+        document.getElementById(descId).textContent = `今${todayCount} · +1`;
+      } else {
+        const extraHint = options.extraHint || '';
+        document.getElementById(tagId).textContent = `本周 ${weekCount}`;
+        document.getElementById(descId).textContent = `今日 ${todayCount} 次 · 点+1${extraHint}`;
+      }
       document.getElementById(undoId).disabled = todayCount <= 0;
     }
 
@@ -1724,11 +1758,6 @@
         const vitaminC = arr.includes('vitamin') ? 1 : 0;
         const fitnessC = arr.includes('fitness') ? 1 : 0;
         totalCounts.supplyChecks += (ironC + inhalerC + sleepC + vitaminC + fitnessC);
-        addStat('iron', ironC);
-        addStat('inhaler', inhalerC);
-        addStat('sleep', sleepC);
-        addStat('vitamin', vitaminC);
-        addStat('fitness', fitnessC);
 
         const showerC = arr.includes('shower') ? 1 : 0;
         const bathC = getDayCount(dKey, 'bath');
@@ -1849,7 +1878,7 @@
       document.getElementById('reactorLevelBadge').textContent = `Lv.${reactorLv} (${reactorCurExp} / 15 EXP)`;
       document.getElementById('reactorExpFill').style.width = `${reactorPct}%`;
       document.getElementById('reactorExpPercent').textContent = `升级进度 ${reactorPct}%`;
-      document.getElementById('reactorTotalExpText').textContent = `累计综合经验：${totalExp} EXP`;
+      document.getElementById('reactorTotalExpText').textContent = `累计总经验：${totalExp} EXP`;
 
       // 2. 渲染每日自动补给线
       const todayIron = getDayCount(todayKey, 'iron');
@@ -1980,7 +2009,7 @@
       updateCounterCard('btnBoutique', 'tagBoutique', 'descBoutique', 'undoBoutiqueBtn', periodStats.boutique.week, todayBoutique, 'active-pink');
       updateCounterCard('btnFoodie', 'tagFoodie', 'descFoodie', 'undoFoodieBtn', periodStats.foodie.week, todayFoodie, 'active-pink');
       updateCounterCard('btnJournal', 'tagJournal', 'descJournal', 'undoJournalBtn', periodStats.journal.week, todayJournal, 'active-pink');
-      updateCounterCard('btnSurprise', 'tagSurprise', 'descSurprise', 'undoSurpriseBtn', periodStats.park_surprise.week, todaySurprise, 'active-pink', '（进详情可写小惊喜）');
+      updateCounterCard('btnSurprise', 'tagSurprise', 'descSurprise', 'undoSurpriseBtn', periodStats.park_surprise.week, todaySurprise, 'active-pink', { extraHint: '（进乐园可写小惊喜）' });
 
       // 8. 渲染仓库
       const whLv = Math.floor(moduleExp.warehouse / 5) + 1;
@@ -1997,7 +2026,7 @@
       updateCounterCard('btnOrganize', 'tagOrganize', 'descOrganize', 'undoOrganizeBtn', periodStats.organize.week, todayOrganize, 'active');
       updateCounterCard('btnDeclutter', 'tagDeclutter', 'descDeclutter', 'undoDeclutterBtn', periodStats.declutter.week, todayDeclutter, 'active');
 
-      // 9. 渲染基地维护
+      // 9. 渲染基地维护（4 项单行紧凑模式）
       const weekMaintTotal =
         periodStats.clean.week +
         periodStats.laundry.week +
@@ -2016,29 +2045,29 @@
       if (weekMaintTotal === 0) {
         maintBar.classList.add('red');
         maintBadge.classList.add('red');
-        maintBadge.textContent = '🚨 红警：本周未维护';
+        maintBadge.textContent = '🚨 红警：未维护';
       } else if (weekMaintTotal <= 3) {
         maintBar.classList.add('amber');
         maintBadge.classList.add('amber');
-        maintBadge.textContent = `⚠️ 需注意：已维护 ${weekMaintTotal} 次`;
+        maintBadge.textContent = `⚠️ 已维护 ${weekMaintTotal} 次`;
       } else {
         maintBar.classList.add('green');
         maintBadge.classList.add('green');
-        maintBadge.textContent = '✅ 基地环境良好';
+        maintBadge.textContent = '✅ 环境良好';
       }
 
       document.getElementById('maintWeekMeta').textContent = `本周累计：${weekMaintTotal} 次（满 4 次环境良好）`;
-      document.getElementById('maintExpMeta').textContent = `历史维护：${moduleExp.maint} EXP`;
+      document.getElementById('maintExpMeta').textContent = `累计：${moduleExp.maint} EXP`;
 
       const todayClean = getDayCount(todayKey, 'clean');
       const todayLaundry = getDayCount(todayKey, 'laundry');
       const todayTrash = getDayCount(todayKey, 'trash');
       const todayDish = getDayCount(todayKey, 'dishwash');
 
-      updateCounterCard('btnClean', 'tagClean', 'descClean', 'undoCleanBtn', periodStats.clean.week, todayClean, 'active');
-      updateCounterCard('btnLaundry', 'tagLaundry', 'descLaundry', 'undoLaundryBtn', periodStats.laundry.week, todayLaundry, 'active');
-      updateCounterCard('btnTrash', 'tagTrash', 'descTrash', 'undoTrashBtn', periodStats.trash.week, todayTrash, 'active');
-      updateCounterCard('btnDish', 'tagDish', 'descDish', 'undoDishBtn', periodStats.dishwash.week, todayDish, 'active');
+      updateCounterCard('btnClean', 'tagClean', 'descClean', 'undoCleanBtn', periodStats.clean.week, todayClean, 'active', { compact: true });
+      updateCounterCard('btnLaundry', 'tagLaundry', 'descLaundry', 'undoLaundryBtn', periodStats.laundry.week, todayLaundry, 'active', { compact: true });
+      updateCounterCard('btnTrash', 'tagTrash', 'descTrash', 'undoTrashBtn', periodStats.trash.week, todayTrash, 'active', { compact: true });
+      updateCounterCard('btnDish', 'tagDish', 'descDish', 'undoDishBtn', periodStats.dishwash.week, todayDish, 'active', { compact: true });
 
       // 计算并更新反应堆「今日综合充能度 %」
       const todaySpaDone = (todayShower || todayBath > 0 || todayMask > 0 || todayBeauty > 0) ? 1 : 0;
@@ -2091,7 +2120,7 @@
       const rem = exp % cfg.expPerLv;
       const pct = Math.min(100, Math.round((rem / cfg.expPerLv) * 100));
 
-      document.getElementById('detailTopTitle').textContent = `${cfg.title} · 档案与统计`;
+      document.getElementById('detailTopTitle').textContent = `${cfg.title} · ${cfg.entryLabel}`;
       const lvBadge = document.getElementById('detailLvBadge');
       lvBadge.className = `level-pill ${cfg.colorClass}`;
       lvBadge.textContent = `${cfg.shortName} Lv.${lv}`;
