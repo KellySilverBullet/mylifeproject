@@ -146,17 +146,19 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      white-space: nowrap;
     }
     .header-right-group {
       display: flex;
       align-items: center;
       gap: 6px;
+      flex-shrink: 0;
     }
     .enter-hint {
-      font-size: 0.72rem;
-      color: var(--accent-pink);
-      background: rgba(244, 143, 177, 0.12);
-      border: 1px solid rgba(244, 143, 177, 0.28);
+      font-size: 0.71rem;
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--card-border);
       padding: 2px 8px;
       border-radius: 999px;
       font-weight: 600;
@@ -275,6 +277,9 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 6px;
     }
+    .span-two {
+      grid-column: span 2;
+    }
     .task-btn {
       background: var(--card-inner);
       border: 1px solid var(--card-border);
@@ -294,7 +299,10 @@
     .task-btn.active { border-color: var(--accent-green); background: rgba(56, 211, 159, 0.11); }
     .task-btn.active-blue { border-color: var(--accent-blue); background: rgba(78, 168, 222, 0.13); }
     .task-btn.active-cyan { border-color: var(--accent-cyan); background: rgba(86, 207, 225, 0.12); }
+    .task-btn.active-amber { border-color: var(--accent-amber); background: rgba(246, 189, 96, 0.12); }
+    .task-btn.active-pink { border-color: var(--accent-pink); background: rgba(244, 143, 177, 0.12); }
     .task-btn.partial-red { border-color: rgba(242, 132, 130, 0.65); background: rgba(242, 132, 130, 0.1); }
+
     .task-name {
       font-size: 0.84rem;
       font-weight: 600;
@@ -321,9 +329,11 @@
     .task-btn.active .task-tag { background: rgba(56, 211, 159, 0.2); color: var(--accent-green); }
     .task-btn.active-blue .task-tag { background: rgba(78, 168, 222, 0.22); color: var(--accent-blue); }
     .task-btn.active-cyan .task-tag { background: rgba(86, 207, 225, 0.22); color: var(--accent-cyan); }
+    .task-btn.active-amber .task-tag { background: rgba(246, 189, 96, 0.22); color: var(--accent-amber); }
+    .task-btn.active-pink .task-tag { background: rgba(244, 143, 177, 0.22); color: var(--accent-pink); }
     .task-btn.partial-red .task-tag { background: rgba(242, 132, 130, 0.22); color: var(--accent-red); }
 
-    /* 三列网格专属单行防折行优化（适配 iPhone 竖屏） */
+    /* 三列网格专属单行防折行优化 */
     .three-col .task-btn { padding: 9px 7px; }
     .three-col .task-name {
       font-size: 0.74rem;
@@ -351,13 +361,12 @@
     .dot.filled-red { background: var(--accent-red); }
     .dot.filled-blue { background: var(--accent-blue); }
 
-    /* 研发中心脉冲控制栏 */
+    /* 脉冲控制栏（研发中心 & 食堂出餐） */
     .pulse-box {
       background: var(--card-inner);
       border: 1px solid var(--card-border);
       border-radius: 10px;
       padding: 11px;
-      margin-bottom: 10px;
       display: flex;
       flex-direction: column;
       gap: 9px;
@@ -367,6 +376,7 @@
       justify-content: space-between;
       align-items: center;
       font-size: 0.8rem;
+      gap: 6px;
     }
     .pulse-actions { display: flex; gap: 8px; }
     .primary-pulse-btn {
@@ -376,10 +386,15 @@
       color: #e9e4ff;
       border-radius: 9px;
       padding: 9px 12px;
-      font-size: 0.83rem;
+      font-size: 0.84rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.18s ease;
+    }
+    .primary-pulse-btn.green {
+      background: linear-gradient(90deg, rgba(56, 211, 159, 0.24), rgba(46, 196, 182, 0.22));
+      border-color: rgba(56, 211, 159, 0.52);
+      color: #d8fff0;
     }
     .primary-pulse-btn:active { transform: scale(0.98); }
     .undo-btn {
@@ -391,6 +406,7 @@
       font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
+      white-space: nowrap;
     }
     .undo-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
@@ -413,12 +429,7 @@
     }
     .maint-undo:disabled { opacity: 0.3; cursor: not-allowed; }
 
-    /* 输入框与记录列表 */
-    .input-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 8px;
-    }
+    /* 表单与记录样式 */
     input[type="text"], textarea {
       width: 100%;
       min-width: 0;
@@ -435,7 +446,7 @@
     }
     textarea {
       resize: vertical;
-      min-height: 66px;
+      min-height: 68px;
       line-height: 1.5;
     }
     button.add-btn {
@@ -449,36 +460,7 @@
       cursor: pointer;
       white-space: nowrap;
     }
-    button.add-btn.amber { background: var(--accent-amber); }
-    button.add-btn.purple { background: var(--accent-purple); }
-    button.add-btn.pink { background: var(--accent-pink); }
 
-    .log-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      max-height: 150px;
-      overflow-y: auto;
-      margin-top: 9px;
-    }
-    .log-list:empty { display: none; }
-    .log-item {
-      background: var(--card-inner);
-      padding: 7px 10px;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      border-left: 3px solid var(--accent-purple);
-    }
-    .log-item.wall { border-left-color: var(--accent-amber); }
-    .log-item.canteen { border-left-color: var(--accent-green); }
-    .log-item.park { border-left-color: var(--accent-pink); }
-    .log-text { word-break: break-word; flex: 1; }
-    .log-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
     .log-date { font-size: 0.7rem; color: var(--text-sub); font-variant-numeric: tabular-nums; }
     .del-btn {
       background: none;
@@ -500,7 +482,7 @@
       padding: 36px 18px;
     }
 
-    /* ================= 游乐园专属详情子页面样式 ================= */
+    /* ================= 通用板块详情子页面样式 ================= */
     .subpage-topbar {
       display: flex;
       justify-content: space-between;
@@ -513,9 +495,9 @@
       gap: 8px;
     }
     .back-btn {
-      background: rgba(244, 143, 177, 0.14);
-      border: 1px solid rgba(244, 143, 177, 0.38);
-      color: var(--accent-pink);
+      background: rgba(78, 168, 222, 0.14);
+      border: 1px solid rgba(78, 168, 222, 0.38);
+      color: var(--accent-blue);
       border-radius: 8px;
       padding: 6px 11px;
       font-size: 0.78rem;
@@ -530,81 +512,34 @@
       color: var(--text-main);
     }
 
-    /* 16:9 场景橱窗 */
-    .stage-showcase {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      border-radius: 12px;
-      overflow: hidden;
-      background: linear-gradient(135deg, #251d2e, #1a2234);
-      border: 1px solid rgba(244, 143, 177, 0.3);
-      margin-bottom: 12px;
-    }
-    .stage-showcase img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .stage-fallback {
-      position: absolute;
-      inset: 0;
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 16px;
-      background: radial-gradient(circle at top right, rgba(244, 143, 177, 0.22), rgba(20, 24, 34, 0.95));
-      color: var(--text-main);
-    }
-    .stage-fallback.visible {
-      display: flex;
-    }
-    .stage-overlay-badge {
-      position: absolute;
-      left: 10px;
-      bottom: 10px;
-      background: rgba(18, 21, 28, 0.82);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border: 1px solid rgba(244, 143, 177, 0.4);
-      color: #ffd6e5;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 999px;
-    }
-
     /* 周/月数据统计网格 */
-    .park-stats-grid {
+    .detail-stats-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
+      grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+      gap: 7px;
       margin-top: 8px;
     }
-    .park-stat-cell {
+    .detail-stat-cell {
       background: var(--card-inner);
       border: 1px solid var(--card-border);
       border-radius: 10px;
-      padding: 8px 4px;
+      padding: 9px 6px;
       text-align: center;
     }
-    .park-stat-icon { font-size: 1rem; margin-bottom: 2px; }
-    .park-stat-name { font-size: 0.68rem; color: var(--text-sub); margin-bottom: 4px; }
-    .park-stat-nums {
-      font-size: 0.72rem;
+    .detail-stat-icon { font-size: 1.05rem; margin-bottom: 2px; }
+    .detail-stat-name { font-size: 0.71rem; color: var(--text-sub); margin-bottom: 4px; }
+    .detail-stat-nums {
+      font-size: 0.74rem;
       font-weight: 700;
       color: var(--text-main);
       font-variant-numeric: tabular-nums;
-      line-height: 1.35;
+      line-height: 1.38;
     }
-    .park-stat-nums span {
+    .detail-stat-nums span {
       display: block;
-      font-size: 0.65rem;
+      font-size: 0.67rem;
       font-weight: 500;
-      color: var(--accent-pink);
+      color: var(--accent-blue);
     }
 
     /* 手账发布区 */
@@ -626,9 +561,9 @@
       transition: all 0.16s ease;
     }
     .type-chip.active {
-      background: rgba(244, 143, 177, 0.18);
-      border-color: var(--accent-pink);
-      color: #ffd6e5;
+      background: rgba(78, 168, 222, 0.2);
+      border-color: var(--accent-blue);
+      color: #d6efff;
     }
     .journal-form-stack {
       display: flex;
@@ -648,8 +583,8 @@
     }
     .photo-pick-btn {
       background: #1e2433;
-      border: 1px dashed rgba(244, 143, 177, 0.5);
-      color: #ffd6e5;
+      border: 1px dashed rgba(78, 168, 222, 0.5);
+      color: #cde8ff;
       border-radius: 8px;
       padding: 7px 12px;
       font-size: 0.78rem;
@@ -666,7 +601,7 @@
       height: 72px;
       border-radius: 8px;
       overflow: hidden;
-      border: 1px solid var(--accent-pink);
+      border: 1px solid var(--accent-blue);
     }
     .preview-box.active { display: block; }
     .preview-box img {
@@ -698,7 +633,7 @@
     .journal-card {
       background: var(--card-inner);
       border: 1px solid var(--card-border);
-      border-left: 3px solid var(--accent-pink);
+      border-left: 3px solid var(--accent-blue);
       border-radius: 11px;
       padding: 11px 12px;
     }
@@ -714,8 +649,8 @@
       font-weight: 700;
       padding: 2px 7px;
       border-radius: 6px;
-      background: rgba(244, 143, 177, 0.16);
-      color: var(--accent-pink);
+      background: rgba(78, 168, 222, 0.16);
+      color: var(--accent-blue);
     }
     .journal-card-title {
       font-size: 0.88rem;
@@ -774,9 +709,7 @@
       padding: 16px;
       z-index: 999;
     }
-    .modal-backdrop.active {
-      display: flex;
-    }
+    .modal-backdrop.active { display: flex; }
     .modal-box {
       background: var(--card);
       border: 1px solid var(--card-border);
@@ -818,10 +751,10 @@
       color: var(--text-main);
       border-color: var(--text-sub);
     }
-    .tool-btn.pink-export {
-      background: rgba(244, 143, 177, 0.14);
-      border-color: rgba(244, 143, 177, 0.38);
-      color: #ffd6e5;
+    .tool-btn.accent-export {
+      background: rgba(78, 168, 222, 0.14);
+      border-color: rgba(78, 168, 222, 0.38);
+      color: #d6efff;
     }
   </style>
 </head>
@@ -871,9 +804,12 @@
 
     <!-- 2. 每日自动补给线 -->
     <div class="card">
-      <div class="card-header">
+      <div class="card-header clickable" onclick="openModuleDetail('supply')">
         <span class="card-title">🔋 每日自动补给线</span>
-        <span class="level-pill red" id="supplyStatusBadge">最低补给未满 (0/3)</span>
+        <div class="header-right-group">
+          <span class="level-pill red" id="supplyStatusBadge">最低补给未满 (0/3)</span>
+          <span class="enter-hint">详情 ›</span>
+        </div>
       </div>
       <div class="bar-wrap">
         <div class="bar-fill red" id="supplyBarFill" style="width: 0%;"></div>
@@ -934,9 +870,12 @@
 
     <!-- 3. 基地洗浴中心 -->
     <div class="card">
-      <div class="card-header">
+      <div class="card-header clickable" onclick="openModuleDetail('spa')">
         <span class="card-title">🛁 基地洗浴中心</span>
-        <span class="level-pill cyan" id="spaLevelBadge">洗浴中心 Lv.1</span>
+        <div class="header-right-group">
+          <span class="level-pill cyan" id="spaLevelBadge">洗浴中心 Lv.1</span>
+          <span class="enter-hint">详情 ›</span>
+        </div>
       </div>
       <div class="bar-wrap">
         <div class="bar-fill cyan" id="spaBarFill" style="width: 0%;"></div>
@@ -994,15 +933,18 @@
 
     <!-- 4. 基地研发中心 -->
     <div class="card">
-      <div class="card-header">
+      <div class="card-header clickable" onclick="openModuleDetail('research')">
         <span class="card-title">🔬 基地研发中心</span>
-        <span class="level-pill purple" id="researchLevelBadge">研发中心 Lv.1</span>
+        <div class="header-right-group">
+          <span class="level-pill purple" id="researchLevelBadge">研发中心 Lv.1</span>
+          <span class="enter-hint">详情 ›</span>
+        </div>
       </div>
       <div class="bar-wrap">
         <div class="bar-fill purple" id="researchBarFill" style="width: 0%;"></div>
       </div>
       <div class="bar-meta">
-        <span id="researchStatusHint">零压力推进 · 每 6 EXP 升 1 级</span>
+        <span>零压力推进 · 每 6 EXP 升 1 级</span>
         <span id="researchExpMeta">0 / 6 EXP</span>
       </div>
 
@@ -1013,42 +955,48 @@
         </div>
         <div class="pulse-actions">
           <button class="primary-pulse-btn" onclick="changeCount('research', 1)">+ 推进 2 小时 (+2 EXP)</button>
-          <button class="undo-btn" id="undoResearchBtn" onclick="changeCount('research', -1)" disabled>-1</button>
+          <button class="undo-btn" id="undoResearchBtn" onclick="changeCount('research', -1)" disabled>撤回今日</button>
         </div>
       </div>
-
-      <div class="input-row">
-        <input type="text" id="techInput" placeholder="记录学术里程碑 / 阶段灵感（每条 +2 EXP）" onkeydown="handleEnter(event, 'tech')" />
-        <button class="add-btn purple" onclick="addLog('tech')">记录</button>
-      </div>
-      <ul class="log-list" id="techList"></ul>
     </div>
 
-    <!-- 5. 基地食堂 -->
+    <!-- 5. 基地食堂（按自然周统计本周出餐次数） -->
     <div class="card">
-      <div class="card-header">
+      <div class="card-header clickable" onclick="openModuleDetail('canteen')">
         <span class="card-title">🍳 基地食堂</span>
-        <span class="level-pill green" id="canteenLevelBadge">基地食堂 Lv.1</span>
+        <div class="header-right-group">
+          <span class="level-pill green" id="canteenLevelBadge">基地食堂 Lv.1</span>
+          <span class="enter-hint">详情 ›</span>
+        </div>
       </div>
       <div class="bar-wrap">
         <div class="bar-fill green" id="canteenBarFill" style="width: 0%;"></div>
       </div>
       <div class="bar-meta">
-        <span id="canteenCountMeta">累计做饭 0 顿 · 今日 0 顿</span>
+        <span id="canteenWeekMeta">本周出餐：0 顿 · 累计 0 顿</span>
         <span id="canteenExpMeta">0 / 5 EXP</span>
       </div>
-      <div class="input-row" style="margin-top: 2px;">
-        <input type="text" id="canteenInput" placeholder="记录今天做了什么好吃的（留空也可直接打卡）" onkeydown="handleEnter(event, 'canteen')" />
-        <button class="add-btn" style="background: var(--accent-green);" onclick="addLog('canteen')">🍳 做饭打卡</button>
+
+      <div class="pulse-box">
+        <div class="pulse-stats">
+          <span>本周已出餐：<strong id="weekCanteenCount" style="color: var(--accent-green);">0</strong> 顿</span>
+          <span class="card-subtitle" id="todayCanteenCountText">今日 0 顿</span>
+        </div>
+        <div class="pulse-actions">
+          <button class="primary-pulse-btn green" onclick="changeCount('canteen_meal', 1)">🍳 出餐 (+1 EXP)</button>
+          <button class="undo-btn" id="undoCanteenBtn" onclick="changeCount('canteen_meal', -1)" disabled>撤回今日</button>
+        </div>
       </div>
-      <ul class="log-list" id="canteenList"></ul>
     </div>
 
     <!-- 6. 围墙防御战绩 -->
     <div class="card">
-      <div class="card-header">
+      <div class="card-header clickable" onclick="openModuleDetail('wall')">
         <span class="card-title">🧱 围墙防御战绩</span>
-        <span class="level-pill amber" id="wallLevelBadge">围墙防御 Lv.1</span>
+        <div class="header-right-group">
+          <span class="level-pill amber" id="wallLevelBadge">围墙防御 Lv.1</span>
+          <span class="enter-hint">详情 ›</span>
+        </div>
       </div>
       <div class="bar-wrap">
         <div class="bar-fill amber" id="wallBarFill" style="width: 0%;"></div>
@@ -1057,123 +1005,162 @@
         <span>守护注意力与个人边界（每项 +1 EXP）</span>
         <span id="wallExpMeta">0 / 5 EXP</span>
       </div>
-      <div class="task-grid" style="grid-template-columns: 1fr;">
+      <div class="task-grid">
         <button class="task-btn" id="btnSocialGuard" onclick="toggleDailyTask('social_guard')">
           <div class="task-name">
             <span>📵 社交防沉迷</span>
             <span class="task-tag" id="tagSocialGuard">0/1</span>
           </div>
-          <div class="task-desc">今日社交媒体使用时长未超限额</div>
+          <div class="task-desc">今日社交媒体未超限额</div>
         </button>
+
+        <div class="maint-card-wrap">
+          <button class="task-btn" id="btnWallBrick" onclick="changeCount('wall_brick', 1)">
+            <div class="task-name">
+              <span>🧱 添砖加瓦</span>
+              <span class="task-tag" id="tagWallBrick">本周 0</span>
+            </div>
+            <div class="task-desc" id="descWallBrick">今日 0 次 · 点+1</div>
+          </button>
+          <button class="maint-undo" id="undoWallBrickBtn" onclick="changeCount('wall_brick', -1)" disabled>撤回今日</button>
+        </div>
       </div>
-      <div class="input-row">
-        <input type="text" id="wallInput" placeholder="🧱 添砖加瓦：记录拒绝消耗/守住边界的瞬间" onkeydown="handleEnter(event, 'wall')" />
-        <button class="add-btn amber" onclick="addLog('wall')">记录</button>
-      </div>
-      <ul class="log-list" id="wallList"></ul>
     </div>
 
-    <!-- 7. 游乐园（点击标题区域进入专属详情页） -->
+    <!-- 7. 游乐园（全计次 +1，无场景图） -->
     <div class="card">
-      <div class="card-header clickable" onclick="openParkDetail()" title="点击进入游乐园建设档案">
+      <div class="card-header clickable" onclick="openModuleDetail('park')">
         <span class="card-title">🎡 游乐园</span>
         <div class="header-right-group">
           <span class="level-pill pink" id="parkLevelBadge">娱乐设施 Lv.1</span>
-          <span class="enter-hint">进入乐园 ›</span>
+          <span class="enter-hint">详情 ›</span>
         </div>
       </div>
       <div class="bar-wrap">
         <div class="bar-fill pink" id="parkBarFill" style="width: 0%;"></div>
       </div>
       <div class="bar-meta">
-        <span>收集生活中的小确幸（点击标题看图与手账）</span>
+        <span>收集生活中的小确幸（每项点一下 +1 EXP）</span>
         <span id="parkExpMeta">0 / 5 EXP</span>
       </div>
       <div class="task-grid">
-        <button class="task-btn" id="btnCraft" onclick="toggleParkDailyTask('craft')">
-          <div class="task-name">
-            <span>🧶 乐园手作屋</span>
-            <span class="task-tag" id="tagCraft">0/1</span>
-          </div>
-          <div class="task-desc">当天进行手工制作</div>
-        </button>
+        <div class="maint-card-wrap">
+          <button class="task-btn" id="btnCraft" onclick="changeCount('craft', 1)">
+            <div class="task-name">
+              <span>🧶 乐园手作屋</span>
+              <span class="task-tag" id="tagCraft">本周 0</span>
+            </div>
+            <div class="task-desc" id="descCraft">今日 0 次 · 点+1</div>
+          </button>
+          <button class="maint-undo" id="undoCraftBtn" onclick="changeCount('craft', -1)" disabled>撤回今日</button>
+        </div>
 
-        <button class="task-btn" id="btnBoutique" onclick="toggleParkDailyTask('boutique')">
-          <div class="task-name">
-            <span>🛍️ 乐园精品店</span>
-            <span class="task-tag" id="tagBoutique">0/1</span>
-          </div>
-          <div class="task-desc">买到喜欢的东西</div>
-        </button>
+        <div class="maint-card-wrap">
+          <button class="task-btn" id="btnBoutique" onclick="changeCount('boutique', 1)">
+            <div class="task-name">
+              <span>🛍️ 乐园精品店</span>
+              <span class="task-tag" id="tagBoutique">本周 0</span>
+            </div>
+            <div class="task-desc" id="descBoutique">今日 0 次 · 点+1</div>
+          </button>
+          <button class="maint-undo" id="undoBoutiqueBtn" onclick="changeCount('boutique', -1)" disabled>撤回今日</button>
+        </div>
 
-        <button class="task-btn" id="btnFoodie" onclick="toggleParkDailyTask('foodie')">
-          <div class="task-name">
-            <span>🍜 乐园美味屋</span>
-            <span class="task-tag" id="tagFoodie">0/1</span>
-          </div>
-          <div class="task-desc">外出觅食探索美味</div>
-        </button>
+        <div class="maint-card-wrap">
+          <button class="task-btn" id="btnFoodie" onclick="changeCount('foodie', 1)">
+            <div class="task-name">
+              <span>🍜 乐园美味屋</span>
+              <span class="task-tag" id="tagFoodie">本周 0</span>
+            </div>
+            <div class="task-desc" id="descFoodie">今日 0 次 · 点+1</div>
+          </button>
+          <button class="maint-undo" id="undoFoodieBtn" onclick="changeCount('foodie', -1)" disabled>撤回今日</button>
+        </div>
 
-        <button class="task-btn" id="btnJournal" onclick="toggleParkDailyTask('journal')">
-          <div class="task-name">
-            <span>📔 乐园纪念馆</span>
-            <span class="task-tag" id="tagJournal">0/1</span>
-          </div>
-          <div class="task-desc">做手账记录时光</div>
-        </button>
+        <div class="maint-card-wrap">
+          <button class="task-btn" id="btnJournal" onclick="changeCount('journal', 1)">
+            <div class="task-name">
+              <span>📔 乐园纪念馆</span>
+              <span class="task-tag" id="tagJournal">本周 0</span>
+            </div>
+            <div class="task-desc" id="descJournal">今日 0 次 · 点+1</div>
+          </button>
+          <button class="maint-undo" id="undoJournalBtn" onclick="changeCount('journal', -1)" disabled>撤回今日</button>
+        </div>
+
+        <div class="maint-card-wrap span-two">
+          <button class="task-btn" id="btnSurprise" onclick="changeCount('park_surprise', 1)">
+            <div class="task-name">
+              <span>🎁 乐园惊喜屋</span>
+              <span class="task-tag" id="tagSurprise">本周 0</span>
+            </div>
+            <div class="task-desc" id="descSurprise">今日 0 次 · 点+1（具体小惊喜可进详情记录）</div>
+          </button>
+          <button class="maint-undo" id="undoSurpriseBtn" onclick="changeCount('park_surprise', -1)" disabled>撤回今日</button>
+        </div>
       </div>
-      <div class="input-row">
-        <input type="text" id="parkInput" placeholder="🎁 乐园惊喜：写下今天发生的小惊喜或快乐瞬间" onkeydown="handleEnter(event, 'park')" />
-        <button class="add-btn pink" onclick="addLog('park')">记录</button>
-      </div>
-      <ul class="log-list" id="parkList"></ul>
     </div>
 
-    <!-- 8. 仓库 -->
+    <!-- 8. 仓库（全计次 +1） -->
     <div class="card">
-      <div class="card-header">
+      <div class="card-header clickable" onclick="openModuleDetail('warehouse')">
         <span class="card-title">📦 仓库</span>
-        <span class="level-pill" id="warehouseLevelBadge">基地仓库 Lv.1</span>
+        <div class="header-right-group">
+          <span class="level-pill" id="warehouseLevelBadge">基地仓库 Lv.1</span>
+          <span class="enter-hint">详情 ›</span>
+        </div>
       </div>
       <div class="bar-wrap">
         <div class="bar-fill" id="warehouseBarFill" style="width: 0%;"></div>
       </div>
       <div class="bar-meta">
-        <span>物资补货与空间秩序（每项 +1 EXP）</span>
+        <span>物资补货与空间秩序（每项点一下 +1 EXP）</span>
         <span id="warehouseExpMeta">0 / 5 EXP</span>
       </div>
       <div class="task-grid three-col">
-        <button class="task-btn" id="btnShop" onclick="toggleDailyTask('shop')">
-          <div class="task-name">
-            <span>🛒 入库</span>
-            <span class="task-tag" id="tagShop">0/1</span>
-          </div>
-          <div class="task-desc">超市/药妆店采购</div>
-        </button>
+        <div class="maint-card-wrap">
+          <button class="task-btn" id="btnShop" onclick="changeCount('shop', 1)">
+            <div class="task-name">
+              <span>🛒 入库</span>
+              <span class="task-tag" id="tagShop">本周 0</span>
+            </div>
+            <div class="task-desc" id="descShop">今日 0 次 · 点+1</div>
+          </button>
+          <button class="maint-undo" id="undoShopBtn" onclick="changeCount('shop', -1)" disabled>撤回今日</button>
+        </div>
 
-        <button class="task-btn" id="btnOrganize" onclick="toggleDailyTask('organize')">
-          <div class="task-name">
-            <span>🗂️ 整理</span>
-            <span class="task-tag" id="tagOrganize">0/1</span>
-          </div>
-          <div class="task-desc">完成整理收纳</div>
-        </button>
+        <div class="maint-card-wrap">
+          <button class="task-btn" id="btnOrganize" onclick="changeCount('organize', 1)">
+            <div class="task-name">
+              <span>🗂️ 整理</span>
+              <span class="task-tag" id="tagOrganize">本周 0</span>
+            </div>
+            <div class="task-desc" id="descOrganize">今日 0 次 · 点+1</div>
+          </button>
+          <button class="maint-undo" id="undoOrganizeBtn" onclick="changeCount('organize', -1)" disabled>撤回今日</button>
+        </div>
 
-        <button class="task-btn" id="btnDeclutter" onclick="toggleDailyTask('declutter')">
-          <div class="task-name">
-            <span>🧹 扩容</span>
-            <span class="task-tag" id="tagDeclutter">0/1</span>
-          </div>
-          <div class="task-desc">完成一次断舍离</div>
-        </button>
+        <div class="maint-card-wrap">
+          <button class="task-btn" id="btnDeclutter" onclick="changeCount('declutter', 1)">
+            <div class="task-name">
+              <span>🧹 扩容</span>
+              <span class="task-tag" id="tagDeclutter">本周 0</span>
+            </div>
+            <div class="task-desc" id="descDeclutter">今日 0 次 · 点+1</div>
+          </button>
+          <button class="maint-undo" id="undoDeclutterBtn" onclick="changeCount('declutter', -1)" disabled>撤回今日</button>
+        </div>
       </div>
     </div>
 
-    <!-- 9. 基地维护 -->
+    <!-- 9. 基地维护（按自然周统计，新增洗碗） -->
     <div class="card">
-      <div class="card-header">
+      <div class="card-header clickable" onclick="openModuleDetail('maint')">
         <span class="card-title">🛠️ 基地维护</span>
-        <span class="level-pill red" id="maintStatusBadge">🚨 红警：本周基地尚未维护</span>
+        <div class="header-right-group">
+          <span class="level-pill red" id="maintStatusBadge">🚨 红警：本周未维护</span>
+          <span class="enter-hint">详情 ›</span>
+        </div>
       </div>
       <div class="bar-wrap">
         <div class="bar-fill red" id="maintBarFill" style="width: 0%;"></div>
@@ -1182,7 +1169,7 @@
         <span id="maintWeekMeta">本周累计：0 次（满 4 次环境良好）</span>
         <span id="maintExpMeta">累计维护：0 EXP</span>
       </div>
-      <div class="task-grid three-col">
+      <div class="task-grid">
         <div class="maint-card-wrap">
           <button class="task-btn" id="btnClean" onclick="changeCount('clean', 1)">
             <div class="task-name">
@@ -1215,6 +1202,17 @@
           </button>
           <button class="maint-undo" id="undoTrashBtn" onclick="changeCount('trash', -1)" disabled>撤回今日</button>
         </div>
+
+        <div class="maint-card-wrap">
+          <button class="task-btn" id="btnDish" onclick="changeCount('dishwash', 1)">
+            <div class="task-name">
+              <span>🥣 洗碗</span>
+              <span class="task-tag" id="tagDish">本周 0</span>
+            </div>
+            <div class="task-desc" id="descDish">今日 0 次 · 点+1</div>
+          </button>
+          <button class="maint-undo" id="undoDishBtn" onclick="changeCount('dishwash', -1)" disabled>撤回今日</button>
+        </div>
       </div>
     </div>
 
@@ -1223,95 +1221,83 @@
   <!-- ================= 页面 2：周期统计占位 ================= -->
   <div class="card view-section placeholder-view" id="page2View">
     <div style="font-size: 2rem; margin-bottom: 10px;">📈</div>
-    <h2 style="font-size: 1.05rem; margin-bottom: 8px;">周期成果统计中心（建设中）</h2>
+    <h2 style="font-size: 1.05rem; margin-bottom: 8px;">全局周期统计中心（建设中）</h2>
     <p style="font-size: 0.82rem; color: var(--text-sub); margin-bottom: 16px;">
-      你每天在「基地总控台」点亮的补给、洗浴养护、2小时科研脉冲、食堂菜谱与生活记录都已按本地日期完整沉淀在 <code>my_base_v1</code> 中，后续将在这里自动生成每日、每周与每月复盘报告。
+      目前你已可以直接点击首页任意板块右上角的 <strong>「详情 ›」</strong> 查看该板块的本周/本月统计与图文手账；全局跨板块复盘看板将在后续版本上线。
     </p>
     <button class="add-btn" style="padding: 9px 18px;" onclick="switchPage(1)">返回基地总控台</button>
   </div>
 
-  <!-- ================= 子页面：游乐园建设档案 ================= -->
-  <div class="view-section" id="parkDetailView">
+  <!-- ================= 统一板块详情子页面 ================= -->
+  <div class="view-section" id="moduleDetailView">
 
     <!-- 顶部返回导航栏 -->
     <div class="subpage-topbar">
-      <button class="back-btn" onclick="closeParkDetail()">← 返回基地总控</button>
-      <span class="subpage-title">🎡 游乐园 · 建设档案</span>
+      <button class="back-btn" onclick="closeModuleDetail()">← 返回基地总控</button>
+      <span class="subpage-title" id="detailTopTitle">板块详情</span>
     </div>
 
-    <!-- 1. 顶部：随等级进化的 16:9 场景橱窗 -->
+    <!-- 1. 顶部：板块等级与经验进度条（无场景图） -->
     <div class="card">
-      <div class="stage-showcase">
-        <img id="parkStageImg" src="park_s1.jpeg" alt="游乐园场景" onload="handleStageImgLoad()" onerror="handleStageImgError()" />
-        <div class="stage-fallback" id="parkStageFallback">
-          <div style="font-size: 2rem; margin-bottom: 6px;">🎡</div>
-          <div id="parkFallbackTitle" style="font-weight: 700; font-size: 0.92rem;">Lv.1 荒地初开</div>
-          <div style="font-size: 0.72rem; color: var(--text-sub); margin-top: 4px;">将对应阶段插画上传至仓库根目录即可自动展示</div>
-        </div>
-        <div class="stage-overlay-badge" id="parkStageOverlayBadge">Lv.1 · 荒地初开</div>
-      </div>
-
       <div class="card-header" style="margin-bottom: 6px;">
-        <span class="level-pill pink" id="detailParkLvBadge">娱乐设施 Lv.1</span>
-        <span class="card-subtitle" id="detailParkNextHint">距离下一级还需 5 EXP</span>
+        <span class="level-pill" id="detailLvBadge">Lv.1</span>
+        <span class="card-subtitle" id="detailNextHint">距离下一级还需 5 EXP</span>
       </div>
-      <div class="bar-wrap" style="margin-bottom: 4px;">
-        <div class="bar-fill pink" id="detailParkBarFill" style="width: 0%;"></div>
+      <div class="bar-wrap" style="margin-bottom: 6px;">
+        <div class="bar-fill" id="detailBarFill" style="width: 0%;"></div>
+      </div>
+      <div class="bar-meta" style="margin-bottom: 0;">
+        <span id="detailSubDesc">持续积累中</span>
+        <span id="detailTotalExpText">累计 0 EXP</span>
       </div>
     </div>
 
     <!-- 2. 中部：本周 & 本月数据总结看板 -->
     <div class="card">
       <div class="card-header">
-        <span class="card-title">📊 快乐足迹汇总</span>
-        <span class="level-pill pink" id="parkPeriodTotalBadge">本周 0 次 · 本月 0 次</span>
+        <span class="card-title">📊 本周 & 本月统计汇总</span>
+        <span class="level-pill" id="detailPeriodTotalBadge">本周 0 次 · 本月 0 次</span>
       </div>
-      <div class="park-stats-grid" id="parkStatsGrid">
-        <!-- 由 JS 动态填充 5 项 -->
+      <div class="detail-stats-grid" id="detailStatsGrid">
+        <!--由 JS 动态生成该模块所有子项目周/月统计-->
       </div>
     </div>
 
-    <!-- 3. 下部：图文手账档案流（新增 + 历史追加图文） -->
+    <!-- 3. 下部：具体文字/图文记录与管理 -->
     <div class="card">
       <div class="card-header">
-        <span class="card-title">📸 乐园图文手账档案</span>
-        <span class="card-subtitle" id="parkJournalCount">共 0 条记录</span>
+        <span class="card-title" id="detailJournalSectionTitle">📸 板块详细档案</span>
+        <span class="card-subtitle" id="detailJournalCount">共 0 条记录</span>
       </div>
 
       <!-- 新建图文记录表单 -->
       <div class="journal-form-stack">
-        <div class="type-selector" id="newParkTypeSelector">
-          <button type="button" class="type-chip active" data-type="surprise" onclick="selectNewParkType('surprise')">🎁 惊喜</button>
-          <button type="button" class="type-chip" data-type="craft" onclick="selectNewParkType('craft')">🧶 手作</button>
-          <button type="button" class="type-chip" data-type="boutique" onclick="selectNewParkType('boutique')">🛍️ 精品</button>
-          <button type="button" class="type-chip" data-type="foodie" onclick="selectNewParkType('foodie')">🍜 美味</button>
-          <button type="button" class="type-chip" data-type="journal" onclick="selectNewParkType('journal')">📔 纪念</button>
-        </div>
+        <div class="type-selector" id="newDetailTypeSelector"></div>
 
-        <input type="text" id="newParkTitle" placeholder="记录标题（如：织完了一条围巾 / 吃到超棒的拉面）" />
-        <textarea id="newParkDesc" placeholder="写下详细描述、心情或过程记录（选填）..."></textarea>
+        <input type="text" id="newDetailTitle" placeholder="输入记录标题..." />
+        <textarea id="newDetailDesc" placeholder="写下详细内容、菜谱心得、清单或感悟（选填）..."></textarea>
 
         <div class="photo-toolbar">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <input type="file" id="newParkPhotoInput" accept="image/*" style="display: none;" onchange="handlePhotoSelected(event, 'new')" />
-            <button type="button" class="photo-pick-btn" onclick="document.getElementById('newParkPhotoInput').click()">📷 添加照片</button>
+            <input type="file" id="newDetailPhotoInput" accept="image/*" style="display: none;" onchange="handlePhotoSelected(event, 'new')" />
+            <button type="button" class="photo-pick-btn" onclick="document.getElementById('newDetailPhotoInput').click()">📷 添加照片</button>
             <div class="preview-box" id="newPhotoPreviewBox">
               <img id="newPhotoPreviewImg" src="" alt="预览" />
               <button type="button" class="preview-clear" onclick="clearSelectedPhoto('new')">×</button>
             </div>
           </div>
-          <button type="button" class="add-btn pink" style="padding: 8px 14px;" onclick="submitNewParkJournal()">✨ 保存手账</button>
+          <button type="button" class="add-btn" style="padding: 8px 14px;" onclick="submitNewDetailJournal()">✨ 保存记录</button>
         </div>
       </div>
 
       <!-- 档案时间轴列表 -->
-      <div class="journal-feed" id="parkJournalFeed"></div>
+      <div class="journal-feed" id="detailJournalFeed"></div>
     </div>
 
-    <!-- 4. 底部：一键导出乐园手账 -->
+    <!-- 4. 底部：一键导出本板块图文档案 -->
     <div class="footer-tools" style="margin-bottom: 10px;">
-      <button class="tool-btn pink-export" onclick="exportParkJournalHtml()">📤 一键导出乐园图文手账 (.html)</button>
-      <button class="tool-btn" onclick="copyParkSummaryText()">📋 复制纯文本总结</button>
+      <button class="tool-btn accent-export" onclick="exportModuleJournalHtml()">📤 导出本板块图文档案 (.html)</button>
+      <button class="tool-btn" onclick="copyModuleSummaryText()">📋 复制周期总结</button>
     </div>
 
   </div>
@@ -1323,32 +1309,26 @@
   </div>
 
   <!-- 编辑/补充图文弹窗 -->
-  <div class="modal-backdrop" id="parkEditModal" onclick="closeEditModalOnBackdrop(event)">
+  <div class="modal-backdrop" id="detailEditModal" onclick="closeEditModalOnBackdrop(event)">
     <div class="modal-box">
       <div class="card-header">
         <span class="card-title">✏️ 编辑 / 追加图文记录</span>
-        <button class="del-btn" style="font-size: 1.2rem;" onclick="closeParkEditModal()">×</button>
+        <button class="del-btn" style="font-size: 1.2rem;" onclick="closeDetailEditModal()">×</button>
       </div>
       <div class="journal-form-stack" style="margin-bottom: 0;">
-        <div class="type-selector" id="editParkTypeSelector">
-          <button type="button" class="type-chip" data-type="surprise" onclick="selectEditParkType('surprise')">🎁 惊喜</button>
-          <button type="button" class="type-chip" data-type="craft" onclick="selectEditParkType('craft')">🧶 手作</button>
-          <button type="button" class="type-chip" data-type="boutique" onclick="selectEditParkType('boutique')">🛍️ 精品</button>
-          <button type="button" class="type-chip" data-type="foodie" onclick="selectEditParkType('foodie')">🍜 美味</button>
-          <button type="button" class="type-chip" data-type="journal" onclick="selectEditParkType('journal')">📔 纪念</button>
-        </div>
-        <input type="text" id="editParkTitle" placeholder="记录标题" />
-        <textarea id="editParkDesc" placeholder="补充详细描述或心情心得..."></textarea>
+        <div class="type-selector" id="editDetailTypeSelector"></div>
+        <input type="text" id="editDetailTitle" placeholder="记录标题" />
+        <textarea id="editDetailDesc" placeholder="补充详细描述或心得..."></textarea>
         <div class="photo-toolbar">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <input type="file" id="editParkPhotoInput" accept="image/*" style="display: none;" onchange="handlePhotoSelected(event, 'edit')" />
-            <button type="button" class="photo-pick-btn" onclick="document.getElementById('editParkPhotoInput').click()">📷 上传/更换照片</button>
+            <input type="file" id="editDetailPhotoInput" accept="image/*" style="display: none;" onchange="handlePhotoSelected(event, 'edit')" />
+            <button type="button" class="photo-pick-btn" onclick="document.getElementById('editDetailPhotoInput').click()">📷 上传/更换照片</button>
             <div class="preview-box" id="editPhotoPreviewBox">
               <img id="editPhotoPreviewImg" src="" alt="预览" />
               <button type="button" class="preview-clear" onclick="clearSelectedPhoto('edit')">×</button>
             </div>
           </div>
-          <button type="button" class="add-btn pink" style="padding: 8px 14px;" onclick="saveEditedParkJournal()">保存修改</button>
+          <button type="button" class="add-btn" style="padding: 8px 14px;" onclick="saveEditedDetailJournal()">保存修改</button>
         </div>
       </div>
     </div>
@@ -1362,20 +1342,123 @@
   <script>
     const STORAGE_KEY = 'my_base_v1';
 
-    const PARK_SUBTYPES = {
-      craft:    { label: '手作屋', icon: '🧶', defaultTitle: '🧶 乐园手作屋打卡' },
-      boutique: { label: '精品店', icon: '🛍️', defaultTitle: '🛍️ 乐园精品店打卡' },
-      foodie:   { label: '美味屋', icon: '🍜', defaultTitle: '🍜 乐园美味屋打卡' },
-      journal:  { label: '纪念馆', icon: '📔', defaultTitle: '📔 乐园纪念馆打卡' },
-      surprise: { label: '乐园惊喜', icon: '🎁', defaultTitle: '🎁 乐园惊喜' }
-    };
-
-    const PARK_STAGE_NAMES = {
-      1: '荒地初开',
-      2: '手作角落成',
-      3: '美味小推车',
-      4: '温暖手账亭',
-      5: '梦幻旋转木马'
+    // 八大板块配置中心（统一驱动详情页统计、记录分类与导出）
+    const MODULE_CONFIGS = {
+      supply: {
+        title: '🔋 每日自动补给线',
+        shortName: '补给线',
+        colorClass: 'blue',
+        expPerLv: 10,
+        logCategory: 'supply',
+        desc: '基础生理与营养补给（每项 +2 EXP）',
+        titlePlaceholder: '记录补给感受或运动内容（如：完成30分钟核心训练）',
+        subTypes: [
+          { key: 'iron', label: '铁片补给', icon: '💊', source: 'count', countKey: 'iron' },
+          { key: 'inhaler', label: '气道维护', icon: '🌬️', source: 'daily', dailyKey: 'inhaler' },
+          { key: 'sleep', label: '夜间休眠', icon: '🌙', source: 'daily', dailyKey: 'sleep' },
+          { key: 'vitamin', label: '维生素', icon: '☀️', source: 'daily', dailyKey: 'vitamin' },
+          { key: 'fitness', label: '健身', icon: '🏃', source: 'daily', dailyKey: 'fitness' }
+        ]
+      },
+      spa: {
+        title: '🛁 基地洗浴中心',
+        shortName: '洗浴中心',
+        colorClass: 'cyan',
+        expPerLv: 5,
+        logCategory: 'spa',
+        desc: '水汽氤氲与身心养护（每项 +1 EXP）',
+        titlePlaceholder: '记录护肤/泡澡心得（如：用了新买的精油浴盐）',
+        subTypes: [
+          { key: 'shower', label: '洗澡', icon: '🚿', source: 'daily', dailyKey: 'shower' },
+          { key: 'bath', label: '泡澡', icon: '🛁', source: 'count', countKey: 'bath' },
+          { key: 'mask', label: '面膜', icon: '🧖‍♀️', source: 'count', countKey: 'mask' },
+          { key: 'beauty_device', label: '美容仪', icon: '✨', source: 'count', countKey: 'beauty_device' }
+        ]
+      },
+      research: {
+        title: '🔬 基地研发中心',
+        shortName: '研发中心',
+        colorClass: 'purple',
+        expPerLv: 6,
+        logCategory: 'tech', // 兼容旧版 tech 日志
+        desc: '深度学术与论文推进（每 2h 单元 +2 EXP）',
+        titlePlaceholder: '记录学术里程碑 / 论文进展（如：完成文献综述第三节）',
+        subTypes: [
+          { key: 'research', label: '2h科研脉冲', icon: '🔬', source: 'count', countKey: 'research' },
+          { key: 'milestone', label: '阶段里程碑', icon: '🏆', source: 'logOnly' }
+        ]
+      },
+      canteen: {
+        title: '🍳 基地食堂',
+        shortName: '基地食堂',
+        colorClass: 'green',
+        expPerLv: 5,
+        logCategory: 'canteen',
+        desc: '好好吃饭的烟火气（每次出餐 +1 EXP）',
+        titlePlaceholder: '记录今天做了什么好吃的（如：番茄牛腩炖土豆）',
+        subTypes: [
+          { key: 'canteen_meal', label: '出餐记录', icon: '🍳', source: 'count', countKey: 'canteen_meal' },
+          { key: 'recipe_note', label: '私房菜谱', icon: '📖', source: 'logOnly' }
+        ]
+      },
+      wall: {
+        title: '🧱 围墙防御战绩',
+        shortName: '围墙防御',
+        colorClass: 'amber',
+        expPerLv: 5,
+        logCategory: 'wall',
+        desc: '守护注意力与个人边界（每项 +1 EXP）',
+        titlePlaceholder: '记录拒绝消耗/守住边界的瞬间',
+        subTypes: [
+          { key: 'social_guard', label: '社交防沉迷', icon: '📵', source: 'daily', dailyKey: 'social_guard' },
+          { key: 'wall_brick', label: '添砖加瓦', icon: '🧱', source: 'count', countKey: 'wall_brick' }
+        ]
+      },
+      park: {
+        title: '🎡 游乐园',
+        shortName: '娱乐设施',
+        colorClass: 'pink',
+        expPerLv: 5,
+        logCategory: 'park',
+        desc: '收集生活中的小确幸（每项 +1 EXP）',
+        titlePlaceholder: '记录快乐瞬间（如：完成了一件手工 / 吃到美味小店）',
+        subTypes: [
+          { key: 'craft', label: '手作屋', icon: '🧶', source: 'count', countKey: 'craft' },
+          { key: 'boutique', label: '精品店', icon: '🛍️', source: 'count', countKey: 'boutique' },
+          { key: 'foodie', label: '美味屋', icon: '🍜', source: 'count', countKey: 'foodie' },
+          { key: 'journal', label: '纪念馆', icon: '📔', source: 'count', countKey: 'journal' },
+          { key: 'park_surprise', label: '惊喜屋', icon: '🎁', source: 'count', countKey: 'park_surprise' }
+        ]
+      },
+      warehouse: {
+        title: '📦 仓库',
+        shortName: '基地仓库',
+        colorClass: 'blue',
+        expPerLv: 5,
+        logCategory: 'warehouse',
+        desc: '物资补货与空间秩序（每项 +1 EXP）',
+        titlePlaceholder: '记录采购清单、收纳成果或断舍离物品',
+        subTypes: [
+          { key: 'shop', label: '入库', icon: '🛒', source: 'count', countKey: 'shop' },
+          { key: 'organize', label: '整理', icon: '🗂️', source: 'count', countKey: 'organize' },
+          { key: 'declutter', label: '扩容', icon: '🧹', source: 'count', countKey: 'declutter' }
+        ]
+      },
+      maint: {
+        title: '🛠️ 基地维护',
+        shortName: '基地维护',
+        colorClass: 'green',
+        expPerLv: 5,
+        logCategory: 'maint',
+        desc: '日常环境整洁与生活秩序（每项 +1 EXP）',
+        titlePlaceholder: '记录大扫除、换洗或家务小记',
+        subTypes: [
+          { key: 'clean', label: '打扫', icon: '🧹', source: 'count', countKey: 'clean' },
+          { key: 'laundry', label: '换洗', icon: '👕', source: 'count', countKey: 'laundry' },
+          { key: 'trash', label: '扔垃圾', icon: '🗑️', source: 'count', countKey: 'trash' },
+          { key: 'dishwash', label: '洗碗', icon: '🥣', source: 'count', countKey: 'dishwash' }
+        ]
+      }
     };
 
     // 本地时区日期 YYYY-MM-DD（避免 UTC 跨日偏差）
@@ -1438,14 +1521,20 @@
     }
 
     let state = loadState();
-    let activeView = 'page1'; // 'page1' | 'page2' | 'parkDetail'
-    let newParkType = 'surprise';
-    let newParkImageData = '';
-    let editingParkLogId = null;
-    let editParkType = 'surprise';
-    let editParkImageData = '';
+    let activeView = 'page1'; // 'page1' | 'page2' | 'moduleDetail'
+    let activeDetailModuleKey = 'park';
+    let newDetailSubType = '';
+    let newDetailImageData = '';
+    let editingDetailLogId = null;
+    let editDetailSubType = '';
+    let editDetailImageData = '';
 
-    // 兼容读取某天某计次项目的数值（无缝继承旧版 daily 中的 'iron' 和 'study'）
+    // 兼容读取某天某计次项目的数值（无缝继承旧版 daily 中的单次打卡）
+    const LEGACY_DAILY_TO_COUNT_KEYS = new Set([
+      'craft', 'boutique', 'foodie', 'journal',
+      'shop', 'organize', 'declutter'
+    ]);
+
     function getDayCount(dateStr, key) {
       const dayCounts = state.dailyCounts && state.dailyCounts[dateStr];
       if (dayCounts && typeof dayCounts[key] === 'number') {
@@ -1454,6 +1543,7 @@
       const dayArr = (state.daily && Array.isArray(state.daily[dateStr])) ? state.daily[dateStr] : [];
       if (key === 'iron' && dayArr.includes('iron')) return 1;
       if (key === 'research' && dayArr.includes('study')) return 1;
+      if (LEGACY_DAILY_TO_COUNT_KEYS.has(key) && dayArr.includes(key)) return 1;
       return 0;
     }
 
@@ -1462,15 +1552,15 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       } catch (e) {
         if (e && (e.name === 'QuotaExceededError' || e.code === 22)) {
-          alert('⚠️ 浏览器本地存储空间已满！建议先点击底部「导出备份 JSON」或「导出乐园图文手账」，再清理部分旧照片释放空间。');
+          alert('⚠️ 浏览器本地存储空间已满！建议先导出备份 JSON 或导出图文档案，再清理部分旧照片释放空间。');
         } else {
           alert('保存数据时出现异常，请先导出备份。');
         }
         return false;
       }
       render();
-      if (activeView === 'parkDetail') {
-        renderParkDetail();
+      if (activeView === 'moduleDetail') {
+        renderModuleDetail();
       }
       return true;
     }
@@ -1479,7 +1569,7 @@
     function switchPage(pageNum) {
       const p1 = document.getElementById('page1View');
       const p2 = document.getElementById('page2View');
-      const parkView = document.getElementById('parkDetailView');
+      const detailView = document.getElementById('moduleDetailView');
       const t1 = document.getElementById('tabPage1');
       const t2 = document.getElementById('tabPage2');
       const navTabs = document.getElementById('mainNavTabs');
@@ -1487,7 +1577,7 @@
 
       navTabs.style.display = 'grid';
       footerTools.style.display = 'flex';
-      parkView.classList.remove('active');
+      detailView.classList.remove('active');
 
       if (pageNum === 1) {
         activeView = 'page1';
@@ -1505,20 +1595,30 @@
       }
     }
 
-    // 打开游乐园专属详情子页面
-    function openParkDetail() {
-      activeView = 'parkDetail';
+    // 打开任意板块详情页
+    function openModuleDetail(moduleKey) {
+      if (!MODULE_CONFIGS[moduleKey]) return;
+      activeDetailModuleKey = moduleKey;
+      activeView = 'moduleDetail';
+
+      const cfg = MODULE_CONFIGS[moduleKey];
+      newDetailSubType = cfg.subTypes[0].key;
+      clearSelectedPhoto('new');
+      document.getElementById('newDetailTitle').value = '';
+      document.getElementById('newDetailDesc').value = '';
+
       document.getElementById('page1View').classList.remove('active');
       document.getElementById('page2View').classList.remove('active');
       document.getElementById('mainNavTabs').style.display = 'none';
       document.getElementById('globalFooterTools').style.display = 'none';
-      document.getElementById('parkDetailView').classList.add('active');
+      document.getElementById('moduleDetailView').classList.add('active');
+
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      renderParkDetail();
+      renderModuleDetail();
     }
 
     // 返回基地总控台
-    function closeParkDetail() {
+    function closeModuleDetail() {
       switchPage(1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -1544,57 +1644,7 @@
       saveState();
     }
 
-    // 游乐园 4 项打卡切换（自动同步到乐园手账流）
-    function toggleParkDailyTask(subType) {
-      const list = state.daily[todayKey];
-      const idx = list.indexOf(subType);
-      const isTurningOn = idx === -1;
-
-      if (isTurningOn) {
-        list.push(subType);
-        // 检查今天是否已有对应的自动同步手账记录
-        const existing = state.logs.find(l =>
-          l.category === 'park' &&
-          l.subType === subType &&
-          resolveLogFullDate(l) === todayKey &&
-          l.autoSynced
-        );
-        if (!existing) {
-          const meta = PARK_SUBTYPES[subType] || PARK_SUBTYPES.surprise;
-          state.logs.unshift({
-            id: Date.now() + Math.floor(Math.random() * 1000),
-            category: 'park',
-            subType,
-            text: meta.defaultTitle,
-            desc: '',
-            image: '',
-            autoSynced: true,
-            date: todayKey.slice(5),
-            fullDate: todayKey
-          });
-        }
-      } else {
-        list.splice(idx, 1);
-        // 若取消勾选，检查对应的自动同步记录：无补充图文则移除，有图文则保留并解除 autoSynced 标记
-        const syncIdx = state.logs.findIndex(l =>
-          l.category === 'park' &&
-          l.subType === subType &&
-          resolveLogFullDate(l) === todayKey &&
-          l.autoSynced
-        );
-        if (syncIdx > -1) {
-          const target = state.logs[syncIdx];
-          if (!target.desc && !target.image) {
-            state.logs.splice(syncIdx, 1);
-          } else {
-            target.autoSynced = false;
-          }
-        }
-      }
-      saveState();
-    }
-
-    // 计次型任务增减（科研2h脉冲、基地维护三项、洗浴三项）
+    // 计次型任务增减
     function changeCount(key, delta) {
       const cur = getDayCount(todayKey, key);
       const next = Math.max(0, cur + delta);
@@ -1602,59 +1652,7 @@
       saveState();
     }
 
-    // 回车键快捷提交
-    function handleEnter(event, category) {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        addLog(category);
-      }
-    }
-
-    // 添加文本日志（食堂做饭 / 研发里程碑 / 围墙添砖加瓦 / 游乐园惊喜）
-    function addLog(category) {
-      const inputMap = {
-        tech: 'techInput',
-        canteen: 'canteenInput',
-        wall: 'wallInput',
-        park: 'parkInput'
-      };
-      const input = document.getElementById(inputMap[category]);
-      if (!input) return;
-      let text = input.value.trim();
-
-      if (category === 'canteen') {
-        if (!text) text = '自制家常餐';
-      } else {
-        if (!text) return;
-      }
-
-      const logEntry = {
-        id: Date.now() + Math.floor(Math.random() * 1000),
-        category,
-        text,
-        date: todayKey.slice(5),
-        fullDate: todayKey
-      };
-      if (category === 'park') {
-        logEntry.subType = 'surprise';
-        logEntry.desc = '';
-        logEntry.image = '';
-      }
-
-      state.logs.unshift(logEntry);
-      input.value = '';
-      saveState();
-    }
-
     function deleteLog(id) {
-      const target = state.logs.find(item => item.id === id);
-      if (target && target.category === 'park' && target.autoSynced && target.subType) {
-        const dKey = resolveLogFullDate(target);
-        if (Array.isArray(state.daily[dKey])) {
-          const tIdx = state.daily[dKey].indexOf(target.subType);
-          if (tIdx > -1) state.daily[dKey].splice(tIdx, 1);
-        }
-      }
       state.logs = state.logs.filter(item => item.id !== id);
       saveState();
     }
@@ -1673,7 +1671,7 @@
     function setToggleBtnState(btnId, tagId, isActive, activeClass = 'active') {
       const btn = document.getElementById(btnId);
       const tag = document.getElementById(tagId);
-      btn.classList.remove('active', 'active-blue', 'active-cyan');
+      btn.classList.remove('active', 'active-blue', 'active-cyan', 'active-amber', 'active-pink');
       if (isActive) {
         btn.classList.add(activeClass);
         tag.textContent = '1/1 ✓';
@@ -1682,122 +1680,190 @@
       }
     }
 
-    // 统一计算游乐园经验与等级（避免主控台自动同步的手账重复计分）
-    function computeParkMetrics() {
-      let totalParkChecks = 0;
-      const allDateKeys = Object.keys(state.daily || {});
-      allDateKeys.forEach(dKey => {
-        const arr = Array.isArray(state.daily[dKey]) ? state.daily[dKey] : [];
-        if (arr.includes('craft')) totalParkChecks += 1;
-        if (arr.includes('boutique')) totalParkChecks += 1;
-        if (arr.includes('foodie')) totalParkChecks += 1;
-        if (arr.includes('journal')) totalParkChecks += 1;
-      });
-      const parkLogs = state.logs.filter(l => l.category === 'park');
-      const manualParkLogs = parkLogs.filter(l => !l.autoSynced);
-      const parkExp = (totalParkChecks + manualParkLogs.length) * 1;
-      const parkLv = Math.floor(parkExp / 5) + 1;
-      const parkRem = parkExp % 5;
-      return { parkExp, parkLv, parkRem, parkLogs };
+    // 统一更新计次卡片 UI
+    function updateCounterCard(btnId, tagId, descId, undoId, weekCount, todayCount, activeClass = 'active', extraHint = '') {
+      const btn = document.getElementById(btnId);
+      btn.classList.remove('active', 'active-blue', 'active-cyan', 'active-amber', 'active-pink');
+      if (todayCount > 0) btn.classList.add(activeClass);
+      document.getElementById(tagId).textContent = `本周 ${weekCount}`;
+      document.getElementById(descId).textContent = `今日 ${todayCount} 次 · 点+1${extraHint}`;
+      document.getElementById(undoId).disabled = todayCount <= 0;
     }
 
-    function render() {
-      const todayArr = state.daily[todayKey] || [];
+    // 统一计算所有模块经验与周期统计（兼容旧版 logs 与 daily）
+    function computeAllMetrics() {
       const weekKeys = getCurrentWeekKeys();
-
-      // 收集所有出现过的日期键（合并 daily 和 dailyCounts）
+      const monthPrefix = getCurrentMonthPrefix();
       const allDateKeys = new Set([
         ...Object.keys(state.daily || {}),
         ...Object.keys(state.dailyCounts || {})
       ]);
 
-      // 累计统计各模块经验值
-      let totalSupplyChecks = 0;   // 补给线总打卡次（每项 +2 EXP）
-      let totalSpaChecks = 0;      // 洗浴中心总打卡次（每项 +1 EXP）
-      let totalResearchUnits = 0;  // 研发 2h 脉冲总次数（每次 +2 EXP）
-      let totalWallChecks = 0;     // 围墙每日开关打卡（每次 +1 EXP）
-      let totalWarehouseChecks = 0;// 仓库每日开关打卡（每次 +1 EXP）
-      let totalMaintChecks = 0;    // 维护历史总打卡（每次 +1 EXP）
+      // 累计总次数
+      const totalCounts = {
+        supplyChecks: 0,
+        spaChecks: 0,
+        researchUnits: 0,
+        canteenMeals: 0,
+        wallChecks: 0,
+        parkChecks: 0,
+        warehouseChecks: 0,
+        maintChecks: 0
+      };
 
-      // 本周维护次数 & 本周洗浴护理次数
-      let weekClean = 0, weekLaundry = 0, weekTrash = 0;
-      let weekBath = 0, weekMask = 0, weekBeauty = 0;
+      // 本周与本月各单项次数
+      const periodStats = {};
+      Object.values(MODULE_CONFIGS).forEach(cfg => {
+        cfg.subTypes.forEach(st => {
+          periodStats[st.key] = { week: 0, month: 0, total: 0 };
+        });
+      });
 
       allDateKeys.forEach(dKey => {
         const arr = Array.isArray(state.daily[dKey]) ? state.daily[dKey] : [];
+        const inWeek = weekKeys.has(dKey);
+        const inMonth = dKey.startsWith(monthPrefix);
 
-        // 1. 补给线计数
+        const addStat = (k, val) => {
+          if (!periodStats[k] || val <= 0) return;
+          periodStats[k].total += val;
+          if (inWeek) periodStats[k].week += val;
+          if (inMonth) periodStats[k].month += val;
+        };
+
+        // 1. 补给线
         const ironC = getDayCount(dKey, 'iron');
-        totalSupplyChecks += ironC;
-        if (arr.includes('inhaler')) totalSupplyChecks += 1;
-        if (arr.includes('sleep')) totalSupplyChecks += 1;
-        if (arr.includes('vitamin')) totalSupplyChecks += 1;
-        if (arr.includes('fitness')) totalSupplyChecks += 1;
+        const inhalerC = arr.includes('inhaler') ? 1 : 0;
+        const sleepC = arr.includes('sleep') ? 1 : 0;
+        const vitaminC = arr.includes('vitamin') ? 1 : 0;
+        const fitnessC = arr.includes('fitness') ? 1 : 0;
+        totalCounts.supplyChecks += (ironC + inhalerC + sleepC + vitaminC + fitnessC);
+        addStat('iron', ironC);
+        addStat('inhaler', inhalerC);
+        addStat('sleep', sleepC);
+        addStat('vitamin', vitaminC);
+        addStat('fitness', fitnessC);
 
         // 2. 洗浴中心
-        const cBath = getDayCount(dKey, 'bath');
-        const cMask = getDayCount(dKey, 'mask');
-        const cBeauty = getDayCount(dKey, 'beauty_device');
-        if (arr.includes('shower')) totalSpaChecks += 1;
-        totalSpaChecks += (cBath + cMask + cBeauty);
+        const showerC = arr.includes('shower') ? 1 : 0;
+        const bathC = getDayCount(dKey, 'bath');
+        const maskC = getDayCount(dKey, 'mask');
+        const beautyC = getDayCount(dKey, 'beauty_device');
+        totalCounts.spaChecks += (showerC + bathC + maskC + beautyC);
+        addStat('shower', showerC);
+        addStat('bath', bathC);
+        addStat('mask', maskC);
+        addStat('beauty_device', beautyC);
 
-        if (weekKeys.has(dKey)) {
-          weekBath += cBath;
-          weekMask += cMask;
-          weekBeauty += cBeauty;
+        // 3. 研发中心
+        const resC = getDayCount(dKey, 'research');
+        totalCounts.researchUnits += resC;
+        addStat('research', resC);
+
+        // 4. 食堂出餐
+        const mealC = getDayCount(dKey, 'canteen_meal');
+        totalCounts.canteenMeals += mealC;
+        addStat('canteen_meal', mealC);
+
+        // 5. 围墙防御（含旧版 noise 物理降噪折算）
+        const socialC = arr.includes('social_guard') ? 1 : 0;
+        const noiseC = arr.includes('noise') ? 1 : 0;
+        const brickC = getDayCount(dKey, 'wall_brick');
+        totalCounts.wallChecks += (socialC + noiseC + brickC);
+        addStat('social_guard', socialC);
+        addStat('wall_brick', brickC + noiseC);
+
+        // 6. 游乐园 5 项
+        ['craft', 'boutique', 'foodie', 'journal', 'park_surprise'].forEach(k => {
+          const c = getDayCount(dKey, k);
+          totalCounts.parkChecks += c;
+          addStat(k, c);
+        });
+
+        // 7. 仓库 3 项
+        ['shop', 'organize', 'declutter'].forEach(k => {
+          const c = getDayCount(dKey, k);
+          totalCounts.warehouseChecks += c;
+          addStat(k, c);
+        });
+
+        // 8. 基地维护 4 项（含新增洗碗）
+        ['clean', 'laundry', 'trash', 'dishwash'].forEach(k => {
+          const c = getDayCount(dKey, k);
+          totalCounts.maintChecks += c;
+          addStat(k, c);
+        });
+      });
+
+      // 兼容旧版非纯笔记型 logs（!l.isNoteOnly && !l.autoSynced）的经验与周/月次数折算
+      state.logs.forEach(log => {
+        const dKey = resolveLogFullDate(log);
+        const inWeek = weekKeys.has(dKey);
+        const inMonth = dKey.startsWith(monthPrefix);
+
+        if (log.isNoteOnly) {
+          // 详情页补充的纯图文记录，统计进 logOnly 子项（如 milestone / recipe_note）
+          if (log.subType && periodStats[log.subType]) {
+            periodStats[log.subType].total += 1;
+            if (inWeek) periodStats[log.subType].week += 1;
+            if (inMonth) periodStats[log.subType].month += 1;
+          }
+          return;
         }
 
-        // 3. 研发 2h 脉冲（含旧版 study 折算）
-        totalResearchUnits += getDayCount(dKey, 'research');
-
-        // 4. 围墙防沉迷（含旧版 noise 物理降噪折算）
-        if (arr.includes('social_guard')) totalWallChecks += 1;
-        if (arr.includes('noise')) totalWallChecks += 1;
-
-        // 5. 仓库三项
-        if (arr.includes('shop')) totalWarehouseChecks += 1;
-        if (arr.includes('organize')) totalWarehouseChecks += 1;
-        if (arr.includes('declutter')) totalWarehouseChecks += 1;
-
-        // 6. 基地维护三项
-        const cClean = getDayCount(dKey, 'clean');
-        const cLaundry = getDayCount(dKey, 'laundry');
-        const cTrash = getDayCount(dKey, 'trash');
-        totalMaintChecks += (cClean + cLaundry + cTrash);
-
-        if (weekKeys.has(dKey)) {
-          weekClean += cClean;
-          weekLaundry += cLaundry;
-          weekTrash += cTrash;
+        // 以下是旧版主控台输入框时代留下的历史经验 logs，完整保留折算！
+        if (log.category === 'tech') {
+          totalCounts.researchUnits += 1;
+          periodStats.milestone.total += 1;
+          if (inWeek) periodStats.milestone.week += 1;
+          if (inMonth) periodStats.milestone.month += 1;
+        } else if (log.category === 'canteen') {
+          totalCounts.canteenMeals += 1;
+          periodStats.canteen_meal.total += 1;
+          if (inWeek) periodStats.canteen_meal.week += 1;
+          if (inMonth) periodStats.canteen_meal.month += 1;
+        } else if (log.category === 'wall') {
+          totalCounts.wallChecks += 1;
+          periodStats.wall_brick.total += 1;
+          if (inWeek) periodStats.wall_brick.week += 1;
+          if (inMonth) periodStats.wall_brick.month += 1;
+        } else if (log.category === 'park' && !log.autoSynced) {
+          totalCounts.parkChecks += 1;
+          const targetKey = (log.subType && periodStats[log.subType]) ? log.subType : 'park_surprise';
+          periodStats[targetKey].total += 1;
+          if (inWeek) periodStats[targetKey].week += 1;
+          if (inMonth) periodStats[targetKey].month += 1;
         }
       });
 
-      // 统计各类日志条数
-      const techLogs = state.logs.filter(l => l.category === 'tech');
-      const canteenLogs = state.logs.filter(l => l.category === 'canteen');
-      const wallLogs = state.logs.filter(l => l.category === 'wall');
-      const { parkExp, parkLv, parkRem, parkLogs } = computeParkMetrics();
+      const moduleExp = {
+        supply: totalCounts.supplyChecks * 2,
+        spa: totalCounts.spaChecks * 1,
+        research: totalCounts.researchUnits * 2,
+        canteen: totalCounts.canteenMeals * 1,
+        wall: totalCounts.wallChecks * 1,
+        park: totalCounts.parkChecks * 1,
+        warehouse: totalCounts.warehouseChecks * 1,
+        maint: totalCounts.maintChecks * 1
+      };
 
-      // 各模块独立原始经验值
-      const supplyExp = totalSupplyChecks * 2;
-      const spaExp = totalSpaChecks * 1;
-      const researchExp = (totalResearchUnits + techLogs.length) * 2;
-      const wallExp = (totalWallChecks + wallLogs.length) * 1;
-      const canteenExp = canteenLogs.length * 1;
-      const maintExp = totalMaintChecks * 1;
-      const warehouseExp = totalWarehouseChecks * 1;
-
-      // 主反应堆加权总经验（1.0 / 0.8 权重）
       const rawTotalExp =
-        supplyExp * 1.0 +
-        researchExp * 1.0 +
-        wallExp * 1.0 +
-        spaExp * 0.8 +
-        canteenExp * 0.8 +
-        maintExp * 0.8 +
-        warehouseExp * 0.8 +
-        parkExp * 0.8;
+        moduleExp.supply * 1.0 +
+        moduleExp.research * 1.0 +
+        moduleExp.wall * 1.0 +
+        moduleExp.spa * 0.8 +
+        moduleExp.canteen * 0.8 +
+        moduleExp.maint * 0.8 +
+        moduleExp.warehouse * 0.8 +
+        moduleExp.park * 0.8;
+
       const totalExp = Math.round(rawTotalExp * 10) / 10;
+      return { totalCounts, periodStats, moduleExp, totalExp };
+    }
+
+    function render() {
+      const todayArr = state.daily[todayKey] || [];
+      const { totalCounts, periodStats, moduleExp, totalExp } = computeAllMetrics();
 
       // 1. 渲染主反应堆总览
       const reactorLv = Math.floor(totalExp / 15) + 1;
@@ -1851,7 +1917,6 @@
       }
       document.getElementById('supplyCountText').textContent = `今日 ${totalTodaySupply} / 6 项`;
 
-      // 铁片按钮UI
       const btnIron = document.getElementById('btnIron');
       const ironDots = document.getElementById('ironDots').querySelectorAll('.dot');
       btnIron.classList.remove('active', 'active-blue', 'partial-red');
@@ -1870,12 +1935,12 @@
       setToggleBtnState('btnVitamin', 'tagVitamin', todayVitamin === 1, 'active');
       setToggleBtnState('btnFitness', 'tagFitness', todayFitness === 1, 'active');
 
-      // 3. 渲染基地洗浴中心（每 5 EXP 升 1 级）
-      const spaLv = Math.floor(spaExp / 5) + 1;
-      const spaRem = spaExp % 5;
+      // 3. 渲染基地洗浴中心
+      const spaLv = Math.floor(moduleExp.spa / 5) + 1;
+      const spaRem = moduleExp.spa % 5;
       document.getElementById('spaLevelBadge').textContent = `洗浴中心 Lv.${spaLv}`;
       document.getElementById('spaBarFill').style.width = `${Math.round((spaRem / 5) * 100)}%`;
-      document.getElementById('spaExpMeta').textContent = `${spaRem} / 5 EXP (总 ${spaExp})`;
+      document.getElementById('spaExpMeta').textContent = `${spaRem} / 5 EXP (总 ${moduleExp.spa})`;
 
       const todayShower = todayArr.includes('shower');
       const todayBath = getDayCount(todayKey, 'bath');
@@ -1883,21 +1948,137 @@
       const todayBeauty = getDayCount(todayKey, 'beauty_device');
 
       setToggleBtnState('btnShower', 'tagShower', todayShower, 'active-cyan');
-      updateMaintCard('btnBath', 'tagBath', 'descBath', 'undoBathBtn', weekBath, todayBath, 'active-cyan');
-      updateMaintCard('btnMask', 'tagMask', 'descMask', 'undoMaskBtn', weekMask, todayMask, 'active-cyan');
-      updateMaintCard('btnBeauty', 'tagBeauty', 'descBeauty', 'undoBeautyBtn', weekBeauty, todayBeauty, 'active-cyan');
+      updateCounterCard('btnBath', 'tagBath', 'descBath', 'undoBathBtn', periodStats.bath.week, todayBath, 'active-cyan');
+      updateCounterCard('btnMask', 'tagMask', 'descMask', 'undoMaskBtn', periodStats.mask.week, todayMask, 'active-cyan');
+      updateCounterCard('btnBeauty', 'tagBeauty', 'descBeauty', 'undoBeautyBtn', periodStats.beauty_device.week, todayBeauty, 'active-cyan');
+
+      // 4. 渲染基地研发中心
+      const todayResearch = getDayCount(todayKey, 'research');
+      const resLv = Math.floor(moduleExp.research / 6) + 1;
+      const resRem = moduleExp.research % 6;
+      document.getElementById('researchLevelBadge').textContent = `研发中心 Lv.${resLv}`;
+      document.getElementById('researchBarFill').style.width = `${Math.round((resRem / 6) * 100)}%`;
+      document.getElementById('researchExpMeta').textContent = `${resRem} / 6 EXP (总 ${moduleExp.research})`;
+      document.getElementById('todayResearchUnits').textContent = todayResearch;
+      document.getElementById('todayResearchHours').textContent = todayResearch * 2;
+      document.getElementById('totalResearchHoursText').textContent = `历史累计 ${totalCounts.researchUnits * 2}h`;
+      document.getElementById('undoResearchBtn').disabled = todayResearch <= 0;
+
+      // 5. 渲染基地食堂（自然周统计本周出餐）
+      const todayCanteen = getDayCount(todayKey, 'canteen_meal');
+      const weekCanteen = periodStats.canteen_meal.week;
+      const canLv = Math.floor(moduleExp.canteen / 5) + 1;
+      const canRem = moduleExp.canteen % 5;
+      document.getElementById('canteenLevelBadge').textContent = `基地食堂 Lv.${canLv}`;
+      document.getElementById('canteenBarFill').style.width = `${Math.round((canRem / 5) * 100)}%`;
+      document.getElementById('canteenWeekMeta').textContent = `本周出餐：${weekCanteen} 顿 · 累计 ${totalCounts.canteenMeals} 顿`;
+      document.getElementById('canteenExpMeta').textContent = `${canRem} / 5 EXP`;
+      document.getElementById('weekCanteenCount').textContent = weekCanteen;
+      document.getElementById('todayCanteenCountText').textContent = `今日 ${todayCanteen} 顿`;
+      document.getElementById('undoCanteenBtn').disabled = todayCanteen <= 0;
+
+      // 6. 渲染围墙防御战绩
+      const wallLv = Math.floor(moduleExp.wall / 5) + 1;
+      const wallRem = moduleExp.wall % 5;
+      const todayWallBrick = getDayCount(todayKey, 'wall_brick');
+      document.getElementById('wallLevelBadge').textContent = `围墙防御 Lv.${wallLv}`;
+      document.getElementById('wallBarFill').style.width = `${Math.round((wallRem / 5) * 100)}%`;
+      document.getElementById('wallExpMeta').textContent = `${wallRem} / 5 EXP (总 ${moduleExp.wall})`;
+      setToggleBtnState('btnSocialGuard', 'tagSocialGuard', todayArr.includes('social_guard'), 'active-amber');
+      updateCounterCard('btnWallBrick', 'tagWallBrick', 'descWallBrick', 'undoWallBrickBtn', periodStats.wall_brick.week, todayWallBrick, 'active-amber');
+
+      // 7. 渲染游乐园（全计次 +1）
+      const parkLv = Math.floor(moduleExp.park / 5) + 1;
+      const parkRem = moduleExp.park % 5;
+      document.getElementById('parkLevelBadge').textContent = `娱乐设施 Lv.${parkLv}`;
+      document.getElementById('parkBarFill').style.width = `${Math.round((parkRem / 5) * 100)}%`;
+      document.getElementById('parkExpMeta').textContent = `${parkRem} / 5 EXP (总 ${moduleExp.park})`;
+
+      const todayCraft = getDayCount(todayKey, 'craft');
+      const todayBoutique = getDayCount(todayKey, 'boutique');
+      const todayFoodie = getDayCount(todayKey, 'foodie');
+      const todayJournal = getDayCount(todayKey, 'journal');
+      const todaySurprise = getDayCount(todayKey, 'park_surprise');
+
+      updateCounterCard('btnCraft', 'tagCraft', 'descCraft', 'undoCraftBtn', periodStats.craft.week, todayCraft, 'active-pink');
+      updateCounterCard('btnBoutique', 'tagBoutique', 'descBoutique', 'undoBoutiqueBtn', periodStats.boutique.week, todayBoutique, 'active-pink');
+      updateCounterCard('btnFoodie', 'tagFoodie', 'descFoodie', 'undoFoodieBtn', periodStats.foodie.week, todayFoodie, 'active-pink');
+      updateCounterCard('btnJournal', 'tagJournal', 'descJournal', 'undoJournalBtn', periodStats.journal.week, todayJournal, 'active-pink');
+      updateCounterCard('btnSurprise', 'tagSurprise', 'descSurprise', 'undoSurpriseBtn', periodStats.park_surprise.week, todaySurprise, 'active-pink', '（进详情可写小惊喜）');
+
+      // 8. 渲染仓库（全计次 +1）
+      const whLv = Math.floor(moduleExp.warehouse / 5) + 1;
+      const whRem = moduleExp.warehouse % 5;
+      document.getElementById('warehouseLevelBadge').textContent = `基地仓库 Lv.${whLv}`;
+      document.getElementById('warehouseBarFill').style.width = `${Math.round((whRem / 5) * 100)}%`;
+      document.getElementById('warehouseExpMeta').textContent = `${whRem} / 5 EXP (总 ${moduleExp.warehouse})`;
+
+      const todayShop = getDayCount(todayKey, 'shop');
+      const todayOrganize = getDayCount(todayKey, 'organize');
+      const todayDeclutter = getDayCount(todayKey, 'declutter');
+
+      updateCounterCard('btnShop', 'tagShop', 'descShop', 'undoShopBtn', periodStats.shop.week, todayShop, 'active');
+      updateCounterCard('btnOrganize', 'tagOrganize', 'descOrganize', 'undoOrganizeBtn', periodStats.organize.week, todayOrganize, 'active');
+      updateCounterCard('btnDeclutter', 'tagDeclutter', 'descDeclutter', 'undoDeclutterBtn', periodStats.declutter.week, todayDeclutter, 'active');
+
+      // 9. 渲染基地维护（自然周统计，含新增洗碗）
+      const weekMaintTotal =
+        periodStats.clean.week +
+        periodStats.laundry.week +
+        periodStats.trash.week +
+        periodStats.dishwash.week;
+
+      const maintBar = document.getElementById('maintBarFill');
+      const maintBadge = document.getElementById('maintStatusBadge');
+
+      maintBar.className = 'bar-fill';
+      maintBadge.className = 'level-pill';
+
+      const maintPct = Math.min(100, Math.round((weekMaintTotal / 5) * 100));
+      maintBar.style.width = `${maintPct}%`;
+
+      if (weekMaintTotal === 0) {
+        maintBar.classList.add('red');
+        maintBadge.classList.add('red');
+        maintBadge.textContent = '🚨 红警：本周未维护';
+      } else if (weekMaintTotal <= 3) {
+        maintBar.classList.add('amber');
+        maintBadge.classList.add('amber');
+        maintBadge.textContent = `⚠️ 需注意：已维护 ${weekMaintTotal} 次`;
+      } else {
+        maintBar.classList.add('green');
+        maintBadge.classList.add('green');
+        maintBadge.textContent = '✅ 基地环境良好';
+      }
+
+      document.getElementById('maintWeekMeta').textContent = `本周累计：${weekMaintTotal} 次（满 4 次环境良好）`;
+      document.getElementById('maintExpMeta').textContent = `历史维护：${moduleExp.maint} EXP`;
+
+      const todayClean = getDayCount(todayKey, 'clean');
+      const todayLaundry = getDayCount(todayKey, 'laundry');
+      const todayTrash = getDayCount(todayKey, 'trash');
+      const todayDish = getDayCount(todayKey, 'dishwash');
+
+      updateCounterCard('btnClean', 'tagClean', 'descClean', 'undoCleanBtn', periodStats.clean.week, todayClean, 'active');
+      updateCounterCard('btnLaundry', 'tagLaundry', 'descLaundry', 'undoLaundryBtn', periodStats.laundry.week, todayLaundry, 'active');
+      updateCounterCard('btnTrash', 'tagTrash', 'descTrash', 'undoTrashBtn', periodStats.trash.week, todayTrash, 'active');
+      updateCounterCard('btnDish', 'tagDish', 'descDish', 'undoDishBtn', periodStats.dishwash.week, todayDish, 'active');
 
       // 计算并更新反应堆「今日综合充能度 %」
-      const todayResearch = getDayCount(todayKey, 'research');
-      const todayCanteen = canteenLogs.filter(l => resolveLogFullDate(l) === todayKey).length;
       const todaySpaDone = (todayShower || todayBath > 0 || todayMask > 0 || todayBeauty > 0) ? 1 : 0;
+      const todayParkDone = (todayCraft > 0 || todayBoutique > 0 || todayFoodie > 0 || todayJournal > 0 || todaySurprise > 0) ? 1 : 0;
+      const todayWhDone = (todayShop > 0 || todayOrganize > 0 || todayDeclutter > 0) ? 1 : 0;
+      const todayWallDone = (todayArr.includes('social_guard') || todayWallBrick > 0) ? 1 : 0;
+      const todayMaintDone = (todayClean > 0 || todayLaundry > 0 || todayTrash > 0 || todayDish > 0) ? 1 : 0;
+
       const todayExtraAct =
         (todayResearch > 0 ? 1 : 0) +
         (todayCanteen > 0 ? 1 : 0) +
         todaySpaDone +
-        (todayArr.includes('social_guard') ? 1 : 0) +
-        ((todayArr.includes('craft') || todayArr.includes('boutique') || todayArr.includes('foodie') || todayArr.includes('journal')) ? 1 : 0) +
-        ((todayArr.includes('shop') || todayArr.includes('organize') || todayArr.includes('declutter')) ? 1 : 0);
+        todayWallDone +
+        todayParkDone +
+        todayWhDone +
+        todayMaintDone;
 
       const todayChargePct = Math.min(
         100,
@@ -1915,258 +2096,113 @@
       } else {
         statusTextEl.textContent = '✨ 满载运行：今天也把生活照顾得很好！';
       }
-
-      // 4. 渲染基地研发中心（每 6 EXP 升 1 级）
-      const resLv = Math.floor(researchExp / 6) + 1;
-      const resRem = researchExp % 6;
-      document.getElementById('researchLevelBadge').textContent = `研发中心 Lv.${resLv}`;
-      document.getElementById('researchBarFill').style.width = `${Math.round((resRem / 6) * 100)}%`;
-      document.getElementById('researchExpMeta').textContent = `${resRem} / 6 EXP (总 ${researchExp})`;
-      document.getElementById('todayResearchUnits').textContent = todayResearch;
-      document.getElementById('todayResearchHours').textContent = todayResearch * 2;
-      document.getElementById('totalResearchHoursText').textContent = `历史累计 ${totalResearchUnits * 2}h`;
-      document.getElementById('undoResearchBtn').disabled = todayResearch <= 0;
-
-      // 5. 渲染基地食堂（每 5 EXP 升 1 级）
-      const canLv = Math.floor(canteenExp / 5) + 1;
-      const canRem = canteenExp % 5;
-      document.getElementById('canteenLevelBadge').textContent = `基地食堂 Lv.${canLv}`;
-      document.getElementById('canteenBarFill').style.width = `${Math.round((canRem / 5) * 100)}%`;
-      document.getElementById('canteenCountMeta').textContent = `累计做饭 ${canteenLogs.length} 顿 · 今日 ${todayCanteen} 顿`;
-      document.getElementById('canteenExpMeta').textContent = `${canRem} / 5 EXP`;
-
-      // 6. 渲染围墙防御战绩（每 5 EXP 升 1 级）
-      const wallLv = Math.floor(wallExp / 5) + 1;
-      const wallRem = wallExp % 5;
-      document.getElementById('wallLevelBadge').textContent = `围墙防御 Lv.${wallLv}`;
-      document.getElementById('wallBarFill').style.width = `${Math.round((wallRem / 5) * 100)}%`;
-      document.getElementById('wallExpMeta').textContent = `${wallRem} / 5 EXP (总 ${wallExp})`;
-      setToggleBtnState('btnSocialGuard', 'tagSocialGuard', todayArr.includes('social_guard'), 'active');
-
-      // 7. 渲染游乐园（每 5 EXP 升 1 级）
-      document.getElementById('parkLevelBadge').textContent = `娱乐设施 Lv.${parkLv}`;
-      document.getElementById('parkBarFill').style.width = `${Math.round((parkRem / 5) * 100)}%`;
-      document.getElementById('parkExpMeta').textContent = `${parkRem} / 5 EXP (总 ${parkExp})`;
-      setToggleBtnState('btnCraft', 'tagCraft', todayArr.includes('craft'), 'active');
-      setToggleBtnState('btnBoutique', 'tagBoutique', todayArr.includes('boutique'), 'active');
-      setToggleBtnState('btnFoodie', 'tagFoodie', todayArr.includes('foodie'), 'active');
-      setToggleBtnState('btnJournal', 'tagJournal', todayArr.includes('journal'), 'active');
-
-      // 8. 渲染仓库（每 5 EXP 升 1 级）
-      const whLv = Math.floor(warehouseExp / 5) + 1;
-      const whRem = warehouseExp % 5;
-      document.getElementById('warehouseLevelBadge').textContent = `基地仓库 Lv.${whLv}`;
-      document.getElementById('warehouseBarFill').style.width = `${Math.round((whRem / 5) * 100)}%`;
-      document.getElementById('warehouseExpMeta').textContent = `${whRem} / 5 EXP (总 ${warehouseExp})`;
-      setToggleBtnState('btnShop', 'tagShop', todayArr.includes('shop'), 'active');
-      setToggleBtnState('btnOrganize', 'tagOrganize', todayArr.includes('organize'), 'active');
-      setToggleBtnState('btnDeclutter', 'tagDeclutter', todayArr.includes('declutter'), 'active');
-
-      // 9. 渲染基地维护（自然周统计 + 三态环境预警）
-      const weekMaintTotal = weekClean + weekLaundry + weekTrash;
-      const maintBar = document.getElementById('maintBarFill');
-      const maintBadge = document.getElementById('maintStatusBadge');
-
-      maintBar.className = 'bar-fill';
-      maintBadge.className = 'level-pill';
-
-      const maintPct = Math.min(100, Math.round((weekMaintTotal / 5) * 100));
-      maintBar.style.width = `${maintPct}%`;
-
-      if (weekMaintTotal === 0) {
-        maintBar.classList.add('red');
-        maintBadge.classList.add('red');
-        maintBadge.textContent = '🚨 红警：本周基地尚未维护';
-      } else if (weekMaintTotal <= 3) {
-        maintBar.classList.add('amber');
-        maintBadge.classList.add('amber');
-        maintBadge.textContent = `⚠️ 需注意：已维护 ${weekMaintTotal} 次（满 4 次良好）`;
-      } else {
-        maintBar.classList.add('green');
-        maintBadge.classList.add('green');
-        maintBadge.textContent = '✅ 基地环境良好';
-      }
-
-      document.getElementById('maintWeekMeta').textContent = `本周累计：${weekMaintTotal} 次（满 4 次环境良好）`;
-      document.getElementById('maintExpMeta').textContent = `历史维护：${maintExp} EXP`;
-
-      const todayClean = getDayCount(todayKey, 'clean');
-      const todayLaundry = getDayCount(todayKey, 'laundry');
-      const todayTrash = getDayCount(todayKey, 'trash');
-
-      updateMaintCard('btnClean', 'tagClean', 'descClean', 'undoCleanBtn', weekClean, todayClean);
-      updateMaintCard('btnLaundry', 'tagLaundry', 'descLaundry', 'undoLaundryBtn', weekLaundry, todayLaundry);
-      updateMaintCard('btnTrash', 'tagTrash', 'descTrash', 'undoTrashBtn', weekTrash, todayTrash);
-
-      // 渲染四条文本记录列表（主页面只展示非空文本记录，若带图片加小相机角标）
-      renderLogList('techList', techLogs, '');
-      renderLogList('canteenList', canteenLogs, 'canteen');
-      renderLogList('wallList', wallLogs, 'wall');
-      renderLogList('parkList', parkLogs, 'park');
     }
 
-    function updateMaintCard(btnId, tagId, descId, undoId, weekCount, todayCount, activeClass = 'active') {
-      const btn = document.getElementById(btnId);
-      btn.classList.remove('active', 'active-blue', 'active-cyan');
-      if (todayCount > 0) btn.classList.add(activeClass);
-      document.getElementById(tagId).textContent = `本周 ${weekCount}`;
-      document.getElementById(descId).textContent = `今日 ${todayCount} 次 · 点+1`;
-      document.getElementById(undoId).disabled = todayCount <= 0;
+    // ================= 统一板块详情子页面渲染与交互 =================
+
+    function getModuleLogs(moduleKey) {
+      const cfg = MODULE_CONFIGS[moduleKey];
+      return state.logs.filter(l => l.category === cfg.logCategory);
     }
 
-    function renderLogList(ulId, items, extraClass) {
-      const ul = document.getElementById(ulId);
-      ul.innerHTML = '';
-      items.forEach(log => {
-        const li = document.createElement('li');
-        li.className = 'log-item' + (extraClass ? ` ${extraClass}` : '');
-        const photoTag = log.image ? ' 📷' : '';
-        li.innerHTML = `
-          <span class="log-text">${escapeHtml(log.text)}${photoTag}</span>
-          <div class="log-right">
-            <span class="log-date">${escapeHtml(log.date || '')}</span>
-            <button class="del-btn" title="删除记录" onclick="deleteLog(${log.id})">×</button>
-          </div>
-        `;
-        ul.appendChild(li);
-      });
-    }
+    function renderModuleDetail() {
+      const cfg = MODULE_CONFIGS[activeDetailModuleKey];
+      if (!cfg) return;
 
-    // ================= 游乐园专属详情子页面逻辑 =================
+      const { periodStats, moduleExp } = computeAllMetrics();
+      const exp = moduleExp[activeDetailModuleKey] || 0;
+      const lv = Math.floor(exp / cfg.expPerLv) + 1;
+      const rem = exp % cfg.expPerLv;
+      const pct = Math.min(100, Math.round((rem / cfg.expPerLv) * 100));
 
-    function handleStageImgLoad() {
-      document.getElementById('parkStageFallback').classList.remove('visible');
-    }
+      // 1. 顶部标题与等级进度条
+      document.getElementById('detailTopTitle').textContent = `${cfg.title} · 档案与统计`;
+      const lvBadge = document.getElementById('detailLvBadge');
+      lvBadge.className = `level-pill ${cfg.colorClass}`;
+      lvBadge.textContent = `${cfg.shortName} Lv.${lv}`;
 
-    function handleStageImgError() {
-      document.getElementById('parkStageFallback').classList.add('visible');
-    }
+      document.getElementById('detailNextHint').textContent = `升级进度 ${rem} / ${cfg.expPerLv} EXP（还差 ${cfg.expPerLv - rem} EXP）`;
+      const barFill = document.getElementById('detailBarFill');
+      barFill.className = `bar-fill ${cfg.colorClass}`;
+      barFill.style.width = `${pct}%`;
 
-    // 计算游乐园本周与本月各项目统计
-    function computeParkPeriodStats() {
-      const weekKeys = getCurrentWeekKeys();
-      const monthPrefix = getCurrentMonthPrefix();
-      const stats = {
-        craft:    { week: 0, month: 0 },
-        boutique: { week: 0, month: 0 },
-        foodie:   { week: 0, month: 0 },
-        journal:  { week: 0, month: 0 },
-        surprise: { week: 0, month: 0 }
-      };
+      document.getElementById('detailSubDesc').textContent = cfg.desc;
+      document.getElementById('detailTotalExpText').textContent = `累计 ${exp} EXP`;
 
-      // 1. 统计 daily 中的 4 项每日开关打卡
-      Object.keys(state.daily || {}).forEach(dKey => {
-        const arr = Array.isArray(state.daily[dKey]) ? state.daily[dKey] : [];
-        const inWeek = weekKeys.has(dKey);
-        const inMonth = dKey.startsWith(monthPrefix);
-        if (!inWeek && !inMonth) return;
-
-        ['craft', 'boutique', 'foodie', 'journal'].forEach(k => {
-          if (arr.includes(k)) {
-            if (inWeek) stats[k].week += 1;
-            if (inMonth) stats[k].month += 1;
-          }
-        });
-      });
-
-      // 2. 统计手动新增的手账记录（排除 autoSynced，避免重复计数）
-      state.logs.filter(l => l.category === 'park' && !l.autoSynced).forEach(log => {
-        const dKey = resolveLogFullDate(log);
-        const inWeek = weekKeys.has(dKey);
-        const inMonth = dKey.startsWith(monthPrefix);
-        if (!inWeek && !inMonth) return;
-
-        const key = PARK_SUBTYPES[log.subType] ? log.subType : 'surprise';
-        if (inWeek) stats[key].week += 1;
-        if (inMonth) stats[key].month += 1;
-      });
-
-      const weekTotal = Object.values(stats).reduce((sum, item) => sum + item.week, 0);
-      const monthTotal = Object.values(stats).reduce((sum, item) => sum + item.month, 0);
-      return { stats, weekTotal, monthTotal };
-    }
-
-    function renderParkDetail() {
-      const { parkLv, parkRem, parkLogs } = computeParkMetrics();
-      const stage = Math.min(5, Math.max(1, parkLv));
-      const stageName = PARK_STAGE_NAMES[stage] || '梦幻旋转木马';
-
-      // 1. 场景橱窗与进度条
-      const imgEl = document.getElementById('parkStageImg');
-      const expectedSrc = `park_s${stage}.jpeg`;
-      if (imgEl.getAttribute('src') !== expectedSrc) {
-        document.getElementById('parkStageFallback').classList.remove('visible');
-        imgEl.setAttribute('src', expectedSrc);
-      }
-      document.getElementById('parkFallbackTitle').textContent = `Lv.${parkLv} · ${stageName}`;
-      document.getElementById('parkStageOverlayBadge').textContent = `Lv.${parkLv} · ${stageName}`;
-      document.getElementById('detailParkLvBadge').textContent = `娱乐设施 Lv.${parkLv}`;
-      document.getElementById('detailParkNextHint').textContent = `升级进度 ${parkRem} / 5 EXP（还差 ${5 - parkRem} EXP）`;
-      document.getElementById('detailParkBarFill').style.width = `${Math.round((parkRem / 5) * 100)}%`;
-
-      // 2. 周/月数据看板
-      const { stats, weekTotal, monthTotal } = computeParkPeriodStats();
-      document.getElementById('parkPeriodTotalBadge').textContent = `本周 ${weekTotal} 次 · 本月 ${monthTotal} 次`;
-
-      const statsGrid = document.getElementById('parkStatsGrid');
+      // 2. 周/月统计看板
+      let weekTotal = 0;
+      let monthTotal = 0;
+      const statsGrid = document.getElementById('detailStatsGrid');
       statsGrid.innerHTML = '';
-      ['craft', 'boutique', 'foodie', 'journal', 'surprise'].forEach(key => {
-        const meta = PARK_SUBTYPES[key];
-        const s = stats[key];
+
+      cfg.subTypes.forEach(st => {
+        const s = periodStats[st.key] || { week: 0, month: 0, total: 0 };
+        weekTotal += s.week;
+        monthTotal += s.month;
         const cell = document.createElement('div');
-        cell.className = 'park-stat-cell';
+        cell.className = 'detail-stat-cell';
         cell.innerHTML = `
-          <div class="park-stat-icon">${meta.icon}</div>
-          <div class="park-stat-name">${meta.label}</div>
-          <div class="park-stat-nums">
+          <div class="detail-stat-icon">${st.icon}</div>
+          <div class="detail-stat-name">${st.label}</div>
+          <div class="detail-stat-nums">
             本周 ${s.week}
             <span>本月 ${s.month}</span>
           </div>
         `;
         statsGrid.appendChild(cell);
       });
+      document.getElementById('detailPeriodTotalBadge').textContent = `本周 ${weekTotal} 次 · 本月 ${monthTotal} 次`;
 
-      // 3. 图文手账流
-      document.getElementById('parkJournalCount').textContent = `共 ${parkLogs.length} 条记录`;
-      const feed = document.getElementById('parkJournalFeed');
+      // 3. 类型选择胶囊 & 输入框占位符
+      const typeSelector = document.getElementById('newDetailTypeSelector');
+      typeSelector.innerHTML = '';
+      cfg.subTypes.forEach(st => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'type-chip' + (newDetailSubType === st.key ? ' active' : '');
+        btn.textContent = `${st.icon} ${st.label}`;
+        btn.onclick = () => {
+          newDetailSubType = st.key;
+          renderModuleDetail();
+        };
+        typeSelector.appendChild(btn);
+      });
+      document.getElementById('newDetailTitle').placeholder = cfg.titlePlaceholder;
+
+      // 4. 图文手账档案流
+      const logs = getModuleLogs(activeDetailModuleKey);
+      document.getElementById('detailJournalCount').textContent = `共 ${logs.length} 条记录`;
+      const feed = document.getElementById('detailJournalFeed');
       feed.innerHTML = '';
 
-      if (parkLogs.length === 0) {
-        feed.innerHTML = `<div style="text-align: center; color: var(--text-sub); font-size: 0.8rem; padding: 18px 8px;">还没有乐园手账记录，在上方写下第一份快乐或上传照片吧 ✨</div>`;
+      if (logs.length === 0) {
+        feed.innerHTML = `<div style="text-align: center; color: var(--text-sub); font-size: 0.8rem; padding: 18px 8px;">暂无详细图文档案，在上方写下第一条记录或添加照片吧 ✨</div>`;
         return;
       }
 
-      parkLogs.forEach(log => {
-        const meta = PARK_SUBTYPES[log.subType] || PARK_SUBTYPES.surprise;
+      logs.forEach(log => {
+        const matchedSub = cfg.subTypes.find(s => s.key === log.subType) || cfg.subTypes[0];
         const fullDate = resolveLogFullDate(log);
         const card = document.createElement('div');
         card.className = 'journal-card';
 
         const descHtml = log.desc ? `<div class="journal-card-desc">${escapeHtml(log.desc)}</div>` : '';
-        const imgHtml = log.image ? `<img class="journal-card-img" src="${log.image}" alt="手账配图" onclick="openImageLightbox(${log.id})" />` : '';
+        const imgHtml = log.image ? `<img class="journal-card-img" src="${log.image}" alt="档案配图" onclick="openImageLightbox(${log.id})" />` : '';
 
         card.innerHTML = `
           <div class="journal-card-top">
-            <span class="journal-type-tag">${meta.icon} ${meta.label}</span>
+            <span class="journal-type-tag">${matchedSub.icon} ${matchedSub.label}</span>
             <span class="log-date">${escapeHtml(fullDate)}</span>
           </div>
           <div class="journal-card-title">${escapeHtml(log.text)}</div>
           ${descHtml}
           ${imgHtml}
           <div class="journal-card-actions">
-            <button type="button" class="mini-action-btn" onclick="openParkEditModal(${log.id})">✏️ 编辑/配图</button>
+            <button type="button" class="mini-action-btn" onclick="openDetailEditModal(${log.id})">✏️ 编辑/配图</button>
             <button type="button" class="mini-action-btn danger" onclick="deleteLog(${log.id})">删除</button>
           </div>
         `;
         feed.appendChild(card);
-      });
-    }
-
-    // 选择新增手账类型
-    function selectNewParkType(type) {
-      newParkType = type;
-      document.querySelectorAll('#newParkTypeSelector .type-chip').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.type === type);
       });
     }
 
@@ -2209,11 +2245,11 @@
       try {
         const compressed = await compressImageFile(file, 640, 0.65);
         if (mode === 'new') {
-          newParkImageData = compressed;
+          newDetailImageData = compressed;
           document.getElementById('newPhotoPreviewImg').src = compressed;
           document.getElementById('newPhotoPreviewBox').classList.add('active');
         } else {
-          editParkImageData = compressed;
+          editDetailImageData = compressed;
           document.getElementById('editPhotoPreviewImg').src = compressed;
           document.getElementById('editPhotoPreviewBox').classList.add('active');
         }
@@ -2226,38 +2262,43 @@
 
     function clearSelectedPhoto(mode) {
       if (mode === 'new') {
-        newParkImageData = '';
+        newDetailImageData = '';
         document.getElementById('newPhotoPreviewImg').src = '';
         document.getElementById('newPhotoPreviewBox').classList.remove('active');
       } else {
-        editParkImageData = '';
+        editDetailImageData = '';
         document.getElementById('editPhotoPreviewImg').src = '';
         document.getElementById('editPhotoPreviewBox').classList.remove('active');
       }
     }
 
-    // 提交新增乐园图文手账
-    function submitNewParkJournal() {
-      const titleInput = document.getElementById('newParkTitle');
-      const descInput = document.getElementById('newParkDesc');
-      const meta = PARK_SUBTYPES[newParkType] || PARK_SUBTYPES.surprise;
+    // 提交新增详情页记录
+    function submitNewDetailJournal() {
+      const cfg = MODULE_CONFIGS[activeDetailModuleKey];
+      if (!cfg) return;
 
-      const title = titleInput.value.trim() || meta.defaultTitle;
+      const titleInput = document.getElementById('newDetailTitle');
+      const descInput = document.getElementById('newDetailDesc');
+      const matchedSub = cfg.subTypes.find(s => s.key === newDetailSubType) || cfg.subTypes[0];
+
+      const rawTitle = titleInput.value.trim();
       const desc = descInput.value.trim();
 
-      if (!titleInput.value.trim() && !desc && !newParkImageData) {
-        alert('请至少填写标题、描述或添加一张照片哦 ✨');
+      if (!rawTitle && !desc && !newDetailImageData) {
+        alert('请至少填写标题、详细内容或添加一张照片哦 ✨');
         return;
       }
 
+      const finalTitle = rawTitle || `${matchedSub.icon} ${matchedSub.label}记录`;
+
       state.logs.unshift({
         id: Date.now() + Math.floor(Math.random() * 1000),
-        category: 'park',
-        subType: newParkType,
-        text: title,
+        category: cfg.logCategory,
+        subType: matchedSub.key,
+        text: finalTitle,
         desc,
-        image: newParkImageData || '',
-        autoSynced: false,
+        image: newDetailImageData || '',
+        isNoteOnly: true,
         date: todayKey.slice(5),
         fullDate: todayKey
       });
@@ -2270,61 +2311,75 @@
     }
 
     // 打开编辑/配图弹窗
-    function openParkEditModal(logId) {
+    function openDetailEditModal(logId) {
+      const cfg = MODULE_CONFIGS[activeDetailModuleKey];
       const log = state.logs.find(l => l.id === logId);
-      if (!log) return;
-      editingParkLogId = logId;
-      editParkType = PARK_SUBTYPES[log.subType] ? log.subType : 'surprise';
-      editParkImageData = log.image || '';
+      if (!cfg || !log) return;
 
-      selectEditParkType(editParkType);
-      document.getElementById('editParkTitle').value = log.text || '';
-      document.getElementById('editParkDesc').value = log.desc || '';
+      editingDetailLogId = logId;
+      const matchedSub = cfg.subTypes.find(s => s.key === log.subType) || cfg.subTypes[0];
+      editDetailSubType = matchedSub.key;
+      editDetailImageData = log.image || '';
 
-      if (editParkImageData) {
-        document.getElementById('editPhotoPreviewImg').src = editParkImageData;
+      renderEditTypeChips();
+      document.getElementById('editDetailTitle').value = log.text || '';
+      document.getElementById('editDetailDesc').value = log.desc || '';
+
+      if (editDetailImageData) {
+        document.getElementById('editPhotoPreviewImg').src = editDetailImageData;
         document.getElementById('editPhotoPreviewBox').classList.add('active');
       } else {
         clearSelectedPhoto('edit');
       }
 
-      document.getElementById('parkEditModal').classList.add('active');
+      document.getElementById('detailEditModal').classList.add('active');
     }
 
-    function selectEditParkType(type) {
-      editParkType = type;
-      document.querySelectorAll('#editParkTypeSelector .type-chip').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.type === type);
+    function renderEditTypeChips() {
+      const cfg = MODULE_CONFIGS[activeDetailModuleKey];
+      const container = document.getElementById('editDetailTypeSelector');
+      container.innerHTML = '';
+      cfg.subTypes.forEach(st => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'type-chip' + (editDetailSubType === st.key ? ' active' : '');
+        btn.textContent = `${st.icon} ${st.label}`;
+        btn.onclick = () => {
+          editDetailSubType = st.key;
+          renderEditTypeChips();
+        };
+        container.appendChild(btn);
       });
     }
 
-    function closeParkEditModal() {
-      editingParkLogId = null;
-      document.getElementById('parkEditModal').classList.remove('active');
+    function closeDetailEditModal() {
+      editingDetailLogId = null;
+      document.getElementById('detailEditModal').classList.remove('active');
     }
 
     function closeEditModalOnBackdrop(event) {
-      if (event.target.id === 'parkEditModal') {
-        closeParkEditModal();
+      if (event.target.id === 'detailEditModal') {
+        closeDetailEditModal();
       }
     }
 
-    function saveEditedParkJournal() {
-      if (editingParkLogId === null) return;
-      const log = state.logs.find(l => l.id === editingParkLogId);
-      if (!log) return;
+    function saveEditedDetailJournal() {
+      if (editingDetailLogId === null) return;
+      const cfg = MODULE_CONFIGS[activeDetailModuleKey];
+      const log = state.logs.find(l => l.id === editingDetailLogId);
+      if (!cfg || !log) return;
 
-      const newTitle = document.getElementById('editParkTitle').value.trim();
-      const newDesc = document.getElementById('editParkDesc').value.trim();
-      const meta = PARK_SUBTYPES[editParkType] || PARK_SUBTYPES.surprise;
+      const matchedSub = cfg.subTypes.find(s => s.key === editDetailSubType) || cfg.subTypes[0];
+      const newTitle = document.getElementById('editDetailTitle').value.trim();
+      const newDesc = document.getElementById('editDetailDesc').value.trim();
 
-      log.subType = editParkType;
-      log.text = newTitle || meta.defaultTitle;
+      log.subType = matchedSub.key;
+      log.text = newTitle || `${matchedSub.icon} ${matchedSub.label}记录`;
       log.desc = newDesc;
-      log.image = editParkImageData || '';
+      log.image = editDetailImageData || '';
 
       if (saveState()) {
-        closeParkEditModal();
+        closeDetailEditModal();
       }
     }
 
@@ -2341,29 +2396,36 @@
       document.getElementById('lightboxPreviewImg').src = '';
     }
 
-    // 一键导出乐园图文手账 (.html 独立单文件纪念册)
-    function exportParkJournalHtml() {
-      const { parkExp, parkLv, parkLogs } = computeParkMetrics();
-      const stage = Math.min(5, Math.max(1, parkLv));
-      const stageName = PARK_STAGE_NAMES[stage] || '梦幻旋转木马';
-      const { stats, weekTotal, monthTotal } = computeParkPeriodStats();
+    // 一键导出当前板块图文档案 (.html)
+    function exportModuleJournalHtml() {
+      const cfg = MODULE_CONFIGS[activeDetailModuleKey];
+      if (!cfg) return;
 
-      const statsRowsHtml = ['craft', 'boutique', 'foodie', 'journal', 'surprise'].map(k => {
-        const m = PARK_SUBTYPES[k];
-        return `<tr><td>${m.icon} ${m.label}</td><td>${stats[k].week} 次</td><td>${stats[k].month} 次</td></tr>`;
+      const { periodStats, moduleExp } = computeAllMetrics();
+      const exp = moduleExp[activeDetailModuleKey] || 0;
+      const lv = Math.floor(exp / cfg.expPerLv) + 1;
+      const logs = getModuleLogs(activeDetailModuleKey);
+
+      let weekTotal = 0;
+      let monthTotal = 0;
+      const statsRowsHtml = cfg.subTypes.map(st => {
+        const s = periodStats[st.key] || { week: 0, month: 0 };
+        weekTotal += s.week;
+        monthTotal += s.month;
+        return `<tr><td>${st.icon} ${st.label}</td><td>${s.week} 次</td><td>${s.month} 次</td></tr>`;
       }).join('');
 
-      const cardsHtml = parkLogs.length === 0
-        ? '<p style="text-align:center;color:#8b96ad;">暂无游乐园手账记录</p>'
-        : parkLogs.map(log => {
-            const m = PARK_SUBTYPES[log.subType] || PARK_SUBTYPES.surprise;
+      const cardsHtml = logs.length === 0
+        ? '<p style="text-align:center;color:#8b96ad;">暂无详细记录档案</p>'
+        : logs.map(log => {
+            const matchedSub = cfg.subTypes.find(s => s.key === log.subType) || cfg.subTypes[0];
             const d = escapeHtml(resolveLogFullDate(log));
             const desc = log.desc ? `<p class="desc">${escapeHtml(log.desc)}</p>` : '';
-            const img = log.image ? `<img src="${log.image}" alt="手账照片" />` : '';
+            const img = log.image ? `<img src="${log.image}" alt="档案照片" />` : '';
             return `
               <article class="entry">
                 <div class="entry-head">
-                  <span class="tag">${m.icon} ${m.label}</span>
+                  <span class="tag">${matchedSub.icon} ${matchedSub.label}</span>
                   <span class="date">${d}</span>
                 </div>
                 <h3>${escapeHtml(log.text)}</h3>
@@ -2378,19 +2440,19 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>🎡 游乐园图文手账档案 (${todayKey})</title>
+<title>${escapeHtml(cfg.title)} · 档案导出 (${todayKey})</title>
 <style>
   body { background:#12151c; color:#e6ebf5; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif; max-width:680px; margin:0 auto; padding:24px 16px 60px; line-height:1.6; }
-  .banner { text-align:center; background:rgba(244,143,177,0.12); border:1px solid rgba(244,143,177,0.35); border-radius:14px; padding:18px; margin-bottom:20px; }
-  .banner h1 { font-size:1.3rem; color:#ffd6e5; margin-bottom:6px; }
+  .banner { text-align:center; background:rgba(78,168,222,0.12); border:1px solid rgba(78,168,222,0.35); border-radius:14px; padding:18px; margin-bottom:20px; }
+  .banner h1 { font-size:1.25rem; color:#d6efff; margin-bottom:6px; }
   .banner p { font-size:0.85rem; color:#8b96ad; }
   .card { background:#1b202b; border:1px solid #2a3242; border-radius:14px; padding:16px; margin-bottom:18px; }
   table { width:100%; border-collapse:collapse; font-size:0.88rem; }
   th, td { padding:9px 8px; border-bottom:1px solid #2a3242; text-align:left; }
   th { color:#8b96ad; font-weight:600; }
-  .entry { background:#141822; border:1px solid #2a3242; border-left:4px solid #f48fb1; border-radius:12px; padding:14px; margin-bottom:14px; }
+  .entry { background:#141822; border:1px solid #2a3242; border-left:4px solid #4ea8de; border-radius:12px; padding:14px; margin-bottom:14px; }
   .entry-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; font-size:0.78rem; }
-  .tag { background:rgba(244,143,177,0.16); color:#f48fb1; padding:2px 8px; border-radius:6px; font-weight:700; }
+  .tag { background:rgba(78,168,222,0.16); color:#4ea8de; padding:2px 8px; border-radius:6px; font-weight:700; }
   .date { color:#8b96ad; }
   .entry h3 { font-size:1rem; margin-bottom:6px; }
   .entry .desc { font-size:0.88rem; color:#c5cde0; white-space:pre-wrap; margin-bottom:10px; }
@@ -2399,19 +2461,19 @@
 </head>
 <body>
   <div class="banner">
-    <h1>🎡 个人基地 · 游乐园建设手账</h1>
-    <p>当前等级：娱乐设施 Lv.${parkLv}（${stageName} · 累计 ${parkExp} EXP） · 导出日期：${todayKey}</p>
+    <h1>${escapeHtml(cfg.title)} · 建设档案</h1>
+    <p>当前等级：${escapeHtml(cfg.shortName)} Lv.${lv}（累计 ${exp} EXP） · 导出日期：${todayKey}</p>
     <p style="margin-top:4px;color:#fce8c3;">✨ 在没有办法的日子里也要好好生活</p>
   </div>
   <div class="card">
-    <h2 style="font-size:1rem;margin-bottom:10px;">📊 周期快乐统计（本周 ${weekTotal} 次 · 本月 ${monthTotal} 次）</h2>
+    <h2 style="font-size:1rem;margin-bottom:10px;">📊 周期统计汇总（本周 ${weekTotal} 次 · 本月 ${monthTotal} 次）</h2>
     <table>
-      <thead><tr><th>乐园项目</th><th>本周累计</th><th>本月累计</th></tr></thead>
+      <thead><tr><th>子项目</th><th>本周累计</th><th>本月累计</th></tr></thead>
       <tbody>${statsRowsHtml}</tbody>
     </table>
   </div>
   <div class="card">
-    <h2 style="font-size:1rem;margin-bottom:12px;">📸 乐园足迹档案（共 ${parkLogs.length} 条）</h2>
+    <h2 style="font-size:1rem;margin-bottom:12px;">📸 详细记录档案（共 ${logs.length} 条）</h2>
     ${cardsHtml}
   </div>
 </body>
@@ -2421,46 +2483,54 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `park_journal_${todayKey}.html`;
+      a.download = `base_${activeDetailModuleKey}_${todayKey}.html`;
       document.body.appendChild(a);
       a.click();
       a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 1500);
     }
 
-    // 复制纯文本总结
-    function copyParkSummaryText() {
-      const { parkExp, parkLv, parkLogs } = computeParkMetrics();
-      const stage = Math.min(5, Math.max(1, parkLv));
-      const stageName = PARK_STAGE_NAMES[stage] || '梦幻旋转木马';
-      const { stats, weekTotal, monthTotal } = computeParkPeriodStats();
+    // 复制当前板块纯文本总结
+    function copyModuleSummaryText() {
+      const cfg = MODULE_CONFIGS[activeDetailModuleKey];
+      if (!cfg) return;
+
+      const { periodStats, moduleExp } = computeAllMetrics();
+      const exp = moduleExp[activeDetailModuleKey] || 0;
+      const lv = Math.floor(exp / cfg.expPerLv) + 1;
+      const logs = getModuleLogs(activeDetailModuleKey);
+
+      let weekTotal = 0;
+      let monthTotal = 0;
+      const itemLines = cfg.subTypes.map(st => {
+        const s = periodStats[st.key] || { week: 0, month: 0 };
+        weekTotal += s.week;
+        monthTotal += s.month;
+        return `${st.icon} ${st.label}：本周 ${s.week} 次 / 本月 ${s.month} 次`;
+      });
 
       const lines = [
-        `🎡 个人基地 · 游乐园建设总结 (${todayKey})`,
-        `当前等级：Lv.${parkLv} · ${stageName}（累计 ${parkExp} EXP）`,
+        `${cfg.title} · 周期总结 (${todayKey})`,
+        `当前等级：${cfg.shortName} Lv.${lv}（累计 ${exp} EXP）`,
         `周期汇总：本周共 ${weekTotal} 次 | 本月共 ${monthTotal} 次`,
         `--------------------------------`,
-        `🧶 手作屋：本周 ${stats.craft.week} 次 / 本月 ${stats.craft.month} 次`,
-        `🛍️ 精品店：本周 ${stats.boutique.week} 次 / 本月 ${stats.boutique.month} 次`,
-        `🍜 美味屋：本周 ${stats.foodie.week} 次 / 本月 ${stats.foodie.month} 次`,
-        `📔 纪念馆：本周 ${stats.journal.week} 次 / 本月 ${stats.journal.month} 次`,
-        `🎁 乐园惊喜：本周 ${stats.surprise.week} 次 / 本月 ${stats.surprise.month} 次`,
+        ...itemLines,
         `--------------------------------`,
-        `📸 近期手账记录（共 ${parkLogs.length} 条）：`
+        `📸 近期详细记录（共 ${logs.length} 条）：`
       ];
 
-      parkLogs.slice(0, 15).forEach(log => {
-        const m = PARK_SUBTYPES[log.subType] || PARK_SUBTYPES.surprise;
+      logs.slice(0, 15).forEach(log => {
+        const matchedSub = cfg.subTypes.find(s => s.key === log.subType) || cfg.subTypes[0];
         const d = resolveLogFullDate(log);
         const descPart = log.desc ? ` — ${log.desc}` : '';
         const imgPart = log.image ? ' [含照片]' : '';
-        lines.push(`• [${d}] ${m.icon} ${log.text}${descPart}${imgPart}`);
+        lines.push(`• [${d}] ${matchedSub.icon} ${log.text}${descPart}${imgPart}`);
       });
 
       const textToCopy = lines.join('\n');
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(textToCopy)
-          .then(() => alert('📋 游乐园周期总结已复制到剪贴板！'))
+          .then(() => alert(`📋 ${cfg.shortName}周期总结已复制到剪贴板！`))
           .catch(() => prompt('请手动全选复制以下总结文本：', textToCopy));
       } else {
         prompt('请手动全选复制以下总结文本：', textToCopy);
